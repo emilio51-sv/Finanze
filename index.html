@@ -6,52 +6,815 @@
   <meta name="theme-color" content="#000000">
   <title>Finanze</title>
 
+  <!-- iOS Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Finanze">
   
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180' width='180' height='180'%3E%3Crect width='180' height='180' rx='42' fill='%23000000'/%3E%3Cpath d='M90 48v84M62 72h56M62 98h44' stroke='%23EDEDED' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180' width='180' height='180'%3E%3Crect width='180' height='180' rx='42' fill='%23000000'/%3E%3Cpath d='M90 48v84M62 72h56M62 98h44' stroke='%23EDEDED' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-  
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* DESIGN SYSTEM SARTORIALE APPLE / FINTECH TITANIUM */
+    :root {
+      --font-base: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+      --bg-deep: #000000;
+      --surface-card: #121215;
+      --surface-card-subtle: #1c1c21;
+      --surface-border: rgba(255, 255, 255, 0.08);
+      --surface-border-subtle: rgba(255, 255, 255, 0.04);
+      --ink-primary: #f5f5f7;
+      --ink-secondary: #86868b;
+      --ink-tertiary: #515154;
+      --accent-gold: #e5c07b;
+      --state-pos: #30d158;
+      --state-neg: #ff453a;
+      --dock-height: 58px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font-base);
+      background-color: var(--bg-deep);
+      color: var(--ink-primary);
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      overflow-x: hidden;
+    }
+
+    .app-viewport {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background-color: var(--bg-deep);
+      padding-bottom: calc(var(--dock-height) + 24px + env(safe-area-inset-bottom));
+    }
+
+    /* TOP BAR */
+    .masthead {
+      padding: calc(14px + env(safe-area-inset-top)) 20px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .masthead-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cycle-pill {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-secondary);
+      background: var(--surface-card);
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 0.5px solid var(--surface-border);
+    }
+    .masthead-btn {
+      background: none;
+      border: none;
+      color: var(--ink-secondary);
+      cursor: pointer;
+      padding: 4px;
+    }
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--ink-primary);
+      margin-top: 2px;
+    }
+
+    /* MAIN CONTENT */
+    .content-scroll {
+      padding: 6px 18px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .view-pane {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* HERO CARD SCULTOREA */
+    .hero-vault {
+      background: var(--surface-card);
+      border-radius: 22px;
+      padding: 24px 20px 20px;
+      border: 0.5px solid var(--surface-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .vault-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink-secondary);
+    }
+    .vault-balance {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      margin: 8px 0 16px;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.04em;
+    }
+    .currency-mark {
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--ink-secondary);
+      margin-right: 4px;
+    }
+    .balance-int {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--ink-primary);
+    }
+    .balance-dec {
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--ink-secondary);
+    }
+
+    .gauge-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .gauge-rail {
+      width: 100%;
+      height: 5px;
+      background-color: var(--surface-card-subtle);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .gauge-core {
+      height: 100%;
+      background-color: var(--ink-primary);
+      border-radius: 999px;
+      transition: width 350ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .gauge-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--ink-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+    .meta-tag {
+      font-weight: 600;
+      color: var(--ink-tertiary);
+    }
+
+    /* DUAL GRID */
+    .dual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .slab {
+      background: var(--surface-card);
+      border-radius: 18px;
+      padding: 16px;
+      border: 0.5px solid var(--surface-border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 94px;
+    }
+    .slab-caption {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink-secondary);
+    }
+    .slab-figure {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+      margin: 3px 0;
+    }
+    .slab-foot {
+      font-size: 11px;
+      color: var(--ink-tertiary);
+    }
+
+    /* LEDGER SLAB */
+    .ledger-slab {
+      background: var(--surface-card);
+      border-radius: 20px;
+      padding: 18px 20px;
+      border: 0.5px solid var(--surface-border);
+    }
+    .ledger-head {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink-secondary);
+      margin-bottom: 12px;
+    }
+    .slab-subnote {
+      font-size: 12px;
+      color: var(--ink-tertiary);
+      margin-bottom: 12px;
+    }
+    .ledger-rows {
+      display: flex;
+      flex-direction: column;
+    }
+    .ledger-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      font-size: 14px;
+      border-bottom: 0.5px solid var(--surface-border-subtle);
+    }
+    .ledger-row:last-child {
+      border-bottom: none;
+    }
+    .ledger-name {
+      color: var(--ink-primary);
+      font-weight: 400;
+    }
+    .ledger-data {
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+    .accent-row .ledger-data {
+      color: var(--ink-secondary);
+    }
+
+    /* FLOW ACTIVITIES */
+    .flow-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .flow-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 4px;
+    }
+    .flow-title {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--ink-primary);
+    }
+    .flow-count {
+      font-size: 12px;
+      color: var(--ink-tertiary);
+    }
+    .tx-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .tx-card {
+      background: var(--surface-card);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 0.5px solid var(--surface-border);
+      cursor: pointer;
+    }
+    .tx-card:active {
+      transform: scale(0.98);
+    }
+    .tx-symbol {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--surface-card-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-primary);
+      flex-shrink: 0;
+    }
+    .tx-symbol svg {
+      width: 18px;
+      height: 18px;
+    }
+    .tx-body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .tx-head {
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .tx-subtext {
+      font-size: 12px;
+      color: var(--ink-secondary);
+    }
+    .tx-val {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ACTION DOCK INFERIORE (TASTO + INTEGRATO) */
+    .action-dock {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      max-width: 430px;
+      height: calc(var(--dock-height) + env(safe-area-inset-bottom));
+      padding-bottom: env(safe-area-inset-bottom);
+      background: rgba(18, 18, 21, 0.88);
+      border-top: 0.5px solid var(--surface-border);
+      display: grid;
+      grid-template-columns: 1fr 1fr 64px 1fr 1fr;
+      align-items: center;
+      z-index: 50;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+    .dock-item {
+      background: none;
+      border: none;
+      color: var(--ink-tertiary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 4px 0;
+    }
+    .dock-item svg {
+      width: 20px;
+      height: 20px;
+    }
+    .dock-item.active {
+      color: var(--ink-primary);
+    }
+    .dock-center-action {
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+    }
+    .dock-center-core {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background: var(--ink-primary);
+      color: var(--bg-deep);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      transition: transform 140ms ease;
+    }
+    .dock-center-action:active .dock-center-core {
+      transform: scale(0.92);
+    }
+
+    /* BOTTOM SHEETS */
+    .modal-veil {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 90;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .sartorial-sheet {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      max-width: 430px;
+      margin: 0 auto;
+      background-color: var(--surface-card);
+      border-top: 0.5px solid var(--surface-border);
+      border-radius: 26px 26px 0 0;
+      padding: 12px 20px calc(24px + env(safe-area-inset-bottom));
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.5);
+      max-height: 88vh;
+      overflow-y: auto;
+      transform: translateY(0);
+      transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sartorial-sheet.hidden {
+      transform: translateY(105%);
+    }
+    .sheet-knob {
+      width: 38px;
+      height: 4px;
+      background-color: var(--ink-tertiary);
+      opacity: 0.35;
+      border-radius: 999px;
+      margin: 0 auto;
+    }
+    .sheet-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sheet-heading {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .sheet-close {
+      background: none;
+      border: none;
+      color: var(--ink-secondary);
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .mode-selector {
+      display: flex;
+      background: var(--surface-card-subtle);
+      border-radius: 10px;
+      padding: 3px;
+    }
+    .mode-chip {
+      flex: 1;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+    }
+    .mode-chip input {
+      position: absolute;
+      opacity: 0;
+    }
+    .mode-chip span {
+      display: block;
+      padding: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      border-radius: 8px;
+    }
+    .mode-chip input:checked + span {
+      background: var(--surface-card);
+      color: var(--ink-primary);
+    }
+
+    .key-amount-box {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      padding: 14px 0;
+      background: var(--surface-card-subtle);
+      border-radius: 16px;
+      margin: 4px 0;
+    }
+    .key-currency {
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      margin-right: 6px;
+    }
+    #tx-amount {
+      background: transparent;
+      border: none;
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      outline: none;
+      width: 160px;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.03em;
+    }
+
+    .form-subheading {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-secondary);
+    }
+    .chips-mosaic {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .chip-node {
+      position: relative;
+      cursor: pointer;
+    }
+    .chip-node input {
+      position: absolute;
+      opacity: 0;
+    }
+    .chip-shell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: 10px 4px;
+      background: var(--surface-card-subtle);
+      border: 0.5px solid transparent;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .chip-shell svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--ink-secondary);
+    }
+    .chip-tag {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--ink-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+    .chip-node input:checked + .chip-shell {
+      background: var(--surface-card);
+      border-color: var(--ink-primary);
+    }
+    .chip-node input:checked + .chip-shell svg {
+      stroke: var(--ink-primary);
+    }
+    .chip-node input:checked + .chip-shell .chip-tag {
+      color: var(--ink-primary);
+      font-weight: 600;
+    }
+
+    .duo-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .field-cell {
+      background: var(--surface-card-subtle);
+      border-radius: 12px;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .field-tag {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--ink-secondary);
+    }
+    .field-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--ink-primary);
+      font-size: 16px;
+      font-family: inherit;
+      width: 100%;
+    }
+
+    .sheet-btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .btn-sartorial {
+      flex: 2;
+      padding: 14px;
+      border-radius: 14px;
+      background: var(--ink-primary);
+      color: var(--bg-deep);
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-kill {
+      flex: 1;
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(255, 69, 58, 0.12);
+      color: var(--state-neg);
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* STEPPER & FILTRI */
+    .segmented-pill-bar {
+      display: flex;
+      background: var(--surface-card);
+      border-radius: 12px;
+      padding: 3px;
+      border: 0.5px solid var(--surface-border);
+    }
+    .pill-btn {
+      flex: 1;
+      background: none;
+      border: none;
+      color: var(--ink-secondary);
+      padding: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 9px;
+      cursor: pointer;
+    }
+    .pill-btn.active {
+      background: var(--surface-card-subtle);
+      color: var(--ink-primary);
+    }
+    .subtab-pane { display: none; }
+    .subtab-pane.active { display: block; }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; }
+    .action-text-btn { background: none; border: none; color: var(--ink-primary); font-size: 13px; font-weight: 600; cursor: pointer; }
+
+    .stepper-month {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface-card);
+      padding: 8px 16px;
+      border-radius: 14px;
+      border: 0.5px solid var(--surface-border);
+    }
+    .stepper-arrow {
+      background: none;
+      border: none;
+      color: var(--ink-primary);
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 4px 10px;
+    }
+    .stepper-title { font-size: 14px; font-weight: 600; text-transform: capitalize; }
+
+    .search-strip { display: flex; gap: 8px; }
+    .minimal-search {
+      flex: 2;
+      background: var(--surface-card);
+      border: 0.5px solid var(--surface-border);
+      border-radius: 12px;
+      padding: 9px 14px;
+      color: var(--ink-primary);
+      font-size: 16px;
+      outline: none;
+    }
+    .minimal-select {
+      flex: 1;
+      background: var(--surface-card);
+      border: 0.5px solid var(--surface-border);
+      border-radius: 12px;
+      padding: 9px 8px;
+      color: var(--ink-secondary);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .grouped-chronology { display: flex; flex-direction: column; gap: 14px; }
+    .day-block { display: flex; flex-direction: column; gap: 6px; }
+    .day-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      text-transform: uppercase;
+      padding: 0 4px;
+    }
+
+    /* GRAFICI */
+    .donut-stage { position: relative; width: 170px; height: 170px; margin: 12px auto; }
+    .donut-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+    .donut-focal {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .focal-sub { font-size: 11px; color: var(--ink-secondary); text-transform: uppercase; }
+    .focal-amount { font-size: 17px; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+    .legend-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+    .legend-entry { display: flex; justify-content: space-between; font-size: 13px; }
+    .legend-tag { display: flex; align-items: center; gap: 8px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 999px; }
+
+    .hist-stage {
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      height: 140px;
+      padding-top: 14px;
+    }
+    .hist-column { display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; width: 32px; }
+    .hist-bar { width: 14px; border-radius: 4px; background: var(--ink-primary); min-height: 4px; }
+    .hist-label { font-size: 11px; color: var(--ink-secondary); text-transform: uppercase; }
+
+    /* IMPOSTAZIONI */
+    .clean-num-input {
+      background: var(--surface-card-subtle);
+      border: none;
+      padding: 6px 10px;
+      border-radius: 8px;
+      color: var(--ink-primary);
+      font-size: 15px;
+      text-align: right;
+      width: 90px;
+      outline: none;
+    }
+    .ios-switch { position: relative; display: inline-block; width: 44px; height: 26px; }
+    .ios-switch input { opacity: 0; width: 0; height: 0; }
+    .switch-core { position: absolute; inset: 0; background-color: var(--surface-card-subtle); border-radius: 999px; transition: .3s; }
+    .switch-core:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: .3s; }
+    input:checked + .switch-core { background-color: var(--state-pos); }
+    input:checked + .switch-core:before { transform: translateX(18px); }
+
+    .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+    .action-tile {
+      background: var(--surface-card-subtle);
+      border: 0.5px solid var(--surface-border-subtle);
+      border-radius: 12px;
+      padding: 12px 8px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-primary);
+      cursor: pointer;
+    }
+    .text-danger { color: var(--state-neg); }
+    .footnote-info { font-size: 11px; color: var(--ink-tertiary); text-align: center; margin-top: 12px; }
+
+    /* TOAST */
+    .toast-minimal {
+      position: fixed;
+      bottom: calc(var(--dock-height) + 16px + env(safe-area-inset-bottom));
+      left: 20px;
+      right: 20px;
+      max-width: 390px;
+      margin: 0 auto;
+      background-color: var(--surface-card-subtle);
+      border: 0.5px solid var(--surface-border);
+      color: var(--ink-primary);
+      padding: 12px 18px;
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 110;
+      font-size: 13px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+    .toast-revert { background: none; border: none; color: var(--accent-gold); font-weight: 600; font-size: 13px; cursor: pointer; }
+
+    .empty-monolith { text-align: center; padding: 26px 14px; color: var(--ink-secondary); font-size: 13px; display: flex; flex-direction: column; gap: 4px; }
+    .empty-glyph { font-size: 28px; opacity: 0.3; }
+    .hidden { display: none !important; }
+  </style>
 </head>
 <body>
-  <!-- PIN LOCK -->
-  <div id="pin-screen" class="pin-screen hidden" role="dialog" aria-modal="true">
-    <div class="pin-box">
-      <div class="pin-glyph">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-        </svg>
-      </div>
-      <h2 class="pin-headline">Autenticazione</h2>
-      <p class="pin-sub">Inserisci il codice di accesso</p>
-      <div class="pin-indicator" id="pin-dots">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      </div>
-      <div class="pin-pad" id="pin-keypad">
-        <button type="button" class="pad-num" data-key="1">1</button>
-        <button type="button" class="pad-num" data-key="2">2</button>
-        <button type="button" class="pad-num" data-key="3">3</button>
-        <button type="button" class="pad-num" data-key="4">4</button>
-        <button type="button" class="pad-num" data-key="5">5</button>
-        <button type="button" class="pad-num" data-key="6">6</button>
-        <button type="button" class="pad-num" data-key="7">7</button>
-        <button type="button" class="pad-num" data-key="8">8</button>
-        <button type="button" class="pad-num" data-key="9">9</button>
-        <div class="pad-spacer"></div>
-        <button type="button" class="pad-num" data-key="0">0</button>
-        <button type="button" class="pad-action" id="btn-pin-del">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg>
-        </button>
-      </div>
-    </div>
-  </div>
-
   <div class="app-viewport">
-    <!-- TOP BAR MINIMALE -->
     <header class="masthead">
       <div class="masthead-meta">
         <span class="cycle-pill" id="label-periodo">CICLO 28</span>
@@ -65,12 +828,11 @@
     <main class="content-scroll">
       <!-- 1. VIEW OGGI -->
       <section id="view-oggi" class="view-pane active">
-        <!-- HERO CARD ELEGANTE -->
         <article class="hero-vault">
           <div class="vault-label">Disponibile di spesa</div>
           <div class="vault-balance">
             <span class="currency-mark">€</span>
-            <span class="balance-int" id="val-disp-int">0</span>
+            <span class="balance-int" id="val-disp-int">1.350</span>
             <span class="balance-dec" id="val-disp-dec">,00</span>
           </div>
 
@@ -85,7 +847,6 @@
           </div>
         </article>
 
-        <!-- COPPIA DI METRICHE CHIAVE -->
         <div class="dual-grid">
           <article class="slab">
             <div class="slab-caption">Oggi puoi spendere</div>
@@ -100,21 +861,20 @@
           </article>
         </div>
 
-        <!-- BILANCIO DEL CICLO (LAYOUT EDITORIALE) -->
         <article class="ledger-slab">
           <h2 class="ledger-head">Composizione Ciclo</h2>
           <div class="ledger-rows">
             <div class="ledger-row">
               <span class="ledger-name">Entrate previste</span>
-              <span class="ledger-data ledger-pos" id="val-sum-entrate">0,00 €</span>
+              <span class="ledger-data" id="val-sum-entrate">1.800,00 €</span>
             </div>
             <div class="ledger-row">
               <span class="ledger-name">PAC & Investimenti protetti</span>
-              <span class="ledger-data" id="val-sum-pac">0,00 €</span>
+              <span class="ledger-data" id="val-sum-pac">200,00 €</span>
             </div>
             <div class="ledger-row">
               <span class="ledger-name">Spese fisse ammortizzate</span>
-              <span class="ledger-data" id="val-sum-fisse">0,00 €</span>
+              <span class="ledger-data" id="val-sum-fisse">250,00 €</span>
             </div>
             <div class="ledger-row accent-row">
               <span class="ledger-name">Uscite variabili registrate</span>
@@ -123,7 +883,6 @@
           </div>
         </article>
 
-        <!-- ULTIME TRANSAZIONI -->
         <section class="flow-section">
           <div class="flow-header">
             <h2 class="flow-title">Ultime Attività</h2>
@@ -227,45 +986,22 @@
         </article>
 
         <article class="ledger-slab">
-          <h2 class="ledger-head">Sicurezza & Privacy</h2>
-          <div class="ledger-rows">
-            <div class="ledger-row">
-              <span class="ledger-name">Richiedi PIN all'avvio</span>
-              <label class="ios-switch">
-                <input type="checkbox" id="cfg-pin-enabled">
-                <span class="switch-core"></span>
-              </label>
-            </div>
-            <div class="ledger-row hidden" id="pin-change-row">
-              <span class="ledger-name">PIN a 4 cifre</span>
-              <input type="password" id="cfg-pin-input" class="clean-num-input" maxlength="4" placeholder="••••" inputmode="numeric">
-            </div>
-          </div>
-        </article>
-
-        <article class="ledger-slab">
           <h2 class="ledger-head">Dati e Conservazione</h2>
           <div class="action-grid">
-            <button type="button" class="action-tile" id="btn-export-json">
-              <span>Backup JSON</span>
-            </button>
-            <button type="button" class="action-tile" id="btn-export-csv">
-              <span>Esporta CSV</span>
-            </button>
+            <button type="button" class="action-tile" id="btn-export-json">Backup JSON</button>
+            <button type="button" class="action-tile" id="btn-export-csv">Esporta CSV</button>
             <label class="action-tile">
               <span>Ripristina JSON</span>
               <input type="file" id="input-import-json" accept=".json" class="hidden">
             </label>
-            <button type="button" class="action-tile text-danger" id="btn-reset-data">
-              <span>Azzera Dati</span>
-            </button>
+            <button type="button" class="action-tile text-danger" id="btn-reset-data">Azzera Dati</button>
           </div>
           <div class="footnote-info" id="backup-status-text">Ultimo backup: mai</div>
         </article>
       </section>
     </main>
 
-    <!-- ACTION DOCK INFERIORE CON TASTO + CENTRALE INTEGRATO -->
+    <!-- DOCK CON TASTO + CENTRALE -->
     <nav class="action-dock" aria-label="Navigazione Principale">
       <button type="button" class="dock-item active" data-tab="oggi">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -277,10 +1013,9 @@
         <span>Movimenti</span>
       </button>
 
-      <!-- TASTO + CENTRALE NATIVO E SCULTOREO -->
       <button type="button" class="dock-center-action" id="btn-open-modal" aria-label="Aggiungi">
         <div class="dock-center-core">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         </div>
       </button>
 
@@ -291,23 +1026,22 @@
 
       <button type="button" class="dock-item" data-tab="impostazioni">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-        <span>Impostazioni</span>
+        <span>Menu</span>
       </button>
     </nav>
   </div>
 
-  <!-- MODALE FORM MOVIMENTI (BOTTOM SHEET TITANIO) -->
+  <!-- MODALE MOVIMENTO -->
   <div id="modal-backdrop" class="modal-veil hidden"></div>
   <section id="modal-add" class="sartorial-sheet hidden" role="dialog" aria-modal="true">
     <div class="sheet-knob"></div>
     <header class="sheet-top">
-      <h2 class="sheet-heading" id="modal-tx-title">Annota Movimento</h2>
+      <h2 class="sheet-heading" id="modal-tx-title">Nuova Uscita</h2>
       <button type="button" class="sheet-close" id="btn-modal-close">Chiudi</button>
     </header>
 
     <form id="form-add-transaction" novalidate>
       <input type="hidden" id="tx-edit-id" value="">
-      
       <div class="mode-selector">
         <label class="mode-chip">
           <input type="radio" name="tx-type" value="expense" checked>
@@ -340,7 +1074,7 @@
 
       <div class="sheet-btn-row">
         <button type="button" class="btn-kill hidden" id="btn-delete-tx">Elimina</button>
-        <button type="submit" class="btn-sartorial" id="btn-save-tx">Salva Operazione</button>
+        <button type="submit" class="btn-sartorial" id="btn-save-tx">Salva</button>
       </div>
     </form>
   </section>
@@ -388,7 +1122,7 @@
 
       <div class="sheet-btn-row" style="margin-top: 18px;">
         <button type="button" class="btn-kill hidden" id="btn-delete-recurring">Rimuovi</button>
-        <button type="submit" class="btn-sartorial">Memorizza Spesa</button>
+        <button type="submit" class="btn-sartorial">Salva</button>
       </div>
     </form>
   </section>
@@ -405,7 +1139,7 @@
       <input type="hidden" id="goal-edit-id" value="">
       <div class="field-cell">
         <label for="goal-name" class="field-tag">Nome Piano</label>
-        <input type="text" id="goal-name" class="field-input" placeholder="Es. PAC ETF Azionario..." required>
+        <input type="text" id="goal-name" class="field-input" placeholder="Es. PAC ETF..." required>
       </div>
 
       <div class="duo-fields" style="margin-top: 12px;">
@@ -414,19 +1148,8 @@
           <input type="number" id="goal-monthly" class="field-input" placeholder="200" required>
         </div>
         <div class="field-cell">
-          <label for="goal-current" class="field-tag">Attualmente Accantonati (€)</label>
+          <label for="goal-current" class="field-tag">Già Accantonati (€)</label>
           <input type="number" id="goal-current" class="field-input" placeholder="1000" value="0">
-        </div>
-      </div>
-
-      <div class="duo-fields" style="margin-top: 12px;">
-        <div class="field-cell">
-          <label for="goal-target" class="field-tag">Obiettivo Finale (€)</label>
-          <input type="number" id="goal-target" class="field-input" placeholder="Opzionale">
-        </div>
-        <div class="field-cell">
-          <label for="goal-deadline" class="field-tag">Data Target</label>
-          <input type="date" id="goal-deadline" class="field-input">
         </div>
       </div>
 
@@ -437,12 +1160,12 @@
     </form>
   </section>
 
-  <!-- NOTIFICA ANNULLA MINIMALE -->
+  <!-- TOAST ANNULLA -->
   <div id="toast-undo" class="toast-minimal hidden" role="status">
     <span id="toast-message">Registrazione completata</span>
     <button type="button" id="btn-toast-undo" class="toast-revert">Annulla</button>
   </div>
 
-  <script src="app.js" defer></script>
+  <script src="app.js"></script>
 </body>
 </html>
