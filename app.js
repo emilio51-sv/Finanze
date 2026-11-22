@@ -1,13 +1,5 @@
-
-/**
- * FINANZE APP - REVISIONE FASE 1
- * Icone SF-style SVG pure inline.
- * Gestione ciclo del 28 corretta senza duplicazione di testo.
- */
-
 const STORAGE_KEY = "finanze_pwa_data_v2";
 
-// Icone vettoriali pure (stile Apple)
 const ICONS = {
   carburante: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v17"></path><path d="M13 10h4a2 2 0 0 1 2 2v8a2 2 0 0 0 2 2v0a2 2 0 0 0 2-2V9l-3-3"></path><circle cx="8" cy="9" r="2"></circle></svg>`,
   auto: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9C2.1 11 2 11.5 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><circle cx="17" cy="17" r="2"></circle></svg>`,
@@ -34,15 +26,14 @@ const INITIAL_DATA = {
   version: 2,
   settings: {
     salaryDay: 28,
-    monthlyIncomeCents: 180000, // 1.800 €
-    pacTargetCents: 20000,      // 200 €
-    fixedExpensesCents: 25000   // 250 € (Rata auto)
+    monthlyIncomeCents: 180000,
+    pacTargetCents: 20000,
+    fixedExpensesCents: 25000
   },
   categories: DEFAULT_CATEGORIES,
   transactions: []
 };
 
-// --- FUNZIONI DI UTILITÀ ---
 function escapeHtml(str) {
   if (typeof str !== "string") return "";
   return str.replace(/[&<>'"]/g, t => ({
@@ -69,11 +60,6 @@ function parseLocalDateString(dateStr) {
   return new Date(y, m - 1, d);
 }
 
-/**
- * Calcolo intervallo ciclo del 28:
- * Se oggi >= 28, il ciclo va dal 28 del mese corrente al 27 del mese successivo.
- * Se oggi < 28, il ciclo va dal 28 del mese precedente al 27 del mese corrente.
- */
 function getCycleRange(referenceDate, salaryDay = 28) {
   const currentDay = referenceDate.getDate();
   const year = referenceDate.getFullYear();
@@ -121,7 +107,6 @@ function getDaysMetrics(cycle, today) {
   return { totalDays, daysPassed, daysRemaining };
 }
 
-// --- STORE ---
 class Store {
   constructor() {
     this.data = this.load();
@@ -158,7 +143,6 @@ class Store {
 
 const store = new Store();
 
-// --- CALCOLO FINANZIARIO ---
 function computeFinancials(storeData, now = new Date()) {
   const salaryDay = storeData.settings.salaryDay || 28;
   const cycle = getCycleRange(now, salaryDay);
@@ -178,13 +162,11 @@ function computeFinancials(storeData, now = new Date()) {
   const pacCents = storeData.settings.pacTargetCents || 0;
   const fixedCents = storeData.settings.fixedExpensesCents || 0;
 
-  // Formula Disponibile
   const totalInflow = baseIncome + extraIncomeCents;
   const availableCents = totalInflow - pacCents - fixedCents - variableExpensesCents;
   const dailyBudgetCents = availableCents > 0 ? Math.floor(availableCents / daysRemaining) : 0;
   const budgetVariabilePianificato = Math.max(0, totalInflow - pacCents - fixedCents);
 
-  // Calcolo Ritmo
   const spesaAttesaAdOggi = budgetVariabilePianificato > 0
     ? Math.round((budgetVariabilePianificato / totalDays) * daysPassed)
     : 0;
@@ -208,22 +190,18 @@ function computeFinancials(storeData, now = new Date()) {
   };
 }
 
-// --- RENDERING ---
 function renderHome() {
   const fin = computeFinancials(store.data, new Date());
 
-  // Stringa Ciclo corretta (senza ripetizioni)
   const opt = { day: "numeric", month: "short" };
   const dStart = fin.cycle.start.toLocaleDateString("it-IT", opt);
   const dEnd = fin.cycle.end.toLocaleDateString("it-IT", opt);
   document.getElementById("label-periodo").textContent = `Ciclo: ${dStart} – ${dEnd}`;
 
-  // Cifra Principale Disponibile
   const dispEl = document.getElementById("val-disponibile");
   dispEl.textContent = formatValuta(fin.availableCents);
   dispEl.style.color = fin.availableCents >= 0 ? "var(--ios-green)" : "var(--ios-red)";
 
-  // Sottotesto
   const heroSub = document.getElementById("hero-sub-text");
   if (fin.availableCents < 0) {
     heroSub.textContent = `Superato di ${formatValuta(Math.abs(fin.availableCents))}`;
@@ -233,7 +211,6 @@ function renderHome() {
     heroSub.className = "hero-sub";
   }
 
-  // Avanzamento barra
   const percSpeso = fin.budgetVariabilePianificato > 0
     ? Math.min(100, Math.round((fin.variableExpensesCents / fin.budgetVariabilePianificato) * 100))
     : 100;
@@ -245,11 +222,9 @@ function renderHome() {
   document.getElementById("label-speso-mese").textContent = `Speso: ${formatValuta(fin.variableExpensesCents)}`;
   document.getElementById("label-perc-speso").textContent = `${percSpeso}%`;
 
-  // Budget oggi
   document.getElementById("val-budget-oggi").textContent = formatValuta(fin.dailyBudgetCents);
   document.getElementById("val-giorni-rimasti").textContent = `${fin.daysRemaining} giorni rimasti`;
 
-  // Pill Ritmo
   const ritmoBadge = document.getElementById("badge-ritmo-status");
   const ritmoSubEl = document.getElementById("val-ritmo-dettaglio");
 
@@ -263,13 +238,11 @@ function renderHome() {
     ritmoSubEl.textContent = "sopra la media attesa";
   }
 
-  // Lista riepilogo
   document.getElementById("val-sum-entrate").textContent = formatValuta(fin.baseIncome + fin.extraIncomeCents);
   document.getElementById("val-sum-pac").textContent = formatValuta(fin.pacCents);
   document.getElementById("val-sum-fisse").textContent = formatValuta(fin.fixedCents);
   document.getElementById("val-sum-variabili").textContent = formatValuta(fin.variableExpensesCents);
 
-  // Lista movimenti
   renderRecentTransactions(store.data.transactions.slice(0, 5));
 }
 
@@ -330,7 +303,6 @@ function renderCategoryChips() {
   });
 }
 
-// --- MODALE AGGIUNTA ---
 const modalBackdrop = document.getElementById("modal-backdrop");
 const modalAdd = document.getElementById("modal-add");
 const btnOpenModal = document.getElementById("btn-open-modal");
@@ -362,7 +334,6 @@ function parseAmountToCents(val) {
   return Math.round(num * 100);
 }
 
-// --- ANNULLA PER 5 SECONDI ---
 let lastAddedTxId = null;
 let undoTimeout = null;
 const toastUndo = document.getElementById("toast-undo");
@@ -389,12 +360,10 @@ btnToastUndo.addEventListener("click", () => {
   }
 });
 
-// --- EVENTI ---
 btnOpenModal.addEventListener("click", openModal);
 btnCloseModal.addEventListener("click", closeModal);
 modalBackdrop.addEventListener("click", closeModal);
 
-// Navigazione Tab
 document.querySelectorAll(".tab-item").forEach(tab => {
   tab.addEventListener("click", () => {
     document.querySelectorAll(".tab-item").forEach(t => t.classList.remove("active"));
@@ -413,7 +382,6 @@ document.querySelectorAll(".tab-item").forEach(tab => {
   });
 });
 
-// Submit Form
 formAdd.addEventListener("submit", (e) => {
   e.preventDefault();
   const amountCents = parseAmountToCents(inputAmount.value);
@@ -443,7 +411,6 @@ formAdd.addEventListener("submit", (e) => {
   showUndoToast(`${type === "expense" ? "Spesa" : "Entrata"} registrata`, newTx.id);
 });
 
-// Persistenza & Safari Warning
 if (navigator.storage && navigator.storage.persist) {
   navigator.storage.persist().catch(() => {});
 }
@@ -462,7 +429,6 @@ document.addEventListener("DOMContentLoaded", () => {
   renderHome();
 });
 
-// Service Worker
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("sw.js").then(reg => {
