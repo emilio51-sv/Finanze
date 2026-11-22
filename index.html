@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
+  <title>Finanze</title>
+
+  <!-- iOS PWA Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Finanze">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Avviso aggiornamento Service Worker -->
+  <aside id="sw-update-banner" class="banner hidden" role="alert" aria-live="polite">
+    <span>Nuova versione disponibile.</span>
+    <button type="button" id="btn-sw-refresh" class="btn-link">Aggiorna ora</button>
+  </aside>
+
+  <!-- Avviso installazione da Safari -->
+  <aside id="browser-warning" class="banner banner-info hidden" role="region" aria-label="Avviso PWA">
+    <span>💡 Per non perdere i dati, aggiungi questa pagina alla <strong>Schermata Home</strong> da Safari prima di inserire dati.</span>
+    <button type="button" id="btn-dismiss-browser-warning" class="btn-icon" aria-label="Chiudi avviso">&times;</button>
+  </aside>
+
+  <header class="app-header">
+    <div class="header-content">
+      <span class="period-label" id="label-periodo">Periodo finanziario</span>
+      <h1 class="screen-title" id="screen-title">Oggi</h1>
+    </div>
+  </header>
+
+  <main class="app-main" id="main-content">
+    <!-- Vista Oggi -->
+    <section id="view-oggi" class="view-section active">
+      <!-- Card Cifra Principale -->
+      <article class="card card-hero">
+        <span class="card-eyebrow">Disponibile del mese</span>
+        <div class="hero-amount" id="val-disponibile">0,00 €</div>
+        <div class="hero-sub" id="hero-sub-text">Calcolo in corso...</div>
+
+        <!-- Barra di progresso spesa variabile -->
+        <div class="progress-wrapper">
+          <div class="progress-bar-bg" role="progressbar" aria-label="Spesa variabile consumata" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progress-aria">
+            <div class="progress-bar-fill" id="progress-fill" style="width: 0%;"></div>
+          </div>
+          <div class="progress-labels">
+            <span id="label-speso-mese">Speso: 0,00 €</span>
+            <span id="label-perc-speso">0%</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Metriche Rapide -->
+      <div class="metrics-grid">
+        <article class="metric-card">
+          <span class="metric-title">Budget di oggi</span>
+          <span class="metric-value" id="val-budget-oggi">0,00 €</span>
+          <span class="metric-hint" id="val-giorni-rimasti">0 giorni rimasti</span>
+        </article>
+
+        <article class="metric-card">
+          <span class="metric-title">Ritmo spesa</span>
+          <span class="metric-value font-sm" id="val-ritmo-spesa">—</span>
+          <span class="metric-hint" id="val-ritmo-dettaglio">vs media attesa</span>
+        </article>
+      </div>
+
+      <!-- Riepilogo mese -->
+      <article class="card card-summary">
+        <h2 class="section-heading">Riepilogo ciclo corrente</h2>
+        <div class="summary-list">
+          <div class="summary-row">
+            <span class="summary-label">Entrate previste</span>
+            <span class="summary-value positive" id="val-sum-entrate">0,00 €</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">PAC & Risparmio protetto</span>
+            <span class="summary-value" id="val-sum-pac">0,00 €</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Spese fisse (es. rata auto)</span>
+            <span class="summary-value" id="val-sum-fisse">0,00 €</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Spese variabili effettuate</span>
+            <span class="summary-value" id="val-sum-variabili">0,00 €</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Ultimi movimenti -->
+      <section class="recent-section">
+        <div class="section-header-flex">
+          <h2 class="section-heading">Ultimi movimenti</h2>
+          <span class="section-sublink" id="badge-totale-movimenti">0</span>
+        </div>
+        <ul class="transactions-list" id="recent-transactions-list">
+          <!-- Render dinamico da app.js -->
+        </ul>
+        <div id="recent-empty-state" class="empty-state hidden">
+          <p>Nessun movimento registrato in questo ciclo.</p>
+          <span class="empty-hint">Tocca il tasto + per aggiungere il primo.</span>
+        </div>
+      </section>
+    </section>
+
+    <!-- Placeholder per le fasi successive -->
+    <section id="view-movimenti" class="view-section hidden">
+      <div class="empty-state"><p>Vista Movimenti completa in arrivo nella Fase 2.</p></div>
+    </section>
+    <section id="view-fisse" class="view-section hidden">
+      <div class="empty-state"><p>Vista Spese Fisse & PAC in arrivo nella Fase 3.</p></div>
+    </section>
+    <section id="view-statistiche" class="view-section hidden">
+      <div class="empty-state"><p>Statistiche in arrivo nella Fase 4.</p></div>
+    </section>
+    <section id="view-impostazioni" class="view-section hidden">
+      <div class="empty-state"><p>Impostazioni e Backup in arrivo nella Fase 5.</p></div>
+    </section>
+  </main>
+
+  <!-- Pulsante flottante aggiungi movimento -->
+  <button type="button" class="fab-btn" id="btn-open-modal" aria-label="Aggiungi movimento">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+  </button>
+
+  <!-- Tab Bar Navigazione Inferiore -->
+  <nav class="bottom-tab-bar" aria-label="Menu principale">
+    <button type="button" class="tab-item active" data-tab="oggi" aria-selected="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      <span>Oggi</span>
+    </button>
+    <button type="button" class="tab-item" data-tab="movimenti" aria-selected="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="8" y1="6" x2="21" y2="6"></line>
+        <line x1="8" y1="12" x2="21" y2="12"></line>
+        <line x1="8" y1="18" x2="21" y2="18"></line>
+        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+      </svg>
+      <span>Movimenti</span>
+    </button>
+    <button type="button" class="tab-item" data-tab="fisse" aria-selected="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+      </svg>
+      <span>Fisse & PAC</span>
+    </button>
+    <button type="button" class="tab-item" data-tab="statistiche" aria-selected="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M18 20V10"></path>
+        <path d="M12 20V4"></path>
+        <path d="M6 20v-6"></path>
+      </svg>
+      <span>Statistiche</span>
+    </button>
+    <button type="button" class="tab-item" data-tab="impostazioni" aria-selected="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      </svg>
+      <span>Menu</span>
+    </button>
+  </nav>
+
+  <!-- Bottom Sheet / Modale Aggiungi Movimento -->
+  <div id="modal-backdrop" class="modal-backdrop hidden" aria-hidden="true"></div>
+  <section id="modal-add" class="bottom-sheet hidden" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
+    <div class="sheet-handle" aria-hidden="true"></div>
+    <header class="sheet-header">
+      <h2 id="modal-heading" class="sheet-title">Nuovo movimento</h2>
+      <button type="button" class="btn-text" id="btn-modal-close">Chiudi</button>
+    </header>
+
+    <form id="form-add-transaction" novalidate>
+      <!-- Selettore Tipo: Spesa / Entrata Extra -->
+      <div class="segmented-control" role="radiogroup" aria-label="Tipo movimento">
+        <label class="segmented-option">
+          <input type="radio" name="tx-type" value="expense" checked>
+          <span>Spesa</span>
+        </label>
+        <label class="segmented-option">
+          <input type="radio" name="tx-type" value="income">
+          <span>Entrata Extra</span>
+        </label>
+      </div>
+
+      <!-- Importo con font >= 16px per evitare zoom Safari -->
+      <div class="form-group amount-group">
+        <label for="tx-amount" class="form-label">Importo (€)</label>
+        <div class="amount-input-wrap">
+          <span class="currency-symbol">€</span>
+          <input type="text" id="tx-amount" name="amount" inputmode="decimal" placeholder="0,00" autocomplete="off" required>
+        </div>
+      </div>
+
+      <!-- Scelta Categoria via Chip -->
+      <div class="form-group">
+        <label class="form-label">Categoria</label>
+        <div class="category-chips" id="category-chips-list" role="radiogroup" aria-label="Categorie">
+          <!-- Render dinamico da app.js -->
+        </div>
+      </div>
+
+      <!-- Data e Nota (Opzionali/Collassabili) -->
+      <div class="form-row-two">
+        <div class="form-group">
+          <label for="tx-date" class="form-label">Data</label>
+          <input type="date" id="tx-date" name="date" class="input-field" required>
+        </div>
+        <div class="form-group">
+          <label for="tx-note" class="form-label">Nota (opzionale)</label>
+          <input type="text" id="tx-note" name="note" class="input-field" placeholder="Es. Eni pieno, bar..." maxlength="60">
+        </div>
+      </div>
+
+      <!-- Azioni del form -->
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" id="btn-save-tx">Salva movimento</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Toast per conferma o Annulla per 5 secondi -->
+  <div id="toast-undo" class="toast-bar hidden" role="status" aria-live="polite">
+    <span id="toast-message">Movimento registrato</span>
+    <button type="button" id="btn-toast-undo" class="toast-action">ANNULLA</button>
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
