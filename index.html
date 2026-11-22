@@ -3,397 +3,371 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
-  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000">
   <title>Finanze</title>
 
-  <!-- iOS Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Finanze">
   
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180' width='180' height='180'%3E%3Crect width='180' height='180' rx='40' fill='%23000000'/%3E%3Ccircle cx='90' cy='90' r='58' fill='%231C1C1E' stroke='%2334C759' stroke-width='4'/%3E%3Cpath d='M90 52v76M72 70h36M72 94h36' stroke='%2334C759' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23000000'/%3E%3Ccircle cx='90' cy='90' r='58' fill='%231C1C1E' stroke='%2334C759' stroke-width='4'/%3E%3Cpath d='M90 52v76M72 70h36M72 94h36' stroke='%2334C759' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180' width='180' height='180'%3E%3Crect width='180' height='180' rx='42' fill='%23000000'/%3E%3Cpath d='M90 48v84M62 72h56M62 98h44' stroke='%23EDEDED' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180' width='180' height='180'%3E%3Crect width='180' height='180' rx='42' fill='%23000000'/%3E%3Cpath d='M90 48v84M62 72h56M62 98h44' stroke='%23EDEDED' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- PIN LOCK OVERLAY -->
+  <!-- PIN LOCK -->
   <div id="pin-screen" class="pin-screen hidden" role="dialog" aria-modal="true">
     <div class="pin-box">
-      <div class="pin-shield-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <div class="pin-glyph">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
           <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
           <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
         </svg>
       </div>
-      <h2 class="pin-title">Finanze Protette</h2>
-      <p class="pin-hint">Inserisci il PIN per sbloccare</p>
-      <div class="pin-dots" id="pin-dots">
+      <h2 class="pin-headline">Autenticazione</h2>
+      <p class="pin-sub">Inserisci il codice di accesso</p>
+      <div class="pin-indicator" id="pin-dots">
         <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
       </div>
-      <div class="pin-keypad" id="pin-keypad">
-        <button type="button" class="pin-btn" data-key="1">1</button>
-        <button type="button" class="pin-btn" data-key="2">2</button>
-        <button type="button" class="pin-btn" data-key="3">3</button>
-        <button type="button" class="pin-btn" data-key="4">4</button>
-        <button type="button" class="pin-btn" data-key="5">5</button>
-        <button type="button" class="pin-btn" data-key="6">6</button>
-        <button type="button" class="pin-btn" data-key="7">7</button>
-        <button type="button" class="pin-btn" data-key="8">8</button>
-        <button type="button" class="pin-btn" data-key="9">9</button>
-        <div class="pin-btn-spacer"></div>
-        <button type="button" class="pin-btn" data-key="0">0</button>
-        <button type="button" class="pin-btn pin-action" id="btn-pin-del">⌫</button>
+      <div class="pin-pad" id="pin-keypad">
+        <button type="button" class="pad-num" data-key="1">1</button>
+        <button type="button" class="pad-num" data-key="2">2</button>
+        <button type="button" class="pad-num" data-key="3">3</button>
+        <button type="button" class="pad-num" data-key="4">4</button>
+        <button type="button" class="pad-num" data-key="5">5</button>
+        <button type="button" class="pad-num" data-key="6">6</button>
+        <button type="button" class="pad-num" data-key="7">7</button>
+        <button type="button" class="pad-num" data-key="8">8</button>
+        <button type="button" class="pad-num" data-key="9">9</button>
+        <div class="pad-spacer"></div>
+        <button type="button" class="pad-num" data-key="0">0</button>
+        <button type="button" class="pad-action" id="btn-pin-del">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg>
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- BANNERS -->
-  <aside id="sw-update-banner" class="banner hidden" role="alert">
-    <span>Nuova versione disponibile.</span>
-    <button type="button" id="btn-sw-refresh" class="btn-link">Aggiorna</button>
-  </aside>
-
-  <aside id="browser-warning" class="banner banner-info hidden" role="region">
-    <span>Salva su <strong>Schermata Home</strong> da Safari per non perdere i dati.</span>
-    <button type="button" id="btn-dismiss-browser-warning" class="btn-icon">&times;</button>
-  </aside>
-
-  <aside id="backup-reminder" class="banner banner-warn hidden" role="region">
-    <span>Sono passati più di 30 giorni dall'ultimo backup.</span>
-    <button type="button" id="btn-dismiss-backup-reminder" class="btn-link">Esporta</button>
-  </aside>
-
-  <div class="app-container">
-    <header class="app-header">
-      <span class="period-badge" id="label-periodo">Caricamento...</span>
-      <h1 class="screen-title" id="screen-title">Oggi</h1>
+  <div class="app-viewport">
+    <!-- TOP BAR MINIMALE -->
+    <header class="masthead">
+      <div class="masthead-meta">
+        <span class="cycle-pill" id="label-periodo">CICLO 28</span>
+        <button type="button" class="masthead-btn" id="btn-quick-export" title="Backup">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        </button>
+      </div>
+      <h1 class="page-title" id="screen-title">Oggi</h1>
     </header>
 
-    <main class="app-main">
-      <!-- 1. VISTA OGGI -->
-      <section id="view-oggi" class="view-section active">
-        <article class="card card-hero">
-          <span class="card-eyebrow">Disponibile del mese</span>
-          <div class="hero-amount" id="val-disponibile">0,00 €</div>
-          <div class="hero-sub" id="hero-sub-text">Calcolo in corso...</div>
+    <main class="content-scroll">
+      <!-- 1. VIEW OGGI -->
+      <section id="view-oggi" class="view-pane active">
+        <!-- HERO CARD ELEGANTE -->
+        <article class="hero-vault">
+          <div class="vault-label">Disponibile di spesa</div>
+          <div class="vault-balance">
+            <span class="currency-mark">€</span>
+            <span class="balance-int" id="val-disp-int">0</span>
+            <span class="balance-dec" id="val-disp-dec">,00</span>
+          </div>
 
-          <div class="progress-wrapper">
-            <div class="progress-bar-bg" id="progress-aria" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar-fill" id="progress-fill" style="width: 0%;"></div>
+          <div class="gauge-container">
+            <div class="gauge-rail">
+              <div class="gauge-core" id="progress-fill" style="width: 0%;"></div>
             </div>
-            <div class="progress-labels">
-              <span id="label-speso-mese">Speso: 0,00 €</span>
-              <span id="label-perc-speso">0%</span>
+            <div class="gauge-meta">
+              <span id="label-speso-mese">Spesi 0,00 €</span>
+              <span class="meta-tag" id="label-perc-speso">0% allocato</span>
             </div>
           </div>
         </article>
 
-        <div class="metrics-grid">
-          <article class="metric-card">
-            <span class="metric-title">Budget di oggi</span>
-            <span class="metric-value" id="val-budget-oggi">0,00 €</span>
-            <span class="metric-hint" id="val-giorni-rimasti">0 giorni rimasti</span>
+        <!-- COPPIA DI METRICHE CHIAVE -->
+        <div class="dual-grid">
+          <article class="slab">
+            <div class="slab-caption">Oggi puoi spendere</div>
+            <div class="slab-figure" id="val-budget-oggi">0,00 €</div>
+            <div class="slab-foot" id="val-giorni-rimasti">0 giorni rimanenti</div>
           </article>
 
-          <article class="metric-card">
-            <span class="metric-title">Ritmo di spesa</span>
-            <div class="ritmo-pill-wrapper">
-              <span class="status-pill" id="badge-ritmo-status">In linea</span>
-            </div>
-            <span class="metric-hint" id="val-ritmo-dettaglio">vs media attesa</span>
+          <article class="slab">
+            <div class="slab-caption">Ritmo di marcia</div>
+            <div class="slab-figure" id="val-ritmo-spesa">—</div>
+            <div class="slab-foot" id="val-ritmo-dettaglio">attesa neutrale</div>
           </article>
         </div>
 
-        <article class="card card-grouped">
-          <h2 class="grouped-header">Riepilogo ciclo</h2>
-          <div class="ios-list">
-            <div class="ios-list-row">
-              <span class="list-label">Entrate nette</span>
-              <span class="list-value positive" id="val-sum-entrate">0,00 €</span>
+        <!-- BILANCIO DEL CICLO (LAYOUT EDITORIALE) -->
+        <article class="ledger-slab">
+          <h2 class="ledger-head">Composizione Ciclo</h2>
+          <div class="ledger-rows">
+            <div class="ledger-row">
+              <span class="ledger-name">Entrate previste</span>
+              <span class="ledger-data ledger-pos" id="val-sum-entrate">0,00 €</span>
             </div>
-            <div class="ios-list-row">
-              <span class="list-label">PAC & Risparmio protetto</span>
-              <span class="list-value" id="val-sum-pac">0,00 €</span>
+            <div class="ledger-row">
+              <span class="ledger-name">PAC & Investimenti protetti</span>
+              <span class="ledger-data" id="val-sum-pac">0,00 €</span>
             </div>
-            <div class="ios-list-row">
-              <span class="list-label">Spese fisse mensilizzate</span>
-              <span class="list-value" id="val-sum-fisse">0,00 €</span>
+            <div class="ledger-row">
+              <span class="ledger-name">Spese fisse ammortizzate</span>
+              <span class="ledger-data" id="val-sum-fisse">0,00 €</span>
             </div>
-            <div class="ios-list-row">
-              <span class="list-label">Spese variabili effettuate</span>
-              <span class="list-value" id="val-sum-variabili">0,00 €</span>
+            <div class="ledger-row accent-row">
+              <span class="ledger-name">Uscite variabili registrate</span>
+              <span class="ledger-data" id="val-sum-variabili">0,00 €</span>
             </div>
           </div>
         </article>
 
-        <section class="recent-section">
-          <div class="section-header-flex">
-            <h2 class="section-title-sm">Ultimi movimenti</h2>
-            <span class="section-counter" id="badge-totale-movimenti">0</span>
+        <!-- ULTIME TRANSAZIONI -->
+        <section class="flow-section">
+          <div class="flow-header">
+            <h2 class="flow-title">Ultime Attività</h2>
+            <span class="flow-count" id="badge-totale-movimenti">0</span>
           </div>
-          <ul class="transactions-list" id="recent-transactions-list"></ul>
-          <div id="recent-empty-state" class="empty-state hidden">
-            <p>Nessun movimento registrato in questo ciclo.</p>
-            <span class="empty-sub">Premi + in basso per registrare una spesa.</span>
+          <div class="tx-stack" id="recent-transactions-list"></div>
+          <div id="recent-empty-state" class="empty-monolith hidden">
+            <div class="empty-glyph">◌</div>
+            <p>Nessun movimento in questo ciclo</p>
+            <span>Tocca + per annotare la prima spesa</span>
           </div>
         </section>
       </section>
 
-      <!-- 2. VISTA MOVIMENTI -->
-      <section id="view-movimenti" class="view-section hidden">
-        <div class="month-selector">
-          <button type="button" class="selector-btn" id="btn-month-prev" aria-label="Ciclo precedente">‹</button>
-          <span class="selector-label" id="label-selected-month">Mese</span>
-          <button type="button" class="selector-btn" id="btn-month-next" aria-label="Ciclo successivo">›</button>
+      <!-- 2. VIEW MOVIMENTI -->
+      <section id="view-movimenti" class="view-pane hidden">
+        <div class="stepper-month">
+          <button type="button" class="stepper-arrow" id="btn-month-prev">‹</button>
+          <span class="stepper-title" id="label-selected-month">Mese Corrente</span>
+          <button type="button" class="stepper-arrow" id="btn-month-next">›</button>
         </div>
 
-        <div class="search-filter-box">
-          <input type="text" id="input-search-tx" class="search-input" placeholder="Cerca nota o categoria...">
-          <select id="select-category-filter" class="filter-select">
-            <option value="all">Tutte le categorie</option>
+        <div class="search-strip">
+          <input type="text" id="input-search-tx" class="minimal-search" placeholder="Cerca nota o voce...">
+          <select id="select-category-filter" class="minimal-select">
+            <option value="all">Tutte</option>
           </select>
         </div>
 
-        <div class="grouped-tx-container" id="all-transactions-grouped"></div>
-        <div id="tx-empty-state" class="empty-state hidden">
-          <p>Nessun movimento trovato per i filtri selezionati.</p>
+        <div class="grouped-chronology" id="all-transactions-grouped"></div>
+        <div id="tx-empty-state" class="empty-monolith hidden">
+          <p>Nessuna voce corrispondente</p>
         </div>
       </section>
 
-      <!-- 3. VISTA FISSE & PAC -->
-      <section id="view-fisse" class="view-section hidden">
-        <div class="sub-nav-tabs">
-          <button type="button" class="sub-tab active" data-subtab="sub-fisse">Spese Fisse</button>
-          <button type="button" class="sub-tab" data-subtab="sub-pac">Obiettivi & PAC</button>
+      <!-- 3. VIEW FISSE & PAC -->
+      <section id="view-fisse" class="view-pane hidden">
+        <div class="segmented-pill-bar">
+          <button type="button" class="pill-btn active" data-subtab="sub-fisse">Spese Fisse</button>
+          <button type="button" class="pill-btn" data-subtab="sub-pac">PAC & Target</button>
         </div>
 
-        <!-- Sottosezione Spese Fisse -->
-        <div id="sub-fisse" class="subtab-content active">
-          <div class="card card-grouped">
-            <div class="section-header-flex">
-              <h2 class="grouped-header">Spese Fisse e Ricorrenti</h2>
-              <button type="button" class="btn-text-sm" id="btn-open-recurring-modal">+ Aggiungi</button>
+        <div id="sub-fisse" class="subtab-pane active">
+          <article class="ledger-slab">
+            <div class="flex-between">
+              <h2 class="ledger-head">Spese Ricorrenti</h2>
+              <button type="button" class="action-text-btn" id="btn-open-recurring-modal">+ Aggiungi</button>
             </div>
-            <p class="section-desc">Include spese mensili, trimestrali e annuali (es. rata auto, bollo, assicurazione) ammortizzate ogni mese.</p>
-            <div class="ios-list" id="recurring-list"></div>
-          </div>
-
-          <div class="card card-grouped" style="margin-top: 14px;">
-            <h2 class="grouped-header">Prossime scadenze (30 giorni)</h2>
-            <div class="ios-list" id="upcoming-recurring-list"></div>
-          </div>
+            <p class="slab-subnote">Rata auto, canoni e spese annualizzate (/12) sottratte dal disponibile mensile.</p>
+            <div class="ledger-rows" id="recurring-list"></div>
+          </article>
         </div>
 
-        <!-- Sottosezione PAC & Risparmio -->
-        <div id="sub-pac" class="subtab-content hidden">
-          <div class="card card-grouped">
-            <div class="section-header-flex">
-              <h2 class="grouped-header">Obiettivi di Risparmio & PAC</h2>
-              <button type="button" class="btn-text-sm" id="btn-open-goal-modal">+ Aggiungi</button>
+        <div id="sub-pac" class="subtab-pane hidden">
+          <article class="ledger-slab">
+            <div class="flex-between">
+              <h2 class="ledger-head">Piani di Accumulo & Riserva</h2>
+              <button type="button" class="action-text-btn" id="btn-open-goal-modal">+ Nuovo Piano</button>
             </div>
-            <div class="ios-list" id="goals-list"></div>
-          </div>
+            <p class="slab-subnote">Quote accantonate a inizio ciclo prima di calcolare la spesa libera.</p>
+            <div class="ledger-rows" id="goals-list"></div>
+          </article>
         </div>
       </section>
 
-      <!-- 4. VISTA STATISTICHE -->
-      <section id="view-statistiche" class="view-section hidden">
-        <article class="card">
-          <h2 class="grouped-header">Ripartizione per Categoria</h2>
-          <div class="chart-donut-wrap">
+      <!-- 4. VIEW STATISTICHE -->
+      <section id="view-statistiche" class="view-pane hidden">
+        <article class="ledger-slab">
+          <h2 class="ledger-head">Ripartizione Uscite</h2>
+          <div class="donut-stage">
             <svg id="svg-donut" viewBox="0 0 200 200" class="donut-svg"></svg>
-            <div class="donut-center-info">
-              <span class="donut-center-label">Totale Spese</span>
-              <span class="donut-center-val" id="donut-total-val">0,00 €</span>
+            <div class="donut-focal">
+              <span class="focal-sub">Totale Spese</span>
+              <span class="focal-amount" id="donut-total-val">0,00 €</span>
             </div>
           </div>
-          <div class="donut-legend" id="donut-legend"></div>
+          <div class="legend-list" id="donut-legend"></div>
         </article>
 
-        <article class="card">
-          <h2 class="grouped-header">Andamento Ultimi 6 Mesi</h2>
-          <div class="chart-bars-wrap" id="bar-chart-container"></div>
+        <article class="ledger-slab">
+          <h2 class="ledger-head">Andamento Ultimi 6 Cicli</h2>
+          <div class="hist-stage" id="bar-chart-container"></div>
         </article>
       </section>
 
-      <!-- 5. VISTA IMPOSTAZIONI -->
-      <section id="view-impostazioni" class="view-section hidden">
-        <div class="card card-grouped">
-          <h2 class="grouped-header">Parametri Finanziari</h2>
-          <div class="ios-list">
-            <div class="ios-list-row input-row">
-              <label for="cfg-salary-day" class="list-label">Giorno stipendio (ciclo)</label>
-              <input type="number" id="cfg-salary-day" class="inline-input" min="1" max="28" value="28">
+      <!-- 5. VIEW IMPOSTAZIONI -->
+      <section id="view-impostazioni" class="view-pane hidden">
+        <article class="ledger-slab">
+          <h2 class="ledger-head">Configurazione Base</h2>
+          <div class="ledger-rows">
+            <div class="ledger-row">
+              <label for="cfg-salary-day" class="ledger-name">Giorno accredito stipendio</label>
+              <input type="number" id="cfg-salary-day" class="clean-num-input" min="1" max="28" value="28">
             </div>
-            <div class="ios-list-row input-row">
-              <label for="cfg-monthly-income" class="list-label">Entrata mensile netta (€)</label>
-              <input type="number" id="cfg-monthly-income" class="inline-input" step="10" placeholder="1800">
+            <div class="ledger-row">
+              <label for="cfg-monthly-income" class="ledger-name">Entrata mensile netta (€)</label>
+              <input type="number" id="cfg-monthly-income" class="clean-num-input" step="50" placeholder="1800">
             </div>
           </div>
-          <button type="button" class="btn-submit-subtle" id="btn-save-settings">Salva Parametri</button>
-        </div>
+          <button type="button" class="btn-sartorial" id="btn-save-settings" style="margin-top: 14px;">Salva Modifiche</button>
+        </article>
 
-        <div class="card card-grouped">
-          <h2 class="grouped-header">Sicurezza & Privacy</h2>
-          <div class="ios-list">
-            <div class="ios-list-row toggle-row">
-              <span class="list-label">Blocco PIN all'avvio</span>
-              <label class="switch">
+        <article class="ledger-slab">
+          <h2 class="ledger-head">Sicurezza & Privacy</h2>
+          <div class="ledger-rows">
+            <div class="ledger-row">
+              <span class="ledger-name">Richiedi PIN all'avvio</span>
+              <label class="ios-switch">
                 <input type="checkbox" id="cfg-pin-enabled">
-                <span class="slider"></span>
+                <span class="switch-core"></span>
               </label>
             </div>
-            <div class="ios-list-row input-row hidden" id="pin-change-row">
-              <span class="list-label">Imposta nuovo PIN (4 cifre)</span>
-              <input type="password" id="cfg-pin-input" class="inline-input" maxlength="4" placeholder="••••" inputmode="numeric">
+            <div class="ledger-row hidden" id="pin-change-row">
+              <span class="ledger-name">PIN a 4 cifre</span>
+              <input type="password" id="cfg-pin-input" class="clean-num-input" maxlength="4" placeholder="••••" inputmode="numeric">
             </div>
           </div>
-        </div>
+        </article>
 
-        <div class="card card-grouped">
-          <h2 class="grouped-header">Backup & Dati</h2>
-          <div class="backup-actions">
-            <button type="button" class="btn-action-outline" id="btn-export-json">Esporta Backup JSON</button>
-            <button type="button" class="btn-action-outline" id="btn-export-csv">Esporta Movimenti CSV</button>
-            <label class="btn-action-outline file-label">
-              <span>Importa Backup JSON</span>
+        <article class="ledger-slab">
+          <h2 class="ledger-head">Dati e Conservazione</h2>
+          <div class="action-grid">
+            <button type="button" class="action-tile" id="btn-export-json">
+              <span>Backup JSON</span>
+            </button>
+            <button type="button" class="action-tile" id="btn-export-csv">
+              <span>Esporta CSV</span>
+            </button>
+            <label class="action-tile">
+              <span>Ripristina JSON</span>
               <input type="file" id="input-import-json" accept=".json" class="hidden">
             </label>
-            <button type="button" class="btn-danger-outline" id="btn-reset-data">Cancella tutti i dati</button>
+            <button type="button" class="action-tile text-danger" id="btn-reset-data">
+              <span>Azzera Dati</span>
+            </button>
           </div>
-          <div class="info-footer" id="backup-status-text">Ultimo backup: mai</div>
-        </div>
+          <div class="footnote-info" id="backup-status-text">Ultimo backup: mai</div>
+        </article>
       </section>
     </main>
 
-    <!-- FAB BUTTON -->
-    <button type="button" class="fab-btn" id="btn-open-modal" aria-label="Aggiungi spesa">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <line x1="12" y1="5" x2="12" y2="19"></line>
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-      </svg>
-    </button>
-
-    <!-- TAB BAR -->
-    <nav class="bottom-tab-bar" aria-label="Navigazione principale">
-      <button type="button" class="tab-item active" data-tab="oggi">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"></circle>
-          <polyline points="12 6 12 12 16 14"></polyline>
-        </svg>
+    <!-- ACTION DOCK INFERIORE CON TASTO + CENTRALE INTEGRATO -->
+    <nav class="action-dock" aria-label="Navigazione Principale">
+      <button type="button" class="dock-item active" data-tab="oggi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
         <span>Oggi</span>
       </button>
-      <button type="button" class="tab-item" data-tab="movimenti">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="8" y1="6" x2="21" y2="6"></line>
-          <line x1="8" y1="12" x2="21" y2="12"></line>
-          <line x1="8" y1="18" x2="21" y2="18"></line>
-          <line x1="3" y1="6" x2="3.01" y2="6"></line>
-          <line x1="3" y1="12" x2="3.01" y2="12"></line>
-          <line x1="3" y1="18" x2="3.01" y2="18"></line>
-        </svg>
+
+      <button type="button" class="dock-item" data-tab="movimenti">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
         <span>Movimenti</span>
       </button>
-      <button type="button" class="tab-item" data-tab="fisse">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-          <line x1="12" y1="22.08" x2="12" y2="12"></line>
-        </svg>
+
+      <!-- TASTO + CENTRALE NATIVO E SCULTOREO -->
+      <button type="button" class="dock-center-action" id="btn-open-modal" aria-label="Aggiungi">
+        <div class="dock-center-core">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </div>
+      </button>
+
+      <button type="button" class="dock-item" data-tab="fisse">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
         <span>Fisse & PAC</span>
       </button>
-      <button type="button" class="tab-item" data-tab="statistiche">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="20" x2="18" y2="10"></line>
-          <line x1="12" y1="20" x2="12" y2="4"></line>
-          <line x1="6" y1="20" x2="6" y2="14"></line>
-        </svg>
-        <span>Statistiche</span>
-      </button>
-      <button type="button" class="tab-item" data-tab="impostazioni">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="3"></circle>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-        </svg>
-        <span>Menu</span>
+
+      <button type="button" class="dock-item" data-tab="impostazioni">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <span>Impostazioni</span>
       </button>
     </nav>
   </div>
 
-  <!-- MODALE FORM MOVIMENTO (AGGIUNGI/MODIFICA) -->
-  <div id="modal-backdrop" class="modal-backdrop hidden"></div>
-  <section id="modal-add" class="bottom-sheet hidden" role="dialog" aria-modal="true">
-    <div class="sheet-grabber"></div>
-    <header class="sheet-header">
-      <h2 class="sheet-title" id="modal-tx-title">Nuovo movimento</h2>
-      <button type="button" class="btn-cancel" id="btn-modal-close">Chiudi</button>
+  <!-- MODALE FORM MOVIMENTI (BOTTOM SHEET TITANIO) -->
+  <div id="modal-backdrop" class="modal-veil hidden"></div>
+  <section id="modal-add" class="sartorial-sheet hidden" role="dialog" aria-modal="true">
+    <div class="sheet-knob"></div>
+    <header class="sheet-top">
+      <h2 class="sheet-heading" id="modal-tx-title">Annota Movimento</h2>
+      <button type="button" class="sheet-close" id="btn-modal-close">Chiudi</button>
     </header>
 
     <form id="form-add-transaction" novalidate>
       <input type="hidden" id="tx-edit-id" value="">
-      <div class="segmented-control">
-        <label class="segmented-item">
+      
+      <div class="mode-selector">
+        <label class="mode-chip">
           <input type="radio" name="tx-type" value="expense" checked>
-          <span>Spesa</span>
+          <span>Uscita</span>
         </label>
-        <label class="segmented-item">
+        <label class="mode-chip">
           <input type="radio" name="tx-type" value="income">
-          <span>Entrata Extra</span>
+          <span>Entrata</span>
         </label>
       </div>
 
-      <div class="amount-card">
-        <span class="amount-currency">€</span>
+      <div class="key-amount-box">
+        <span class="key-currency">€</span>
         <input type="text" id="tx-amount" name="amount" inputmode="decimal" placeholder="0" autocomplete="off" required>
       </div>
 
-      <div class="form-section-title">Categoria</div>
-      <div class="category-grid" id="category-chips-list"></div>
+      <div class="form-subheading">Categoria</div>
+      <div class="chips-mosaic" id="category-chips-list"></div>
 
-      <div class="form-inputs-group">
-        <div class="form-cell">
-          <label for="tx-date" class="cell-label">Data</label>
-          <input type="date" id="tx-date" name="date" class="cell-input" required>
+      <div class="duo-fields">
+        <div class="field-cell">
+          <label for="tx-date" class="field-tag">Data</label>
+          <input type="date" id="tx-date" name="date" class="field-input" required>
         </div>
-        <div class="form-cell">
-          <label for="tx-note" class="cell-label">Nota</label>
-          <input type="text" id="tx-note" name="note" class="cell-input" placeholder="Es. Eni, tagliando..." maxlength="45">
+        <div class="field-cell">
+          <label for="tx-note" class="field-tag">Descrizione</label>
+          <input type="text" id="tx-note" name="note" class="field-input" placeholder="Opzionale" maxlength="40">
         </div>
       </div>
 
-      <div class="form-actions-row">
-        <button type="button" class="btn-delete hidden" id="btn-delete-tx">Elimina</button>
-        <button type="submit" class="btn-submit" id="btn-save-tx">Salva</button>
+      <div class="sheet-btn-row">
+        <button type="button" class="btn-kill hidden" id="btn-delete-tx">Elimina</button>
+        <button type="submit" class="btn-sartorial" id="btn-save-tx">Salva Operazione</button>
       </div>
     </form>
   </section>
 
   <!-- MODALE SPESE FISSE -->
-  <section id="modal-recurring" class="bottom-sheet hidden" role="dialog" aria-modal="true">
-    <div class="sheet-grabber"></div>
-    <header class="sheet-header">
-      <h2 class="sheet-title" id="modal-recurring-title">Nuova spesa fissa</h2>
-      <button type="button" class="btn-cancel" id="btn-modal-recurring-close">Chiudi</button>
+  <section id="modal-recurring" class="sartorial-sheet hidden" role="dialog" aria-modal="true">
+    <div class="sheet-knob"></div>
+    <header class="sheet-top">
+      <h2 class="sheet-heading" id="modal-recurring-title">Spesa Ricorrente</h2>
+      <button type="button" class="sheet-close" id="btn-modal-recurring-close">Chiudi</button>
     </header>
 
     <form id="form-recurring" novalidate>
       <input type="hidden" id="rec-edit-id" value="">
-      <div class="form-cell">
-        <label for="rec-name" class="cell-label">Nome spesa</label>
-        <input type="text" id="rec-name" class="cell-input" placeholder="Es. Rata auto, Assicurazione..." required>
+      <div class="field-cell">
+        <label for="rec-name" class="field-tag">Denominazione</label>
+        <input type="text" id="rec-name" class="field-input" placeholder="Es. Quota Auto, Assicurazione..." required>
       </div>
 
-      <div class="form-inputs-group" style="margin-top: 10px;">
-        <div class="form-cell">
-          <label for="rec-amount" class="cell-label">Importo (€)</label>
-          <input type="number" id="rec-amount" class="cell-input" step="0.01" placeholder="250" required>
+      <div class="duo-fields" style="margin-top: 12px;">
+        <div class="field-cell">
+          <label for="rec-amount" class="field-tag">Importo (€)</label>
+          <input type="number" id="rec-amount" class="field-input" step="0.01" placeholder="250" required>
         </div>
-        <div class="form-cell">
-          <label for="rec-frequency" class="cell-label">Frequenza</label>
-          <select id="rec-frequency" class="cell-input">
+        <div class="field-cell">
+          <label for="rec-frequency" class="field-tag">Frequenza</label>
+          <select id="rec-frequency" class="field-input">
             <option value="monthly">Mensile</option>
             <option value="quarterly">Trimestrale (/3)</option>
             <option value="annual">Annuale (/12)</option>
@@ -401,72 +375,72 @@
         </div>
       </div>
 
-      <div class="form-inputs-group" style="margin-top: 10px;">
-        <div class="form-cell">
-          <label for="rec-day" class="cell-label">Giorno di addebito</label>
-          <input type="number" id="rec-day" class="cell-input" min="1" max="31" value="15" required>
+      <div class="duo-fields" style="margin-top: 12px;">
+        <div class="field-cell">
+          <label for="rec-day" class="field-tag">Giorno Addebito</label>
+          <input type="number" id="rec-day" class="field-input" min="1" max="31" value="15" required>
         </div>
-        <div class="form-cell">
-          <label for="rec-category" class="cell-label">Categoria</label>
-          <select id="rec-category" class="cell-input"></select>
+        <div class="field-cell">
+          <label for="rec-category" class="field-tag">Categoria</label>
+          <select id="rec-category" class="field-input"></select>
         </div>
       </div>
 
-      <div class="form-actions-row" style="margin-top: 16px;">
-        <button type="button" class="btn-delete hidden" id="btn-delete-recurring">Elimina</button>
-        <button type="submit" class="btn-submit">Salva Spesa Fissa</button>
+      <div class="sheet-btn-row" style="margin-top: 18px;">
+        <button type="button" class="btn-kill hidden" id="btn-delete-recurring">Rimuovi</button>
+        <button type="submit" class="btn-sartorial">Memorizza Spesa</button>
       </div>
     </form>
   </section>
 
-  <!-- MODALE OBIETTIVI & PAC -->
-  <section id="modal-goal" class="bottom-sheet hidden" role="dialog" aria-modal="true">
-    <div class="sheet-grabber"></div>
-    <header class="sheet-header">
-      <h2 class="sheet-title" id="modal-goal-title">Nuovo Obiettivo PAC</h2>
-      <button type="button" class="btn-cancel" id="btn-modal-goal-close">Chiudi</button>
+  <!-- MODALE GOAL (PAC) -->
+  <section id="modal-goal" class="sartorial-sheet hidden" role="dialog" aria-modal="true">
+    <div class="sheet-knob"></div>
+    <header class="sheet-top">
+      <h2 class="sheet-heading" id="modal-goal-title">Piano di Accumulo</h2>
+      <button type="button" class="sheet-close" id="btn-modal-goal-close">Chiudi</button>
     </header>
 
     <form id="form-goal" novalidate>
       <input type="hidden" id="goal-edit-id" value="">
-      <div class="form-cell">
-        <label for="goal-name" class="cell-label">Nome Obiettivo</label>
-        <input type="text" id="goal-name" class="cell-input" placeholder="Es. PAC ETF Azionario, Fondo emergenza..." required>
+      <div class="field-cell">
+        <label for="goal-name" class="field-tag">Nome Piano</label>
+        <input type="text" id="goal-name" class="field-input" placeholder="Es. PAC ETF Azionario..." required>
       </div>
 
-      <div class="form-inputs-group" style="margin-top: 10px;">
-        <div class="form-cell">
-          <label for="goal-target" class="cell-label">Target Totale (€)</label>
-          <input type="number" id="goal-target" class="cell-input" placeholder="5000">
+      <div class="duo-fields" style="margin-top: 12px;">
+        <div class="field-cell">
+          <label for="goal-monthly" class="field-tag">Quota Ciclica (€)</label>
+          <input type="number" id="goal-monthly" class="field-input" placeholder="200" required>
         </div>
-        <div class="form-cell">
-          <label for="goal-monthly" class="cell-label">Quota Mensile (€)</label>
-          <input type="number" id="goal-monthly" class="cell-input" placeholder="200" required>
-        </div>
-      </div>
-
-      <div class="form-inputs-group" style="margin-top: 10px;">
-        <div class="form-cell">
-          <label for="goal-current" class="cell-label">Già Accumulato (€)</label>
-          <input type="number" id="goal-current" class="cell-input" placeholder="1000" value="0">
-        </div>
-        <div class="form-cell">
-          <label for="goal-deadline" class="cell-label">Scadenza (opzionale)</label>
-          <input type="date" id="goal-deadline" class="cell-input">
+        <div class="field-cell">
+          <label for="goal-current" class="field-tag">Attualmente Accantonati (€)</label>
+          <input type="number" id="goal-current" class="field-input" placeholder="1000" value="0">
         </div>
       </div>
 
-      <div class="form-actions-row" style="margin-top: 16px;">
-        <button type="button" class="btn-delete hidden" id="btn-delete-goal">Elimina</button>
-        <button type="submit" class="btn-submit">Salva Obiettivo</button>
+      <div class="duo-fields" style="margin-top: 12px;">
+        <div class="field-cell">
+          <label for="goal-target" class="field-tag">Obiettivo Finale (€)</label>
+          <input type="number" id="goal-target" class="field-input" placeholder="Opzionale">
+        </div>
+        <div class="field-cell">
+          <label for="goal-deadline" class="field-tag">Data Target</label>
+          <input type="date" id="goal-deadline" class="field-input">
+        </div>
+      </div>
+
+      <div class="sheet-btn-row" style="margin-top: 18px;">
+        <button type="button" class="btn-kill hidden" id="btn-delete-goal">Rimuovi</button>
+        <button type="submit" class="btn-sartorial">Salva Piano</button>
       </div>
     </form>
   </section>
 
-  <!-- TOAST ANNULLA -->
-  <div id="toast-undo" class="toast-bar hidden" role="status">
-    <span id="toast-message">Registrato</span>
-    <button type="button" id="btn-toast-undo" class="toast-action">ANNULLA</button>
+  <!-- NOTIFICA ANNULLA MINIMALE -->
+  <div id="toast-undo" class="toast-minimal hidden" role="status">
+    <span id="toast-message">Registrazione completata</span>
+    <button type="button" id="btn-toast-undo" class="toast-revert">Annulla</button>
   </div>
 
   <script src="app.js" defer></script>

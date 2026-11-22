@@ -1,30 +1,25 @@
-/**
- * FINANZE PWA - APPLICAZIONE COMPLETA
- * Architettura modulare vanilla: Store, Pure Math, Views, Controller
- */
-
 const STORAGE_KEY = "finanze_pwa_master_v3";
 
 const ICONS = {
-  carburante: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v17"></path><path d="M13 10h4a2 2 0 0 1 2 2v8a2 2 0 0 0 2 2v0a2 2 0 0 0 2-2V9l-3-3"></path><circle cx="8" cy="9" r="2"></circle></svg>`,
-  auto: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9C2.1 11 2 11.5 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><circle cx="17" cy="17" r="2"></circle></svg>`,
-  svago: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>`,
-  shopping: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`,
-  abbonamenti: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>`,
-  salute: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>`,
-  lavoro: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>`,
-  varie: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>`
+  carburante: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v17"></path><path d="M13 10h4a2 2 0 0 1 2 2v8a2 2 0 0 0 2 2v0a2 2 0 0 0 2-2V9l-3-3"></path><circle cx="8" cy="9" r="2"></circle></svg>`,
+  auto: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9C2.1 11 2 11.5 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><circle cx="17" cy="17" r="2"></circle></svg>`,
+  svago: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>`,
+  shopping: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`,
+  abbonamenti: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>`,
+  salute: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>`,
+  lavoro: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>`,
+  varie: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>`
 };
 
 const DEFAULT_CATEGORIES = [
-  { id: "carburante", nome: "Carburante", key: "carburante", color: "#FF9F0A" },
-  { id: "auto", nome: "Auto & Manut.", key: "auto", color: "#0A84FF" },
-  { id: "svago", nome: "Uscite & Svago", key: "svago", color: "#FF375F" },
-  { id: "shopping", nome: "Acquisti", key: "shopping", color: "#BF5AF2" },
-  { id: "abbonamenti", nome: "Servizi", key: "abbonamenti", color: "#64D2FF" },
-  { id: "salute", nome: "Salute", key: "salute", color: "#30D158" },
-  { id: "lavoro", nome: "Lavoro", key: "lavoro", color: "#FFD60A" },
-  { id: "varie", nome: "Varie", key: "varie", color: "#8E8E93" }
+  { id: "carburante", nome: "Carburante", key: "carburante", color: "#8E8E93" },
+  { id: "auto", nome: "Auto", key: "auto", color: "#D1D1D6" },
+  { id: "svago", nome: "Svago", key: "svago", color: "#E5C07B" },
+  { id: "shopping", nome: "Acquisti", key: "shopping", color: "#A1A1A6" },
+  { id: "abbonamenti", nome: "Servizi", key: "abbonamenti", color: "#636366" },
+  { id: "salute", nome: "Salute", key: "salute", color: "#48484A" },
+  { id: "lavoro", nome: "Lavoro", key: "lavoro", color: "#C7C7CC" },
+  { id: "varie", nome: "Varie", key: "varie", color: "#3A3A3C" }
 ];
 
 const INITIAL_DATA = {
@@ -41,11 +36,10 @@ const INITIAL_DATA = {
     { id: "rec_auto", name: "Rata Auto", amountCents: 25000, frequency: "monthly", day: 15, categoryId: "auto", active: true }
   ],
   goals: [
-    { id: "goal_pac", name: "Piano Accumulo (PAC)", targetCents: 1000000, currentCents: 200000, monthlyCents: 20000, deadline: "" }
+    { id: "goal_pac", name: "PAC ETF", targetCents: 1000000, currentCents: 200000, monthlyCents: 20000, deadline: "" }
   ]
 };
 
-// --- UTILITY PURE ---
 function escapeHtml(str) {
   if (typeof str !== "string") return "";
   return str.replace(/[&<>'"]/g, t => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[t] || t));
@@ -67,10 +61,10 @@ function parseLocalDateString(dateStr) {
   return new Date(y, m - 1, d);
 }
 
-function getCycleRange(referenceDate, salaryDay = 28) {
-  const currentDay = referenceDate.getDate();
-  const year = referenceDate.getFullYear();
-  const month = referenceDate.getMonth();
+function getCycleRange(refDate, salaryDay = 28) {
+  const currentDay = refDate.getDate();
+  const year = refDate.getFullYear();
+  const month = refDate.getMonth();
 
   let startYear = year;
   let startMonth = month;
@@ -113,7 +107,6 @@ async function sha256(str) {
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
-// --- STORE CON MIGRAZIONE ---
 class Store {
   constructor() {
     this.data = this.load();
@@ -158,7 +151,6 @@ class Store {
 
 const store = new Store();
 
-// --- CALCOLO FINANZIARIO PURO ---
 function computeFinancials(storeData, refDate = new Date()) {
   const salaryDay = storeData.settings.salaryDay || 28;
   const cycle = getCycleRange(refDate, salaryDay);
@@ -169,7 +161,6 @@ function computeFinancials(storeData, refDate = new Date()) {
   const extraIncomeCents = cycleTx.filter(t => t.type === "income").reduce((acc, t) => acc + t.amountCents, 0);
   const variableExpensesCents = cycleTx.filter(t => t.type === "expense").reduce((acc, t) => acc + t.amountCents, 0);
 
-  // Quote fisse mensilizzate (mensili intere, trimestrali / 3, annuali / 12)
   const monthlyFixedCents = storeData.recurring
     .filter(r => r.active !== false)
     .reduce((acc, r) => {
@@ -178,13 +169,10 @@ function computeFinancials(storeData, refDate = new Date()) {
       return acc + r.amountCents;
     }, 0);
 
-  // PAC & Risparmio mensile
   const monthlyPacCents = storeData.goals.reduce((acc, g) => acc + (g.monthlyCents || 0), 0);
-
   const baseIncome = storeData.settings.monthlyIncomeCents || 0;
   const totalInflow = baseIncome + extraIncomeCents;
 
-  // FORMULA MAESTRA DISPONIBILE
   const availableCents = totalInflow - monthlyPacCents - monthlyFixedCents - variableExpensesCents;
   const dailyBudgetCents = availableCents > 0 ? Math.floor(availableCents / daysRemaining) : 0;
   const budgetVariabilePianificato = Math.max(0, totalInflow - monthlyPacCents - monthlyFixedCents);
@@ -210,7 +198,6 @@ function computeFinancials(storeData, refDate = new Date()) {
   };
 }
 
-// --- RENDERING SCHERMATE ---
 let currentMonthOffset = 0;
 
 function renderAll() {
@@ -224,41 +211,41 @@ function renderAll() {
 function renderHome() {
   const fin = computeFinancials(store.data, new Date());
   const opt = { day: "numeric", month: "short" };
-  document.getElementById("label-periodo").textContent = `Ciclo: ${fin.cycle.start.toLocaleDateString("it-IT", opt)} – ${fin.cycle.end.toLocaleDateString("it-IT", opt)}`;
+  document.getElementById("label-periodo").textContent = `CICLO: ${fin.cycle.start.toLocaleDateString("it-IT", opt)} – ${fin.cycle.end.toLocaleDateString("it-IT", opt)}`;
 
-  const dispEl = document.getElementById("val-disponibile");
-  dispEl.textContent = formatValuta(fin.availableCents);
-  dispEl.style.color = fin.availableCents >= 0 ? "var(--ios-green)" : "var(--ios-red)";
+  // Hero Split (Interi e Decimali per eleganza grafica)
+  const isNeg = fin.availableCents < 0;
+  const absCents = Math.abs(fin.availableCents);
+  const intPart = Math.floor(absCents / 100);
+  const decPart = String(absCents % 100).padStart(2, "0");
 
-  const heroSub = document.getElementById("hero-sub-text");
-  if (fin.availableCents < 0) {
-    heroSub.textContent = `Superato di ${formatValuta(Math.abs(fin.availableCents))}`;
-    heroSub.className = "hero-sub negative";
-  } else {
-    heroSub.textContent = `Allocati per le spese variabili di questo ciclo`;
-    heroSub.className = "hero-sub";
-  }
+  const intEl = document.getElementById("val-disp-int");
+  const decEl = document.getElementById("val-disp-dec");
+  intEl.textContent = `${isNeg ? '-' : ''}${intPart.toLocaleString("it-IT")}`;
+  decEl.textContent = `,${decPart}`;
+  intEl.style.color = isNeg ? "var(--state-neg)" : "var(--ink-primary)";
 
+  // Gauge bar
   const percSpeso = fin.budgetVariabilePianificato > 0 ? Math.min(100, Math.round((fin.variableExpensesCents / fin.budgetVariabilePianificato) * 100)) : 100;
   const progressFill = document.getElementById("progress-fill");
   progressFill.style.width = `${percSpeso}%`;
-  progressFill.style.backgroundColor = percSpeso >= 100 ? "var(--ios-red)" : (percSpeso >= 80 ? "var(--ios-orange)" : "var(--ios-green)");
-  document.getElementById("progress-aria").setAttribute("aria-valuenow", percSpeso);
-  document.getElementById("label-speso-mese").textContent = `Speso: ${formatValuta(fin.variableExpensesCents)}`;
-  document.getElementById("label-perc-speso").textContent = `${percSpeso}%`;
+  progressFill.style.backgroundColor = percSpeso >= 100 ? "var(--state-neg)" : "var(--ink-primary)";
+
+  document.getElementById("label-speso-mese").textContent = `Spesi ${formatValuta(fin.variableExpensesCents)}`;
+  document.getElementById("label-perc-speso").textContent = `${percSpeso}% allocato`;
 
   document.getElementById("val-budget-oggi").textContent = formatValuta(fin.dailyBudgetCents);
-  document.getElementById("val-giorni-rimasti").textContent = `${fin.daysRemaining} giorni rimasti`;
+  document.getElementById("val-giorni-rimasti").textContent = `${fin.daysRemaining} giorni rimanenti`;
 
-  const ritmoBadge = document.getElementById("badge-ritmo-status");
+  const ritmoEl = document.getElementById("val-ritmo-spesa");
   const ritmoSub = document.getElementById("val-ritmo-dettaglio");
   if (fin.differenzaRitmoCents >= 0) {
-    ritmoBadge.textContent = `+${formatValuta(fin.differenzaRitmoCents)}`;
-    ritmoBadge.className = "status-pill positive";
+    ritmoEl.textContent = `+${formatValuta(fin.differenzaRitmoCents)}`;
+    ritmoEl.style.color = "var(--ink-primary)";
     ritmoSub.textContent = "in anticipo su target";
   } else {
-    ritmoBadge.textContent = `-${formatValuta(Math.abs(fin.differenzaRitmoCents))}`;
-    ritmoBadge.className = "status-pill negative";
+    ritmoEl.textContent = `-${formatValuta(Math.abs(fin.differenzaRitmoCents))}`;
+    ritmoEl.style.color = "var(--state-neg)";
     ritmoSub.textContent = "sopra la media attesa";
   }
 
@@ -286,25 +273,24 @@ function renderRecentList(recentList) {
 }
 
 function createTxElement(tx) {
-  const li = document.createElement("li");
-  li.className = "tx-item";
+  const el = document.createElement("div");
+  el.className = "tx-card";
   const cat = store.data.categories.find(c => c.id === tx.categoryId) || { nome: "Spesa", key: "varie" };
   const isInc = tx.type === "income";
   const dateFormatted = parseLocalDateString(tx.date).toLocaleDateString("it-IT", { day: "numeric", month: "short" });
 
-  li.innerHTML = `
-    <div class="tx-icon-box" aria-hidden="true">${ICONS[cat.key] || ICONS.varie}</div>
-    <div class="tx-details">
-      <span class="tx-title">${escapeHtml(tx.note || cat.nome)}</span>
-      <span class="tx-sub">${escapeHtml(cat.nome)} • ${dateFormatted}</span>
+  el.innerHTML = `
+    <div class="tx-symbol">${ICONS[cat.key] || ICONS.varie}</div>
+    <div class="tx-body">
+      <span class="tx-head">${escapeHtml(tx.note || cat.nome)}</span>
+      <span class="tx-subtext">${escapeHtml(cat.nome)} • ${dateFormatted}</span>
     </div>
-    <span class="tx-amount" style="color: ${isInc ? 'var(--ios-green)' : 'inherit'}">${isInc ? '+' : '-'}${formatValuta(tx.amountCents)}</span>
+    <span class="tx-val" style="color: ${isInc ? 'var(--state-pos)' : 'var(--ink-primary)'}">${isInc ? '+' : '-'}${formatValuta(tx.amountCents)}</span>
   `;
-  li.addEventListener("click", () => openTxModal(tx));
-  return li;
+  el.addEventListener("click", () => openTxModal(tx));
+  return el;
 }
 
-// --- VISTA MOVIMENTI COMPLETA ---
 function renderMovimentiView() {
   const targetDate = new Date();
   targetDate.setMonth(targetDate.getMonth() + currentMonthOffset);
@@ -332,7 +318,6 @@ function renderMovimentiView() {
   }
   emptyState.classList.add("hidden");
 
-  // Raggruppa per data
   const groups = {};
   filtered.forEach(t => {
     if (!groups[t.date]) groups[t.date] = [];
@@ -341,79 +326,53 @@ function renderMovimentiView() {
 
   Object.keys(groups).sort().reverse().forEach(dateStr => {
     const dayGroup = document.createElement("div");
-    dayGroup.className = "tx-day-group";
+    dayGroup.className = "day-block";
 
     const dayTotal = groups[dateStr].reduce((acc, t) => acc + (t.type === "expense" ? t.amountCents : -t.amountCents), 0);
     const dayDate = parseLocalDateString(dateStr);
     const dateFormatted = dayDate.toLocaleDateString("it-IT", { weekday: "short", day: "numeric", month: "short" });
 
-    const header = document.createElement("div");
-    header.className = "tx-day-header";
-    header.innerHTML = `<span>${dateFormatted}</span><span>Tot: ${formatValuta(dayTotal)}</span>`;
-    dayGroup.appendChild(header);
-
-    const ul = document.createElement("ul");
-    ul.className = "transactions-list";
-    groups[dateStr].forEach(tx => ul.appendChild(createTxElement(tx)));
-    dayGroup.appendChild(ul);
-
+    dayGroup.innerHTML = `<div class="day-bar"><span>${dateFormatted}</span><span>Totale: ${formatValuta(dayTotal)}</span></div>`;
+    const stack = document.createElement("div");
+    stack.className = "tx-stack";
+    groups[dateStr].forEach(tx => stack.appendChild(createTxElement(tx)));
+    dayGroup.appendChild(stack);
     container.appendChild(dayGroup);
   });
 }
 
-// --- VISTA SPESE FISSE & PAC ---
 function renderFisseView() {
-  // Spese fisse
   const recList = document.getElementById("recurring-list");
   recList.innerHTML = "";
   store.data.recurring.forEach(r => {
     const row = document.createElement("div");
-    row.className = "ios-list-row";
+    row.className = "ledger-row";
     row.style.cursor = "pointer";
-    const freqLabel = r.frequency === "annual" ? "Annuale (/12)" : (r.frequency === "quarterly" ? "Trimestrale (/3)" : "Mensile");
+    const freq = r.frequency === "annual" ? "Annuale (/12)" : (r.frequency === "quarterly" ? "Trimestrale (/3)" : "Mensile");
     row.innerHTML = `
       <div>
-        <div class="list-label">${escapeHtml(r.name)}</div>
-        <div class="list-sub">${freqLabel} • Giorno ${r.day}</div>
+        <div class="ledger-name">${escapeHtml(r.name)}</div>
+        <div class="slab-foot" style="margin-top:2px;">${freq} • Il ${r.day} del mese</div>
       </div>
-      <span class="list-value">${formatValuta(r.amountCents)}</span>
+      <span class="ledger-data">${formatValuta(r.amountCents)}</span>
     `;
     row.addEventListener("click", () => openRecurringModal(r));
     recList.appendChild(row);
   });
 
-  // Prossime scadenze 30gg
-  const upList = document.getElementById("upcoming-recurring-list");
-  upList.innerHTML = "";
-  const today = new Date();
-  store.data.recurring.forEach(r => {
-    const row = document.createElement("div");
-    row.className = "ios-list-row";
-    row.innerHTML = `
-      <div>
-        <div class="list-label">${escapeHtml(r.name)}</div>
-        <div class="list-sub">Addebito il ${r.day} del mese</div>
-      </div>
-      <span class="list-value">${formatValuta(r.amountCents)}</span>
-    `;
-    upList.appendChild(row);
-  });
-
-  // PAC & Obiettivi
   const goalList = document.getElementById("goals-list");
   goalList.innerHTML = "";
   store.data.goals.forEach(g => {
     const row = document.createElement("div");
-    row.className = "ios-list-row";
+    row.className = "ledger-row";
     row.style.cursor = "pointer";
     row.innerHTML = `
       <div>
-        <div class="list-label">${escapeHtml(g.name)}</div>
-        <div class="list-sub">Accumulato: ${formatValuta(g.currentCents || 0)}</div>
+        <div class="ledger-name">${escapeHtml(g.name)}</div>
+        <div class="slab-foot" style="margin-top:2px;">Accantonati: ${formatValuta(g.currentCents || 0)}</div>
       </div>
       <div style="text-align: right;">
-        <span class="list-value">${formatValuta(g.monthlyCents)}/mese</span>
-        ${g.targetCents ? `<div class="list-sub">Target: ${formatValuta(g.targetCents)}</div>` : ''}
+        <span class="ledger-data">${formatValuta(g.monthlyCents)}/mese</span>
       </div>
     `;
     row.addEventListener("click", () => openGoalModal(g));
@@ -421,7 +380,6 @@ function renderFisseView() {
   });
 }
 
-// --- VISTA STATISTICHE ---
 function renderStatisticheView() {
   const fin = computeFinancials(store.data, new Date());
   const totalsByCat = {};
@@ -432,19 +390,18 @@ function renderStatisticheView() {
   const totalExpense = Object.values(totalsByCat).reduce((a, b) => a + b, 0);
   document.getElementById("donut-total-val").textContent = formatValuta(totalExpense);
 
-  // Genera Cerchio Ciambella SVG
   const svg = document.getElementById("svg-donut");
   const legend = document.getElementById("donut-legend");
   svg.innerHTML = "";
   legend.innerHTML = "";
 
-  const radius = 70;
+  const radius = 68;
   const circumference = 2 * Math.PI * radius;
   let accumulatedAngle = 0;
 
   if (totalExpense === 0) {
-    svg.innerHTML = `<circle cx="100" cy="100" r="${radius}" fill="none" stroke="var(--bg-card-subtle)" stroke-width="20"/>`;
-    legend.innerHTML = `<div class="empty-sub" style="text-align:center;">Nessuna spesa nel ciclo corrente.</div>`;
+    svg.innerHTML = `<circle cx="100" cy="100" r="${radius}" fill="none" stroke="var(--surface-card-subtle)" stroke-width="16"/>`;
+    legend.innerHTML = `<div class="empty-monolith">Nessuna uscita in questo ciclo.</div>`;
   } else {
     store.data.categories.forEach(cat => {
       const amount = totalsByCat[cat.id] || 0;
@@ -452,15 +409,14 @@ function renderStatisticheView() {
 
       const ratio = amount / totalExpense;
       const strokeDash = ratio * circumference;
-      const offset = circumference - strokeDash;
 
       const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
       circle.setAttribute("cx", "100");
       circle.setAttribute("cy", "100");
       circle.setAttribute("r", radius);
       circle.setAttribute("fill", "none");
-      circle.setAttribute("stroke", cat.color || "var(--ios-blue)");
-      circle.setAttribute("stroke-width", "22");
+      circle.setAttribute("stroke", cat.color || "var(--ink-secondary)");
+      circle.setAttribute("stroke-width", "16");
       circle.setAttribute("stroke-dasharray", `${strokeDash} ${circumference}`);
       circle.setAttribute("stroke-dashoffset", -accumulatedAngle);
       svg.appendChild(circle);
@@ -468,43 +424,40 @@ function renderStatisticheView() {
       accumulatedAngle += strokeDash;
 
       const legItem = document.createElement("div");
-      legItem.className = "legend-item";
+      legItem.className = "legend-entry";
       legItem.innerHTML = `
-        <div class="legend-left">
-          <span class="legend-dot" style="background:${cat.color || 'var(--ios-blue)'}"></span>
+        <div class="legend-tag">
+          <span class="legend-dot" style="background:${cat.color || 'var(--ink-secondary)'}"></span>
           <span>${escapeHtml(cat.nome)}</span>
         </div>
-        <span class="list-value">${formatValuta(amount)} (${Math.round(ratio * 100)}%)</span>
+        <span class="ledger-data">${formatValuta(amount)} (${Math.round(ratio * 100)}%)</span>
       `;
       legend.appendChild(legItem);
     });
   }
 
-  // Barre ultimi 6 mesi
-  const barContainer = document.getElementById("bar-chart-container");
-  barContainer.innerHTML = "";
+  const hist = document.getElementById("bar-chart-container");
+  hist.innerHTML = "";
   for (let i = 5; i >= 0; i--) {
     const d = new Date();
     d.setMonth(d.getMonth() - i);
     const f = computeFinancials(store.data, d);
-    const maxReference = Math.max(1, f.baseIncome);
-    const heightRatio = Math.min(1, f.variableExpensesCents / maxReference);
+    const maxRef = Math.max(1, f.baseIncome);
+    const ratio = Math.min(1, f.variableExpensesCents / maxRef);
 
     const col = document.createElement("div");
-    col.className = "bar-col";
+    col.className = "hist-column";
     col.innerHTML = `
-      <div class="bar-fill" style="height: ${Math.max(6, heightRatio * 100)}px; background: ${i === 0 ? 'var(--ios-blue)' : 'var(--bg-chip)'}"></div>
-      <span class="bar-label">${d.toLocaleDateString("it-IT", { month: "narrow" })}</span>
+      <div class="hist-bar" style="height: ${Math.max(6, ratio * 90)}px; opacity: ${i === 0 ? '1' : '0.35'}"></div>
+      <span class="hist-label">${d.toLocaleDateString("it-IT", { month: "narrow" })}</span>
     `;
-    barContainer.appendChild(col);
+    hist.appendChild(col);
   }
 }
 
-// --- VISTA IMPOSTAZIONI ---
 function renderImpostazioniView() {
   document.getElementById("cfg-salary-day").value = store.data.settings.salaryDay || 28;
   document.getElementById("cfg-monthly-income").value = (store.data.settings.monthlyIncomeCents || 0) / 100;
-
   const pinToggle = document.getElementById("cfg-pin-enabled");
   pinToggle.checked = Boolean(store.data.settings.pinHash);
   document.getElementById("pin-change-row").classList.toggle("hidden", !pinToggle.checked);
@@ -515,7 +468,7 @@ function renderImpostazioniView() {
   }
 }
 
-// --- MODALI & CONTROLLER EVENTI ---
+// GESTIONE MODALI
 const modalBackdrop = document.getElementById("modal-backdrop");
 const modalAdd = document.getElementById("modal-add");
 const modalRecurring = document.getElementById("modal-recurring");
@@ -533,7 +486,6 @@ document.getElementById("btn-modal-close").addEventListener("click", closeAllMod
 document.getElementById("btn-modal-recurring-close").addEventListener("click", closeAllModals);
 document.getElementById("btn-modal-goal-close").addEventListener("click", closeAllModals);
 
-// Form Movimento
 function openTxModal(tx = null) {
   modalBackdrop.classList.remove("hidden");
   modalAdd.classList.remove("hidden");
@@ -557,7 +509,7 @@ function openTxModal(tx = null) {
     document.getElementById("tx-date").value = toLocalDateString(new Date());
     document.getElementById("tx-note").value = "";
     delBtn.classList.add("hidden");
-    setTimeout(() => document.getElementById("tx-amount").focus(), 120);
+    setTimeout(() => document.getElementById("tx-amount").focus(), 140);
   }
 }
 
@@ -565,7 +517,7 @@ document.getElementById("btn-open-modal").addEventListener("click", () => openTx
 
 document.getElementById("btn-delete-tx").addEventListener("click", () => {
   const id = document.getElementById("tx-edit-id").value;
-  if (id && confirm("Vuoi eliminare definitivamente questo movimento?")) {
+  if (id && confirm("Eliminare questo movimento?")) {
     store.removeTx(id);
     closeAllModals();
     renderAll();
@@ -605,7 +557,6 @@ document.getElementById("form-add-transaction").addEventListener("submit", (e) =
   renderAll();
 });
 
-// Toast Annulla per 5s
 let lastAddedId = null;
 let undoTimer = null;
 function showUndoToast(msg, id) {
@@ -626,12 +577,10 @@ document.getElementById("btn-toast-undo").addEventListener("click", () => {
   }
 });
 
-// Form Recurring (Spese Fisse)
 function openRecurringModal(rec = null) {
   modalBackdrop.classList.remove("hidden");
   modalRecurring.classList.remove("hidden");
   const delBtn = document.getElementById("btn-delete-recurring");
-
   const catSelect = document.getElementById("rec-category");
   catSelect.innerHTML = store.data.categories.map(c => `<option value="${c.id}">${c.nome}</option>`).join("");
 
@@ -685,7 +634,7 @@ document.getElementById("form-recurring").addEventListener("submit", (e) => {
 
 document.getElementById("btn-delete-recurring").addEventListener("click", () => {
   const id = document.getElementById("rec-edit-id").value;
-  if (id && confirm("Eliminare questa spesa fissa?")) {
+  if (id && confirm("Eliminare questa spesa ricorrente?")) {
     store.data.recurring = store.data.recurring.filter(r => r.id !== id);
     store.save();
     closeAllModals();
@@ -693,14 +642,13 @@ document.getElementById("btn-delete-recurring").addEventListener("click", () => 
   }
 });
 
-// Form Goal (PAC)
 function openGoalModal(goal = null) {
   modalBackdrop.classList.remove("hidden");
   modalGoal.classList.remove("hidden");
   const delBtn = document.getElementById("btn-delete-goal");
 
   if (goal) {
-    document.getElementById("modal-goal-title").textContent = "Modifica Obiettivo PAC";
+    document.getElementById("modal-goal-title").textContent = "Modifica Piano";
     document.getElementById("goal-edit-id").value = goal.id;
     document.getElementById("goal-name").value = goal.name;
     document.getElementById("goal-target").value = goal.targetCents ? (goal.targetCents / 100) : "";
@@ -709,7 +657,7 @@ function openGoalModal(goal = null) {
     document.getElementById("goal-deadline").value = goal.deadline || "";
     delBtn.classList.remove("hidden");
   } else {
-    document.getElementById("modal-goal-title").textContent = "Nuovo Obiettivo PAC";
+    document.getElementById("modal-goal-title").textContent = "Nuovo Piano di Accumulo";
     document.getElementById("goal-edit-id").value = "";
     document.getElementById("goal-name").value = "";
     document.getElementById("goal-target").value = "";
@@ -727,15 +675,12 @@ document.getElementById("form-goal").addEventListener("submit", (e) => {
   const monthly = parseFloat(document.getElementById("goal-monthly").value);
   if (!name || isNaN(monthly) || monthly <= 0) return;
 
-  const target = parseFloat(document.getElementById("goal-target").value) || 0;
-  const current = parseFloat(document.getElementById("goal-current").value) || 0;
-
   const item = {
     id: editId || `goal_${Date.now()}`,
     name,
     monthlyCents: Math.round(monthly * 100),
-    targetCents: Math.round(target * 100),
-    currentCents: Math.round(current * 100),
+    targetCents: Math.round((parseFloat(document.getElementById("goal-target").value) || 0) * 100),
+    currentCents: Math.round((parseFloat(document.getElementById("goal-current").value) || 0) * 100),
     deadline: document.getElementById("goal-deadline").value || ""
   };
 
@@ -752,7 +697,7 @@ document.getElementById("form-goal").addEventListener("submit", (e) => {
 
 document.getElementById("btn-delete-goal").addEventListener("click", () => {
   const id = document.getElementById("goal-edit-id").value;
-  if (id && confirm("Eliminare questo piano di risparmio?")) {
+  if (id && confirm("Eliminare questo piano?")) {
     store.data.goals = store.data.goals.filter(g => g.id !== id);
     store.save();
     closeAllModals();
@@ -760,23 +705,21 @@ document.getElementById("btn-delete-goal").addEventListener("click", () => {
   }
 });
 
-// Sottotab Spese Fisse & PAC
-document.querySelectorAll(".sub-tab").forEach(tab => {
+// SUBTABS
+document.querySelectorAll(".pill-btn").forEach(tab => {
   tab.addEventListener("click", () => {
-    document.querySelectorAll(".sub-tab").forEach(t => t.classList.remove("active"));
-    document.querySelectorAll(".subtab-content").forEach(c => c.classList.remove("active"));
+    document.querySelectorAll(".pill-btn").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".subtab-pane").forEach(c => c.classList.remove("active"));
     tab.classList.add("active");
     document.getElementById(tab.dataset.subtab).classList.add("active");
   });
 });
 
-// Navigazione Mese Movimenti
 document.getElementById("btn-month-prev").addEventListener("click", () => { currentMonthOffset--; renderMovimentiView(); });
 document.getElementById("btn-month-next").addEventListener("click", () => { currentMonthOffset++; renderMovimentiView(); });
 document.getElementById("input-search-tx").addEventListener("input", renderMovimentiView);
 document.getElementById("select-category-filter").addEventListener("change", renderMovimentiView);
 
-// Salvataggio Impostazioni Parametri
 document.getElementById("btn-save-settings").addEventListener("click", async () => {
   const salDay = parseInt(document.getElementById("cfg-salary-day").value, 10);
   const inc = parseFloat(document.getElementById("cfg-monthly-income").value);
@@ -791,7 +734,7 @@ document.getElementById("btn-save-settings").addEventListener("click", async () 
   }
 
   store.save();
-  alert("Impostazioni salvate con successo.");
+  alert("Impostazioni aggiornate.");
   renderAll();
 });
 
@@ -799,8 +742,7 @@ document.getElementById("cfg-pin-enabled").addEventListener("change", (e) => {
   document.getElementById("pin-change-row").classList.toggle("hidden", !e.target.checked);
 });
 
-// Backup & Ripristino
-document.getElementById("btn-export-json").addEventListener("click", () => {
+function exportJsonBackup() {
   store.data.settings.lastBackupDate = new Date().toISOString();
   store.save();
   const blob = new Blob([JSON.stringify(store.data, null, 2)], { type: "application/json" });
@@ -811,13 +753,14 @@ document.getElementById("btn-export-json").addEventListener("click", () => {
   a.click();
   URL.revokeObjectURL(url);
   renderImpostazioniView();
-});
+}
+
+document.getElementById("btn-export-json").addEventListener("click", exportJsonBackup);
+document.getElementById("btn-quick-export").addEventListener("click", exportJsonBackup);
 
 document.getElementById("btn-export-csv").addEventListener("click", () => {
   const headers = "ID;Data;Tipo;Importo_Euro;Categoria;Nota\n";
-  const rows = store.data.transactions.map(t => {
-    return `${t.id};${t.date};${t.type};${(t.amountCents / 100).toFixed(2)};${t.categoryId};"${(t.note || '').replace(/"/g, '""')}"`;
-  }).join("\n");
+  const rows = store.data.transactions.map(t => `${t.id};${t.date};${t.type};${(t.amountCents / 100).toFixed(2)};${t.categoryId};"${(t.note || '').replace(/"/g, '""')}"`).join("\n");
   const blob = new Blob(["\uFEFF" + headers + rows], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -835,47 +778,28 @@ document.getElementById("input-import-json").addEventListener("change", (e) => {
     try {
       const parsed = JSON.parse(evt.target.result);
       if (parsed.transactions && parsed.settings) {
-        if (confirm(`Trovati ${parsed.transactions.length} movimenti. Vuoi sovrascrivere i dati attuali?`)) {
+        if (confirm(`Ripristinare ${parsed.transactions.length} movimenti sovrascrivendo i dati attuali?`)) {
           store.data = parsed;
           store.save();
-          alert("Backup ripristinato con successo!");
           location.reload();
         }
-      } else {
-        alert("File di backup non valido.");
       }
     } catch (err) {
-      alert("Errore nella lettura del file JSON.");
+      alert("File non valido.");
     }
   };
   reader.readAsText(file);
 });
 
 document.getElementById("btn-reset-data").addEventListener("click", () => {
-  if (confirm("ATTENZIONE: Questa azione cancellerà tutti i movimenti e le impostazioni. Continuare?")) {
-    if (confirm("Sei assolutamente sicuro? Non potrai recuperare i dati senza un backup JSON.")) {
+  if (confirm("Azzerare completamente tutti i dati dell'applicazione?")) {
+    if (confirm("Conferma definitiva: l'azione è irreversibile.")) {
       localStorage.removeItem(STORAGE_KEY);
       location.reload();
     }
   }
 });
 
-// Controllo Promemoria Backup 30 Giorni
-function checkBackupReminder() {
-  if (!store.data.settings.lastBackupDate) return;
-  const lastB = new Date(store.data.settings.lastBackupDate).getTime();
-  const diffDays = (Date.now() - lastB) / (1000 * 60 * 60 * 24);
-  if (diffDays > 30) {
-    const banner = document.getElementById("backup-reminder");
-    banner.classList.remove("hidden");
-    document.getElementById("btn-dismiss-backup-reminder").addEventListener("click", () => {
-      document.getElementById("btn-export-json").click();
-      banner.classList.add("hidden");
-    });
-  }
-}
-
-// PIN LOCK KEYPAD LOGIC
 let enteredPin = "";
 async function handlePinDigit(digit) {
   if (enteredPin.length < 4) {
@@ -888,21 +812,20 @@ async function handlePinDigit(digit) {
         enteredPin = "";
         updatePinDots();
       } else {
-        navigator.vibrate?.([100, 50, 100]);
         enteredPin = "";
         updatePinDots();
-        alert("PIN non corretto.");
+        alert("Codice PIN non corretto.");
       }
     }
   }
 }
 
 function updatePinDots() {
-  const dots = document.querySelectorAll(".pin-dots .dot");
+  const dots = document.querySelectorAll(".pin-indicator .dot");
   dots.forEach((d, i) => d.classList.toggle("filled", i < enteredPin.length));
 }
 
-document.querySelectorAll(".pin-keypad .pin-btn[data-key]").forEach(b => {
+document.querySelectorAll(".pin-pad .pad-num[data-key]").forEach(b => {
   b.addEventListener("click", () => handlePinDigit(b.dataset.key));
 });
 document.getElementById("btn-pin-del").addEventListener("click", () => {
@@ -910,14 +833,13 @@ document.getElementById("btn-pin-del").addEventListener("click", () => {
   updatePinDots();
 });
 
-// Tab Bar Switching
-document.querySelectorAll(".tab-item").forEach(tab => {
+document.querySelectorAll(".dock-item").forEach(tab => {
   tab.addEventListener("click", () => {
-    document.querySelectorAll(".tab-item").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".dock-item").forEach(t => t.classList.remove("active"));
     tab.classList.add("active");
 
     const target = tab.dataset.tab;
-    document.querySelectorAll(".view-section").forEach(sec => sec.classList.add("hidden"));
+    document.querySelectorAll(".view-pane").forEach(sec => sec.classList.add("hidden"));
     const secToShow = document.getElementById(`view-${target}`);
     if (secToShow) secToShow.classList.remove("hidden");
 
@@ -925,7 +847,7 @@ document.querySelectorAll(".tab-item").forEach(tab => {
       target === "oggi" ? "Oggi" :
       target === "movimenti" ? "Movimenti" :
       target === "fisse" ? "Fisse & PAC" :
-      target === "statistiche" ? "Statistiche" : "Menu";
+      target === "statistiche" ? "Statistiche" : "Impostazioni";
 
     if (target === "movimenti") renderMovimentiView();
     if (target === "fisse") renderFisseView();
@@ -934,7 +856,6 @@ document.querySelectorAll(".tab-item").forEach(tab => {
   });
 });
 
-// Chips Categorie Form Movimento
 function initCategoryChips() {
   const container = document.getElementById("category-chips-list");
   const filterSelect = document.getElementById("select-category-filter");
@@ -942,12 +863,12 @@ function initCategoryChips() {
 
   store.data.categories.forEach((cat, index) => {
     const label = document.createElement("label");
-    label.className = "cat-chip";
+    label.className = "chip-node";
     label.innerHTML = `
       <input type="radio" name="tx-category" value="${escapeHtml(cat.id)}" ${index === 0 ? "checked" : ""}>
-      <div class="cat-chip-box">
-        <div class="cat-chip-svg-wrap">${ICONS[cat.key] || ICONS.varie}</div>
-        <span class="cat-chip-name">${escapeHtml(cat.nome)}</span>
+      <div class="chip-shell">
+        ${ICONS[cat.key] || ICONS.varie}
+        <span class="chip-tag">${escapeHtml(cat.nome)}</span>
       </div>
     `;
     container.appendChild(label);
@@ -959,43 +880,18 @@ function initCategoryChips() {
   });
 }
 
-// Inizializzazione All'Avvio
 document.addEventListener("DOMContentLoaded", () => {
   initCategoryChips();
   renderAll();
-  checkBackupReminder();
-
   if (store.data.settings.pinHash) {
     document.getElementById("pin-screen").classList.remove("hidden");
   }
 });
 
-// Service Worker & Standalone Safari Check
 if (navigator.storage && navigator.storage.persist) {
   navigator.storage.persist().catch(() => {});
 }
 
-const isStandalone = window.navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches;
-if (!isStandalone) {
-  const warn = document.getElementById("browser-warning");
-  if (warn) {
-    warn.classList.remove("hidden");
-    document.getElementById("btn-dismiss-browser-warning").addEventListener("click", () => warn.classList.add("hidden"));
-  }
-}
-
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").then(reg => {
-      reg.addEventListener("updatefound", () => {
-        const newWorker = reg.installing;
-        newWorker.addEventListener("statechange", () => {
-          if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
-            document.getElementById("sw-update-banner")?.classList.remove("hidden");
-          }
-        });
-      });
-    }).catch(() => {});
-  });
-  document.getElementById("btn-sw-refresh")?.addEventListener("click", () => window.location.reload());
+  navigator.serviceWorker.register("sw.js").catch(() => {});
 }
