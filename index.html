@@ -1891,7 +1891,7 @@
 
     document.getElementById("btn-export-json").addEventListener("click", exportJsonBackup);
 
-    document.getElementById("btn-export-csv").addEventListener("click", () => {
+    const btnCsv = document.getElementById("btn-export-csv"); if (btnCsv) btnCsv.addEventListener("click", () => {
       const headers = "ID;Data;Tipo;Importo_Euro;Categoria;Nota\n";
       const rows = store.data.transactions.map(t => `${t.id};${t.date};${t.type};${(t.amountCents / 100).toFixed(2)};${t.categoryId};"${(t.note || '').replace(/"/g, '""')}"`).join("\n");
       const blob = new Blob(["\uFEFF" + headers + rows], { type: "text/csv;charset=utf-8;" });
@@ -1903,7 +1903,7 @@
       URL.revokeObjectURL(url);
     });
 
-    document.getElementById("input-import-json").addEventListener("change", (e) => {
+    const inputJson = document.getElementById("input-import-json"); if (inputJson) inputJson.addEventListener("change", (e) => {
       const file = e.target.files[0];
       if (!file) return;
       const reader = new FileReader();
