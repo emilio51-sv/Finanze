@@ -1,60 +1,62 @@
 
 /**
- * FINANZE APP - FASE 1
- * Logica finanziaria: ciclo dal giorno 28 del mese corrente al 27 del successivo.
- * Formattazione valuta: Intl.NumberFormat it-IT.
- * Data locale: YYYY-MM-DD senza toISOString per evitare errori di fuso su iOS.
+ * FINANZE APP - REVISIONE FASE 1
+ * Icone SF-style SVG pure inline.
+ * Gestione ciclo del 28 corretta senza duplicazione di testo.
  */
 
-// --- 1. STATO INIZIALE & COSTANTI ---
-const STORAGE_KEY = "finanze_pwa_data_v1";
+const STORAGE_KEY = "finanze_pwa_data_v2";
+
+// Icone vettoriali pure (stile Apple)
+const ICONS = {
+  carburante: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v17"></path><path d="M13 10h4a2 2 0 0 1 2 2v8a2 2 0 0 0 2 2v0a2 2 0 0 0 2-2V9l-3-3"></path><circle cx="8" cy="9" r="2"></circle></svg>`,
+  auto: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9C2.1 11 2 11.5 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><circle cx="17" cy="17" r="2"></circle></svg>`,
+  svago: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>`,
+  shopping: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`,
+  abbonamenti: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>`,
+  salute: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>`,
+  lavoro: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>`,
+  varie: `<svg class="tx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>`
+};
 
 const DEFAULT_CATEGORIES = [
-  { id: "carburante", nome: "Carburante", icona: "⛽" },
-  { id: "auto", nome: "Auto & Manut.", icona: "🚗" },
-  { id: "svago", nome: "Uscite & Svago", icona: "🍕" },
-  { id: "shopping", nome: "Shopping", icona: "🛍" },
-  { id: "abbonamenti", nome: "Abbonamenti", icona: "📱" },
-  { id: "salute", nome: "Salute & Sport", icona: "💊" },
-  { id: "lavoro", nome: "Lavoro", icona: "💼" },
-  { id: "varie", nome: "Varie", icona: "📦" }
+  { id: "carburante", nome: "Carburante", key: "carburante" },
+  { id: "auto", nome: "Auto", key: "auto" },
+  { id: "svago", nome: "Uscite", key: "svago" },
+  { id: "shopping", nome: "Acquisti", key: "shopping" },
+  { id: "abbonamenti", nome: "Servizi", key: "abbonamenti" },
+  { id: "salute", nome: "Salute", key: "salute" },
+  { id: "lavoro", nome: "Lavoro", key: "lavoro" },
+  { id: "varie", nome: "Varie", key: "varie" }
 ];
 
 const INITIAL_DATA = {
-  version: 1,
+  version: 2,
   settings: {
-    salaryDay: 28, // Giorno di accredito stipendio
-    monthlyIncomeCents: 180000, // Esempio base: 1.800,00 € (in centesimi)
-    pacTargetCents: 20000,      // Esempio base PAC: 200,00 €
-    fixedExpensesCents: 25000   // Esempio rata/quota fissa auto: 250,00 €
+    salaryDay: 28,
+    monthlyIncomeCents: 180000, // 1.800 €
+    pacTargetCents: 20000,      // 200 €
+    fixedExpensesCents: 25000   // 250 € (Rata auto)
   },
   categories: DEFAULT_CATEGORIES,
   transactions: []
 };
 
-// --- 2. FUNZIONI DI UTILITÀ (PURE) ---
+// --- FUNZIONI DI UTILITÀ ---
 function escapeHtml(str) {
   if (typeof str !== "string") return "";
-  return str.replace(/[&<>'"]/g, tag => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    "'": "&#39;",
-    '"': "&quot;"
-  }[tag] || tag));
+  return str.replace(/[&<>'"]/g, t => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"
+  }[t] || t));
 }
 
 function formatValuta(centesimi) {
-  const euro = (centesimi || 0) / 100;
   return new Intl.NumberFormat("it-IT", {
     style: "currency",
     currency: "EUR"
-  }).format(euro);
+  }).format((centesimi || 0) / 100);
 }
 
-/**
- * Restituisce "YYYY-MM-DD" in ORA LOCALE evitando disallineamenti UTC.
- */
 function toLocalDateString(date) {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, "0");
@@ -68,9 +70,9 @@ function parseLocalDateString(dateStr) {
 }
 
 /**
- * Calcola l'intervallo del ciclo finanziario per una data specifica.
- * Se lo stipendio è il giorno 28:
- * - Dal 28 Gennaio al 27 Febbraio = Ciclo Gennaio (inizio 28 Gennaio).
+ * Calcolo intervallo ciclo del 28:
+ * Se oggi >= 28, il ciclo va dal 28 del mese corrente al 27 del mese successivo.
+ * Se oggi < 28, il ciclo va dal 28 del mese precedente al 27 del mese corrente.
  */
 function getCycleRange(referenceDate, salaryDay = 28) {
   const currentDay = referenceDate.getDate();
@@ -106,9 +108,6 @@ function getCycleRange(referenceDate, salaryDay = 28) {
   };
 }
 
-/**
- * Calcola quanti giorni totali ha il ciclo e quanti ne rimangono incluso oggi.
- */
 function getDaysMetrics(cycle, today) {
   const oneDay = 1000 * 60 * 60 * 24;
   const startMs = cycle.start.getTime();
@@ -122,37 +121,30 @@ function getDaysMetrics(cycle, today) {
   return { totalDays, daysPassed, daysRemaining };
 }
 
-// --- 3. STORE E GESTIONE DATI ---
+// --- STORE ---
 class Store {
   constructor() {
     this.data = this.load();
   }
-
   load() {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
+      const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("finanze_pwa_data_v1");
       if (!raw) return INITIAL_DATA;
       const parsed = JSON.parse(raw);
       return { ...INITIAL_DATA, ...parsed, settings: { ...INITIAL_DATA.settings, ...(parsed.settings || {}) } };
     } catch (e) {
-      console.error("Errore lettura dati da localStorage", e);
       return INITIAL_DATA;
     }
   }
-
   save() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
-    } catch (e) {
-      console.error("Impossibile salvare i dati:", e);
-    }
+    } catch (e) {}
   }
-
   addTransaction(tx) {
     this.data.transactions.unshift(tx);
     this.save();
   }
-
   removeTransaction(id) {
     const idx = this.data.transactions.findIndex(t => t.id === id);
     if (idx !== -1) {
@@ -166,16 +158,13 @@ class Store {
 
 const store = new Store();
 
-// --- 4. CALCOLI FINANZIARI PURI ---
+// --- CALCOLO FINANZIARIO ---
 function computeFinancials(storeData, now = new Date()) {
   const salaryDay = storeData.settings.salaryDay || 28;
   const cycle = getCycleRange(now, salaryDay);
   const { totalDays, daysPassed, daysRemaining } = getDaysMetrics(cycle, now);
 
-  // Filtra transazioni del ciclo corrente
-  const cycleTx = storeData.transactions.filter(t => {
-    return t.date >= cycle.startStr && t.date <= cycle.endStr;
-  });
+  const cycleTx = storeData.transactions.filter(t => t.date >= cycle.startStr && t.date <= cycle.endStr);
 
   const extraIncomeCents = cycleTx
     .filter(t => t.type === "income")
@@ -189,22 +178,16 @@ function computeFinancials(storeData, now = new Date()) {
   const pacCents = storeData.settings.pacTargetCents || 0;
   const fixedCents = storeData.settings.fixedExpensesCents || 0;
 
-  // Formula Fondamentale:
-  // Disponibile = (Entrata base + Extra) - PAC - Fisse - Variabili fatte
+  // Formula Disponibile
   const totalInflow = baseIncome + extraIncomeCents;
   const availableCents = totalInflow - pacCents - fixedCents - variableExpensesCents;
-
-  // Budget giornaliero consigliato per i giorni che mancano
   const dailyBudgetCents = availableCents > 0 ? Math.floor(availableCents / daysRemaining) : 0;
-
-  // Budget variabile totale pianificato
   const budgetVariabilePianificato = Math.max(0, totalInflow - pacCents - fixedCents);
 
-  // Ritmo spesa: calcola la spesa media attesa fino ad oggi
+  // Calcolo Ritmo
   const spesaAttesaAdOggi = budgetVariabilePianificato > 0
     ? Math.round((budgetVariabilePianificato / totalDays) * daysPassed)
     : 0;
-
   const differenzaRitmoCents = spesaAttesaAdOggi - variableExpensesCents;
 
   return {
@@ -225,74 +208,68 @@ function computeFinancials(storeData, now = new Date()) {
   };
 }
 
-// --- 5. CONTROLLER DI RENDERING ---
+// --- RENDERING ---
 function renderHome() {
   const fin = computeFinancials(store.data, new Date());
 
-  // Intestazione ciclo
-  const options = { day: "numeric", month: "short" };
-  const dStart = fin.cycle.start.toLocaleDateString("it-IT", options);
-  const dEnd = fin.cycle.end.toLocaleDateString("it-IT", options);
-  document.getElementById("label-periodo").textContent = `Ciclo 28 ${dStart} – ${dEnd}`;
+  // Stringa Ciclo corretta (senza ripetizioni)
+  const opt = { day: "numeric", month: "short" };
+  const dStart = fin.cycle.start.toLocaleDateString("it-IT", opt);
+  const dEnd = fin.cycle.end.toLocaleDateString("it-IT", opt);
+  document.getElementById("label-periodo").textContent = `Ciclo: ${dStart} – ${dEnd}`;
 
-  // Cifra Principale (Disponibile)
+  // Cifra Principale Disponibile
   const dispEl = document.getElementById("val-disponibile");
   dispEl.textContent = formatValuta(fin.availableCents);
-  dispEl.className = "hero-amount " + (fin.availableCents >= 0 ? "positive" : "negative");
+  dispEl.style.color = fin.availableCents >= 0 ? "var(--ios-green)" : "var(--ios-red)";
 
-  // Testo di stato
+  // Sottotesto
   const heroSub = document.getElementById("hero-sub-text");
   if (fin.availableCents < 0) {
-    heroSub.textContent = `Sei andato oltre il budget di ${formatValuta(Math.abs(fin.availableCents))}`;
+    heroSub.textContent = `Superato di ${formatValuta(Math.abs(fin.availableCents))}`;
     heroSub.className = "hero-sub negative";
   } else {
     heroSub.textContent = `Allocati per le spese variabili di questo ciclo`;
     heroSub.className = "hero-sub";
   }
 
-  // Barra di avanzamento
+  // Avanzamento barra
   const percSpeso = fin.budgetVariabilePianificato > 0
     ? Math.min(100, Math.round((fin.variableExpensesCents / fin.budgetVariabilePianificato) * 100))
     : 100;
   const progressFill = document.getElementById("progress-fill");
   progressFill.style.width = `${percSpeso}%`;
-
-  if (percSpeso >= 100) {
-    progressFill.style.backgroundColor = "var(--color-negative)";
-  } else if (percSpeso >= 80) {
-    progressFill.style.backgroundColor = "var(--color-warning)";
-  } else {
-    progressFill.style.backgroundColor = "var(--color-positive)";
-  }
+  progressFill.style.backgroundColor = percSpeso >= 100 ? "var(--ios-red)" : (percSpeso >= 80 ? "var(--ios-orange)" : "var(--ios-green)");
 
   document.getElementById("progress-aria").setAttribute("aria-valuenow", percSpeso);
   document.getElementById("label-speso-mese").textContent = `Speso: ${formatValuta(fin.variableExpensesCents)}`;
   document.getElementById("label-perc-speso").textContent = `${percSpeso}%`;
 
-  // Budget oggi e ritmo
+  // Budget oggi
   document.getElementById("val-budget-oggi").textContent = formatValuta(fin.dailyBudgetCents);
   document.getElementById("val-giorni-rimasti").textContent = `${fin.daysRemaining} giorni rimasti`;
 
-  const ritmoValEl = document.getElementById("val-ritmo-spesa");
+  // Pill Ritmo
+  const ritmoBadge = document.getElementById("badge-ritmo-status");
   const ritmoSubEl = document.getElementById("val-ritmo-dettaglio");
 
   if (fin.differenzaRitmoCents >= 0) {
-    ritmoValEl.textContent = `+${formatValuta(fin.differenzaRitmoCents)}`;
-    ritmoValEl.className = "metric-value font-sm positive";
+    ritmoBadge.textContent = `+${formatValuta(fin.differenzaRitmoCents)}`;
+    ritmoBadge.className = "status-pill positive";
     ritmoSubEl.textContent = "in anticipo su target";
   } else {
-    ritmoValEl.textContent = `-${formatValuta(Math.abs(fin.differenzaRitmoCents))}`;
-    ritmoValEl.className = "metric-value font-sm negative";
+    ritmoBadge.textContent = `-${formatValuta(Math.abs(fin.differenzaRitmoCents))}`;
+    ritmoBadge.className = "status-pill negative";
     ritmoSubEl.textContent = "sopra la media attesa";
   }
 
-  // Riepilogo Card
+  // Lista riepilogo
   document.getElementById("val-sum-entrate").textContent = formatValuta(fin.baseIncome + fin.extraIncomeCents);
   document.getElementById("val-sum-pac").textContent = formatValuta(fin.pacCents);
   document.getElementById("val-sum-fisse").textContent = formatValuta(fin.fixedCents);
   document.getElementById("val-sum-variabili").textContent = formatValuta(fin.variableExpensesCents);
 
-  // Ultimi movimenti (max 5)
+  // Lista movimenti
   renderRecentTransactions(store.data.transactions.slice(0, 5));
 }
 
@@ -314,22 +291,21 @@ function renderRecentTransactions(recentList) {
     const li = document.createElement("li");
     li.className = "tx-item";
 
-    const cat = store.data.categories.find(c => c.id === tx.categoryId) || { nome: "Spesa", icona: "💸" };
+    const cat = store.data.categories.find(c => c.id === tx.categoryId) || { nome: "Spesa", key: "varie" };
     const isIncome = tx.type === "income";
-
     const sign = isIncome ? "+" : "-";
-    const amountClass = isIncome ? "positive" : "";
+    const amountColor = isIncome ? "var(--ios-green)" : "inherit";
 
     const dateObj = parseLocalDateString(tx.date);
     const dateFormatted = dateObj.toLocaleDateString("it-IT", { day: "numeric", month: "short" });
 
     li.innerHTML = `
-      <div class="tx-icon-wrap" aria-hidden="true">${escapeHtml(cat.icona)}</div>
+      <div class="tx-icon-box" aria-hidden="true">${ICONS[cat.key] || ICONS.varie}</div>
       <div class="tx-details">
         <span class="tx-title">${escapeHtml(tx.note || cat.nome)}</span>
-        <span class="tx-meta">${escapeHtml(cat.nome)} • ${dateFormatted}</span>
+        <span class="tx-sub">${escapeHtml(cat.nome)} • ${dateFormatted}</span>
       </div>
-      <span class="tx-amount ${amountClass}">${sign}${formatValuta(tx.amountCents)}</span>
+      <span class="tx-amount" style="color: ${amountColor}">${sign}${formatValuta(tx.amountCents)}</span>
     `;
 
     container.appendChild(li);
@@ -342,19 +318,19 @@ function renderCategoryChips() {
 
   store.data.categories.forEach((cat, index) => {
     const label = document.createElement("label");
-    label.className = "chip-label";
+    label.className = "cat-chip";
     label.innerHTML = `
       <input type="radio" name="tx-category" value="${escapeHtml(cat.id)}" ${index === 0 ? "checked" : ""}>
-      <div class="chip-content">
-        <span class="chip-icon">${escapeHtml(cat.icona)}</span>
-        <span class="chip-name">${escapeHtml(cat.nome)}</span>
+      <div class="cat-chip-box">
+        <div class="cat-chip-svg-wrap">${ICONS[cat.key] || ICONS.varie}</div>
+        <span class="cat-chip-name">${escapeHtml(cat.nome)}</span>
       </div>
     `;
     container.appendChild(label);
   });
 }
 
-// --- 6. GESTIONE MODALE & INPUT RAPIDO ---
+// --- MODALE AGGIUNTA ---
 const modalBackdrop = document.getElementById("modal-backdrop");
 const modalAdd = document.getElementById("modal-add");
 const btnOpenModal = document.getElementById("btn-open-modal");
@@ -366,25 +342,18 @@ const inputDate = document.getElementById("tx-date");
 function openModal() {
   modalBackdrop.classList.remove("hidden");
   modalAdd.classList.remove("hidden");
-  modalBackdrop.setAttribute("aria-hidden", "false");
-
-  // Data predefinita = Oggi
   inputDate.value = toLocalDateString(new Date());
   inputAmount.value = "";
   document.getElementById("tx-note").value = "";
-
-  // Focus con leggero ritardo per animazione iOS
-  setTimeout(() => inputAmount.focus(), 150);
+  setTimeout(() => inputAmount.focus(), 120);
 }
 
 function closeModal() {
   modalBackdrop.classList.add("hidden");
   modalAdd.classList.add("hidden");
-  modalBackdrop.setAttribute("aria-hidden", "true");
   inputAmount.blur();
 }
 
-// Parser dell'importo digitato (gestisce virgola e punto)
 function parseAmountToCents(val) {
   if (!val) return 0;
   const clean = val.replace(/\s/g, "").replace(",", ".");
@@ -393,7 +362,7 @@ function parseAmountToCents(val) {
   return Math.round(num * 100);
 }
 
-// --- 7. ANNULLA TEMPORIZZATO (5 SECONDI) ---
+// --- ANNULLA PER 5 SECONDI ---
 let lastAddedTxId = null;
 let undoTimeout = null;
 const toastUndo = document.getElementById("toast-undo");
@@ -420,20 +389,16 @@ btnToastUndo.addEventListener("click", () => {
   }
 });
 
-// --- 8. EVENTI ---
+// --- EVENTI ---
 btnOpenModal.addEventListener("click", openModal);
 btnCloseModal.addEventListener("click", closeModal);
 modalBackdrop.addEventListener("click", closeModal);
 
-// Navigazione Tab (Placeholder per Fasi 2-5)
+// Navigazione Tab
 document.querySelectorAll(".tab-item").forEach(tab => {
   tab.addEventListener("click", () => {
-    document.querySelectorAll(".tab-item").forEach(t => {
-      t.classList.remove("active");
-      t.setAttribute("aria-selected", "false");
-    });
+    document.querySelectorAll(".tab-item").forEach(t => t.classList.remove("active"));
     tab.classList.add("active");
-    tab.setAttribute("aria-selected", "true");
 
     const target = tab.dataset.tab;
     document.querySelectorAll(".view-section").forEach(sec => sec.classList.add("hidden"));
@@ -443,15 +408,14 @@ document.querySelectorAll(".tab-item").forEach(tab => {
     document.getElementById("screen-title").textContent =
       target === "oggi" ? "Oggi" :
       target === "movimenti" ? "Movimenti" :
-      target === "fisse" ? "Spese Fisse" :
-      target === "statistiche" ? "Statistiche" : "Impostazioni";
+      target === "fisse" ? "Fisse & PAC" :
+      target === "statistiche" ? "Statistiche" : "Menu";
   });
 });
 
-// Submit Transazione
+// Submit Form
 formAdd.addEventListener("submit", (e) => {
   e.preventDefault();
-
   const amountCents = parseAmountToCents(inputAmount.value);
   if (amountCents <= 0) {
     inputAmount.focus();
@@ -476,34 +440,29 @@ formAdd.addEventListener("submit", (e) => {
   store.addTransaction(newTx);
   closeModal();
   renderHome();
-
-  showUndoToast(`${type === "expense" ? "Spesa" : "Entrata"} di ${formatValuta(amountCents)} salvata`, newTx.id);
+  showUndoToast(`${type === "expense" ? "Spesa" : "Entrata"} registrata`, newTx.id);
 });
 
-// Avviso Schermata Home se aperto da Safari normale
+// Persistenza & Safari Warning
+if (navigator.storage && navigator.storage.persist) {
+  navigator.storage.persist().catch(() => {});
+}
+
 const isStandalone = window.navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches;
 if (!isStandalone) {
   const warn = document.getElementById("browser-warning");
   if (warn) {
     warn.classList.remove("hidden");
-    document.getElementById("btn-dismiss-browser-warning").addEventListener("click", () => {
-      warn.classList.add("hidden");
-    });
+    document.getElementById("btn-dismiss-browser-warning").addEventListener("click", () => warn.classList.add("hidden"));
   }
 }
 
-// Chiedi persistenza storage se supportato
-if (navigator.storage && navigator.storage.persist) {
-  navigator.storage.persist().catch(() => {});
-}
-
-// Inizializzazione all'avvio
 document.addEventListener("DOMContentLoaded", () => {
   renderCategoryChips();
   renderHome();
 });
 
-// --- 9. REGISTRAZIONE SERVICE WORKER ---
+// Service Worker
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("sw.js").then(reg => {
@@ -511,18 +470,14 @@ if ("serviceWorker" in navigator) {
         const newWorker = reg.installing;
         newWorker.addEventListener("statechange", () => {
           if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
-            const banner = document.getElementById("sw-update-banner");
-            if (banner) banner.classList.remove("hidden");
+            const b = document.getElementById("sw-update-banner");
+            if (b) b.classList.remove("hidden");
           }
         });
       });
-    }).catch(err => console.log("SW non registrato:", err));
+    }).catch(() => {});
   });
 
-  const btnRefresh = document.getElementById("btn-sw-refresh");
-  if (btnRefresh) {
-    btnRefresh.addEventListener("click", () => {
-      window.location.reload();
-    });
-  }
+  const btnR = document.getElementById("btn-sw-refresh");
+  if (btnR) btnR.addEventListener("click", () => window.location.reload());
 }

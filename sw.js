@@ -1,26 +1,19 @@
 
-const CACHE_NAME = "finanze-v1";
+const CACHE_NAME = "finanze-v2";
 const ASSETS_TO_CACHE = [
   "./",
   "index.html",
   "styles.css",
   "app.js",
-  "manifest.json",
-  "icon-180.png",
-  "icon-192.png",
-  "icon-512.png"
+  "manifest.json"
 ];
 
-// Installazione: memorizza nella cache tutti gli asset statici
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
-    }).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE)).then(() => self.skipWaiting())
   );
 });
 
-// Attivazione: elimina le vecchie versioni della cache
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -35,7 +28,6 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Strategia Stale-While-Revalidate: risponde subito dalla cache e aggiorna in background
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
@@ -43,10 +35,8 @@ self.addEventListener("fetch", (event) => {
     caches.match(event.request).then((cachedResponse) => {
       const fetchPromise = fetch(event.request).then((networkResponse) => {
         if (networkResponse && networkResponse.status === 200) {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
+          const clone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
         }
         return networkResponse;
       }).catch(() => cachedResponse);
