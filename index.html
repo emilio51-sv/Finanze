@@ -20,7 +20,7 @@
        COPILOT MONEY AESTHETICS (APPLE DESIGN AWARD THEME)
        ========================================================= */
     :root {
-      --font-copilot: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "SF Pro Display", "Helvetica Neue", sans-serif;
+      --font-copilot: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
       --copilot-blue: #0066FF;
       --copilot-sky: #4CA0FF;
       --bg-canvas: #F4F6FA;
@@ -82,41 +82,41 @@
     }
 
     .copilot-header-fluid {
-      padding: calc(16px + env(safe-area-inset-top)) 22px 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+      padding: calc(18px + env(safe-area-inset-top)) 22px 12px;
     }
-    .header-sub-row {
+    .header-main-flex {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-    }
-    .cycle-pill-copilot {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      background: rgba(0, 102, 255, 0.08);
-      color: var(--copilot-blue);
-      padding: 4px 11px;
-      border-radius: 999px;
-    }
-    .icon-ghost-btn {
-      background: none;
-      border: none;
-      color: var(--ink-sub);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      padding: 4px;
+      align-items: flex-start;
     }
     .native-large-title {
-      font-size: 34px;
-      font-weight: 800;
-      letter-spacing: -0.04em;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
       color: var(--ink-headline);
-      margin-top: 4px;
+      line-height: 1.1;
+    }
+    .cycle-sub-caption {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink-sub);
+      margin-top: 3px;
+      display: block;
+      letter-spacing: -0.01em;
+    }
+    .header-icon-disc {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.8);
+      border: 0.5px solid rgba(0, 0, 0, 0.06);
+      color: var(--ink-sub);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
     }
 
     .scroll-body {
@@ -209,7 +209,7 @@
     }
     .balance-int {
       font-size: 48px;
-      font-weight: 800;
+      font-weight: 600;
       letter-spacing: -0.04em;
       color: var(--ink-headline);
     }
@@ -272,7 +272,7 @@
     }
     .duo-val {
       font-size: 19px;
-      font-weight: 800;
+      font-weight: 600;
       letter-spacing: -0.02em;
       font-variant-numeric: tabular-nums;
       color: var(--ink-headline);
@@ -294,7 +294,7 @@
     }
     .section-puffy-title {
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 600;
       letter-spacing: -0.02em;
       color: var(--ink-headline);
       text-transform: uppercase;
@@ -347,7 +347,7 @@
     }
     .ring-amount {
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 600;
       color: var(--ink-headline);
       font-variant-numeric: tabular-nums;
     }
@@ -375,7 +375,7 @@
       color: var(--ink-headline);
     }
     .puffy-row-val {
-      font-weight: 700;
+      font-weight: 600;
       font-variant-numeric: tabular-nums;
     }
 
@@ -419,7 +419,7 @@
     }
     .tx-title-puffy {
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 600;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -554,7 +554,7 @@
     }
     .sheet-title {
       font-size: 17px;
-      font-weight: 800;
+      font-weight: 600;
       letter-spacing: -0.02em;
       color: var(--ink-headline);
     }
@@ -612,7 +612,7 @@
       background: transparent;
       border: none;
       font-size: 42px;
-      font-weight: 800;
+      font-weight: 600;
       color: var(--ink-headline);
       outline: none;
       width: 170px;
@@ -758,7 +758,7 @@
     }
     .stepper-label {
       font-size: 15px;
-      font-weight: 800;
+      font-weight: 600;
       text-transform: capitalize;
     }
 
@@ -893,15 +893,17 @@
 </head>
 <body>
   <div class="app-frame">
-    <!-- HEADER NATIVO FLUIDO (NO BLOCCO BLU) -->
+    <!-- HEADER EDITORIALE SARTORIALE -->
     <header class="copilot-header-fluid">
-      <div class="header-sub-row">
-        <span class="cycle-pill-copilot" id="label-periodo">CICLO 28</span>
-        <button type="button" class="icon-ghost-btn" id="btn-quick-export" title="Backup">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+      <div class="header-main-flex">
+        <div>
+          <h1 class="native-large-title" id="screen-title">Finanze</h1>
+          <span class="cycle-sub-caption" id="label-periodo">28 ott – 27 nov</span>
+        </div>
+        <button type="button" class="header-icon-disc" id="btn-quick-export" title="Backup">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
         </button>
       </div>
-      <h1 class="native-large-title" id="screen-title">Finanze</h1>
     </header>
 
     <main class="scroll-body">
