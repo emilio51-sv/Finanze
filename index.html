@@ -6,7 +6,6 @@
   <meta name="theme-color" content="#CDE2FF">
   <title>Finanze</title>
 
-  <!-- Meta tag iOS PWA -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Finanze">
@@ -16,13 +15,9 @@
   <link rel="manifest" href="manifest.json">
 
   <style>
-    /* =========================================================
-       COPILOT MONEY AESTHETICS (APPLE DESIGN AWARD THEME)
-       ========================================================= */
     :root {
       --font-copilot: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
       --copilot-blue: #0066FF;
-      --copilot-sky: #4CA0FF;
       --bg-canvas: #F4F6FA;
       --card-white: #FFFFFF;
       --ink-headline: #111827;
@@ -64,25 +59,12 @@
       display: flex;
       flex-direction: column;
       position: relative;
-      background: var(--bg-canvas);
-      padding-bottom: calc(var(--dock-h) + 26px + env(safe-area-inset-bottom));
-    }
-
-    /* COPILOT ATMOSPHERIC HEADER */
-    .app-frame {
-      width: 100%;
-      max-width: 430px;
-      min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      /* Atmosfera fluida Apple / Copilot: sfumatura radiale morbida in alto */
       background: radial-gradient(ellipse 120% 40% at 50% -10%, #CDE2FF 0%, #E8F1FC 45%, #F4F6FA 85%);
       padding-bottom: calc(var(--dock-h) + 26px + env(safe-area-inset-bottom));
     }
 
     .copilot-header-fluid {
-      padding: calc(18px + env(safe-area-inset-top)) 22px 12px;
+      padding: calc(18px + env(safe-area-inset-top)) 22px 10px;
     }
     .header-main-flex {
       display: flex;
@@ -104,62 +86,12 @@
       display: block;
       letter-spacing: -0.01em;
     }
-    .header-icon-disc {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.8);
-      border: 0.5px solid rgba(0, 0, 0, 0.06);
-      color: var(--ink-sub);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-    }
 
     .scroll-body {
       padding: 8px 18px 20px;
       display: flex;
       flex-direction: column;
       gap: 16px;
-      margin-top: 0;
-    }
-
-    /* SEGMENTED PILL COPILOT */
-    .copilot-subpill-nav {
-      display: flex;
-      background: rgba(255, 255, 255, 0.18);
-      border-radius: 999px;
-      padding: 3px;
-      gap: 2px;
-    }
-    .subpill-item {
-      flex: 1;
-      background: none;
-      border: none;
-      color: rgba(255, 255, 255, 0.85);
-      font-size: 12px;
-      font-weight: 700;
-      padding: 6px;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: all 160ms;
-    }
-    .subpill-item.active {
-      background: #FFFFFF;
-      color: var(--copilot-blue);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    }
-
-    /* SCROLL CONTENUTI */
-    .scroll-body {
-      padding: 14px 18px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      margin-top: -16px;
     }
     .view-card {
       display: flex;
@@ -167,7 +99,6 @@
       gap: 16px;
     }
 
-    /* PUFFY PILLOW CARDS BIANCHE */
     .puffy-card {
       background: var(--card-white);
       border-radius: 26px;
@@ -178,7 +109,6 @@
       flex-direction: column;
     }
 
-    /* HERO BALANCE DIGITS */
     .balance-center-group {
       display: flex;
       flex-direction: column;
@@ -208,14 +138,14 @@
       margin-right: 4px;
     }
     .balance-int {
-      font-size: 48px;
-      font-weight: 600;
+      font-size: 46px;
+      font-weight: 700;
       letter-spacing: -0.04em;
       color: var(--ink-headline);
     }
     .balance-dec {
       font-size: 28px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--ink-faint);
     }
     .balance-subtext {
@@ -223,7 +153,6 @@
       color: var(--ink-sub);
     }
 
-    /* BARRA PROCESSO RAFFINATA */
     .copilot-track-wrap {
       width: 100%;
       margin: 16px 0 4px;
@@ -251,7 +180,6 @@
       font-variant-numeric: tabular-nums;
     }
 
-    /* DOPPIA METRICA COMPATTA */
     .metric-duo-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -272,7 +200,7 @@
     }
     .duo-val {
       font-size: 19px;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: -0.02em;
       font-variant-numeric: tabular-nums;
       color: var(--ink-headline);
@@ -282,9 +210,6 @@
       color: var(--ink-faint);
     }
 
-    /* =========================================================
-       ANELLI DI BUDGET ALLA COPILOT (BUDGET RINGS)
-       ========================================================= */
     .rings-section-head {
       display: flex;
       justify-content: space-between;
@@ -293,7 +218,7 @@
       margin-top: 4px;
     }
     .section-puffy-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       letter-spacing: -0.02em;
       color: var(--ink-headline);
@@ -347,17 +272,16 @@
     }
     .ring-amount {
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--ink-headline);
       font-variant-numeric: tabular-nums;
     }
     .ring-status-label {
       font-size: 10px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--ink-sub);
     }
 
-    /* RIEPILOGO COMPOSIZIONE CICLO */
     .ledger-row-puffy {
       display: flex;
       justify-content: space-between;
@@ -379,7 +303,6 @@
       font-variant-numeric: tabular-nums;
     }
 
-    /* LISTA MOVIMENTI NATIVA */
     .tx-puffy-row {
       background: var(--card-white);
       border-radius: 18px;
@@ -392,9 +315,7 @@
       cursor: pointer;
       transition: transform 120ms;
     }
-    .tx-puffy-row:active {
-      transform: scale(0.985);
-    }
+    .tx-puffy-row:active { transform: scale(0.985); }
     .tx-bubble-icon {
       width: 40px;
       height: 40px;
@@ -406,10 +327,7 @@
       color: var(--copilot-blue);
       flex-shrink: 0;
     }
-    .tx-bubble-icon svg {
-      width: 20px;
-      height: 20px;
-    }
+    .tx-bubble-icon svg { width: 20px; height: 20px; }
     .tx-meta-puffy {
       flex: 1;
       min-width: 0;
@@ -431,13 +349,11 @@
     }
     .tx-val-puffy {
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 600;
       font-variant-numeric: tabular-nums;
     }
 
-    /* =========================================================
-       DOCK BAR SOSPESA ALLA COPILOT (+ CENTRALE ELETTRICO)
-       ========================================================= */
+    /* COPILOT DOCK - 5 SLOT SIMMETRICI CON + AL CENTRO PERFETTO */
     .copilot-dock {
       position: fixed;
       bottom: 0;
@@ -472,15 +388,9 @@
       padding: 0;
       transition: color 140ms;
     }
-    .dock-slot svg {
-      width: 20px;
-      height: 20px;
-    }
-    .dock-slot.active {
-      color: var(--copilot-blue);
-    }
+    .dock-slot svg { width: 20px; height: 20px; }
+    .dock-slot.active { color: var(--copilot-blue); }
 
-    /* SLOT 3: PULSANTE + CENTRALE BLU ELETTRICO */
     .dock-plus-slot {
       display: flex;
       align-items: center;
@@ -491,8 +401,8 @@
       cursor: pointer;
     }
     .dock-plus-circle {
-      width: 46px;
-      height: 46px;
+      width: 44px;
+      height: 44px;
       border-radius: 999px;
       background: var(--copilot-blue);
       color: #FFFFFF;
@@ -502,13 +412,9 @@
       box-shadow: 0 6px 18px rgba(0, 102, 255, 0.38);
       transition: transform 140ms ease;
     }
-    .dock-plus-slot:active .dock-plus-circle {
-      transform: scale(0.92);
-    }
+    .dock-plus-slot:active .dock-plus-circle { transform: scale(0.92); }
 
-    /* =========================================================
-       BOTTOM SHEET COPILOT
-       ========================================================= */
+    /* BOTTOM SHEET */
     .sheet-scrim {
       position: fixed;
       inset: 0;
@@ -537,9 +443,7 @@
       transform: translateY(0);
       transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .bottom-sheet.hidden {
-      transform: translateY(105%);
-    }
+    .bottom-sheet.hidden { transform: translateY(105%); }
     .sheet-handle {
       width: 38px;
       height: 4px;
@@ -554,7 +458,7 @@
     }
     .sheet-title {
       font-size: 17px;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: -0.02em;
       color: var(--ink-headline);
     }
@@ -563,7 +467,7 @@
       border: none;
       color: var(--copilot-blue);
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 600;
       cursor: pointer;
     }
 
@@ -584,7 +488,7 @@
       display: block;
       padding: 7px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--ink-sub);
       border-radius: 9px;
     }
@@ -604,7 +508,7 @@
     }
     .display-curr {
       font-size: 26px;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--ink-sub);
       margin-right: 6px;
     }
@@ -612,7 +516,7 @@
       background: transparent;
       border: none;
       font-size: 42px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--ink-headline);
       outline: none;
       width: 170px;
@@ -622,7 +526,7 @@
 
     .category-mosaic-label {
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--ink-sub);
@@ -649,14 +553,10 @@
       text-align: center;
       transition: all 120ms;
     }
-    .cat-chip-inner svg {
-      width: 20px;
-      height: 20px;
-      stroke: var(--ink-sub);
-    }
+    .cat-chip-inner svg { width: 20px; height: 20px; stroke: var(--ink-sub); }
     .cat-chip-name {
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--ink-sub);
       white-space: nowrap;
       overflow: hidden;
@@ -667,12 +567,10 @@
       background: #EEF6FF;
       border-color: var(--copilot-blue);
     }
-    .cat-chip-wrap input:checked + .cat-chip-inner svg {
-      stroke: var(--copilot-blue);
-    }
+    .cat-chip-wrap input:checked + .cat-chip-inner svg { stroke: var(--copilot-blue); }
     .cat-chip-wrap input:checked + .cat-chip-inner .cat-chip-name {
       color: var(--copilot-blue);
-      font-weight: 700;
+      font-weight: 600;
     }
 
     .form-duo {
@@ -716,7 +614,7 @@
       background: var(--copilot-blue);
       color: #FFFFFF;
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 600;
       border: none;
       cursor: pointer;
       box-shadow: 0 4px 14px rgba(0, 102, 255, 0.3);
@@ -730,12 +628,11 @@
       background: #FEE2E2;
       color: #DC2626;
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 600;
       border: none;
       cursor: pointer;
     }
 
-    /* STEPPER & LISTA */
     .month-stepper {
       display: flex;
       justify-content: space-between;
@@ -758,7 +655,7 @@
     }
     .stepper-label {
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 700;
       text-transform: capitalize;
     }
 
@@ -790,7 +687,7 @@
       display: flex;
       justify-content: space-between;
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--ink-sub);
       text-transform: uppercase;
       padding: 0 4px;
@@ -809,7 +706,7 @@
       color: var(--ink-sub);
       padding: 8px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 600;
       border-radius: 11px;
       cursor: pointer;
     }
@@ -821,7 +718,10 @@
     .subnav-pane { display: none; }
     .subnav-pane.active { display: block; }
 
-    /* TOAST */
+    .switch-toggle input:checked + .switch-slider { background: var(--copilot-blue) !important; }
+    .switch-toggle input:checked + .switch-slider:before { transform: translateX(18px); }
+    .switch-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: .2s; }
+
     .wallet-toast {
       position: fixed;
       bottom: calc(var(--dock-h) + 16px + env(safe-area-inset-bottom));
@@ -844,7 +744,7 @@
       background: none;
       border: none;
       color: #FCD34D;
-      font-weight: 700;
+      font-weight: 600;
       font-size: 13px;
       cursor: pointer;
     }
@@ -873,7 +773,7 @@
       padding: 12px 8px;
       text-align: center;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--copilot-blue);
       cursor: pointer;
     }
@@ -900,12 +800,11 @@
           <h1 class="native-large-title" id="screen-title">Finanze</h1>
           <span class="cycle-sub-caption" id="label-periodo">28 ott – 27 nov</span>
         </div>
-        
       </div>
     </header>
 
     <main class="scroll-body">
-      <!-- 1. VISTA OGGI (COPILOT MONEY CARD & RINGS) -->
+      <!-- 1. VISTA OGGI -->
       <section id="view-oggi" class="view-card active">
         <!-- CARD PRINCIPALE BIANCA PUFFY -->
         <article class="puffy-card">
@@ -943,17 +842,15 @@
           </div>
         </article>
 
-        <!-- ANELLI DI BUDGET ALLA COPILOT (BUDGET RINGS) -->
-        <section class="activity-group">
+        <!-- SPESE PER CATEGORIA -->
+        <section class="activity-group" id="section-spese-categoria">
           <div class="rings-section-head">
             <span class="section-puffy-title">Spese per Categoria</span>
           </div>
-          <div class="rings-horizontal-scroll" id="rings-scroll-list">
-            <!-- Render dinamico da app.js -->
-          </div>
+          <div class="rings-horizontal-scroll" id="rings-scroll-list"></div>
         </section>
 
-        <!-- COMPOSIZIONE CICLO (CARD PUFFY) -->
+        <!-- COMPOSIZIONE CICLO -->
         <article class="puffy-card">
           <span class="section-puffy-title" style="margin-bottom: 8px;">Composizione Ciclo</span>
           <div class="ledger-row-puffy">
@@ -988,7 +885,7 @@
         </section>
       </section>
 
-      <!-- 2. VISTA MOVIMENTI -->
+      <!-- 2. VISTA MOVIMENTI CON SEZIONE GRAFICA -->
       <section id="view-movimenti" class="view-card hidden">
         <div class="month-stepper">
           <button type="button" class="stepper-btn" id="btn-month-prev">‹</button>
@@ -996,7 +893,16 @@
           <button type="button" class="stepper-btn" id="btn-month-next">›</button>
         </div>
 
-        <div class="filter-search-row">
+        <!-- CARD GRAFICA ANDAMENTO MOVIMENTI -->
+        <article class="puffy-card" id="card-chart-movimenti" style="padding: 16px 18px 12px;">
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom: 8px;">
+            <span class="section-puffy-title" style="margin:0;">Andamento Spese</span>
+            <span id="chart-movimenti-avg" style="font-size:12px; color:var(--ink-sub); font-variant-numeric:tabular-nums;">Media: 0 €/g</span>
+          </div>
+          <div id="movimenti-bar-chart" style="display:flex; align-items:flex-end; gap:6px; height:85px; padding-top:8px;"></div>
+        </article>
+
+        <div class="filter-search-row" id="movimenti-filter-row">
           <input type="text" id="input-search-tx" class="wallet-search-input" placeholder="Cerca nota o voce...">
           <select id="select-category-filter" class="wallet-category-select">
             <option value="all">Tutte</option>
@@ -1041,6 +947,21 @@
 
       <!-- 4. VISTA IMPOSTAZIONI -->
       <section id="view-impostazioni" class="view-card hidden">
+        <!-- TOGGLE MODALITÀ RAPIDA -->
+        <article class="puffy-card">
+          <span class="section-puffy-title" style="margin-bottom: 8px;">Modalità Inserimento</span>
+          <div class="ledger-row-puffy" style="padding: 6px 0;">
+            <div>
+              <div class="puffy-row-label">Modalità Rapida</div>
+              <div style="font-size:11px; color:var(--ink-sub); margin-top:2px;">Nessuna categoria: inserisci solo la cifra al volo</div>
+            </div>
+            <label class="switch-toggle" style="position:relative; width:44px; height:26px; display:inline-block;">
+              <input type="checkbox" id="cfg-quick-mode" style="opacity:0; width:0; height:0;">
+              <span class="switch-slider" style="position:absolute; inset:0; background:#E5E7EB; border-radius:999px; transition:.2s; cursor:pointer;"></span>
+            </label>
+          </div>
+        </article>
+
         <article class="puffy-card">
           <span class="section-puffy-title" style="margin-bottom: 12px;">Parametri Ciclo</span>
           <div class="ledger-row-puffy">
@@ -1070,7 +991,7 @@
       </section>
     </main>
 
-    <!-- ACTION DOCK COPILOT A 5 SLOT CON + CENTRALE BLU -->
+    <!-- ACTION DOCK (5 SLOT SIMMETRICI CON + AL CENTRO PERFETTO) -->
     <nav class="copilot-dock" aria-label="Navigazione Principale">
       <button type="button" class="dock-slot active" data-tab="oggi">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -1082,7 +1003,7 @@
         <span>Movimenti</span>
       </button>
 
-      <!-- SLOT 3: PULSANTE + CENTRALE COPILOT -->
+      <!-- SLOT 3: PULSANTE + AL CENTRO GEOMETRICO -->
       <button type="button" class="dock-plus-slot" id="btn-open-modal" aria-label="Nuovo Movimento">
         <div class="dock-plus-circle">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -1129,8 +1050,10 @@
         <input type="text" id="tx-amount" name="amount" inputmode="decimal" placeholder="0" autocomplete="off" required>
       </div>
 
-      <span class="category-mosaic-label">Categoria</span>
-      <div class="category-mosaic-grid" id="category-chips-list"></div>
+      <div id="modal-category-group">
+        <span class="category-mosaic-label">Categoria</span>
+        <div class="category-mosaic-grid" id="category-chips-list"></div>
+      </div>
 
       <div class="form-duo">
         <div class="input-pod">
@@ -1238,9 +1161,6 @@
   </div>
 
   <script>
-    /* =========================================================
-       LOGICA CORE RESILIENTE + BUDGET RINGS COPILOT
-       ========================================================= */
     const STORAGE_KEY = "finanze_pwa_master_v3";
 
     const ICONS = {
@@ -1255,19 +1175,19 @@
     };
 
     const DEFAULT_CATEGORIES = [
-      { id: "carburante", nome: "Benzina", key: "carburante", budgetCents: 15000 },
-      { id: "auto", nome: "Auto", key: "auto", budgetCents: 10000 },
-      { id: "svago", nome: "Svago", key: "svago", budgetCents: 20000 },
-      { id: "shopping", nome: "Acquisti", key: "shopping", budgetCents: 15000 },
-      { id: "abbonamenti", nome: "Servizi", key: "abbonamenti", budgetCents: 5000 },
-      { id: "salute", nome: "Salute", key: "salute", budgetCents: 5000 },
-      { id: "lavoro", nome: "Lavoro", key: "lavoro", budgetCents: 5000 },
-      { id: "varie", nome: "Varie", key: "varie", budgetCents: 10000 }
+      { id: "carburante", nome: "Benzina", key: "carburante" },
+      { id: "auto", nome: "Auto", key: "auto" },
+      { id: "svago", nome: "Svago", key: "svago" },
+      { id: "shopping", nome: "Acquisti", key: "shopping" },
+      { id: "abbonamenti", nome: "Servizi", key: "abbonamenti" },
+      { id: "salute", nome: "Salute", key: "salute" },
+      { id: "lavoro", nome: "Lavoro", key: "lavoro" },
+      { id: "varie", nome: "Varie", key: "varie" }
     ];
 
     const INITIAL_DATA = {
       version: 3,
-      settings: { salaryDay: 28, monthlyIncomeCents: 180000, lastBackupDate: null },
+      settings: { salaryDay: 28, monthlyIncomeCents: 180000, lastBackupDate: null, quickMode: false },
       categories: DEFAULT_CATEGORIES,
       transactions: [],
       recurring: [{ id: "rec_auto", name: "Rata Auto", amountCents: 25000, frequency: "monthly", day: 15, categoryId: "auto", active: true }],
@@ -1424,7 +1344,7 @@
     function renderHome() {
       const fin = computeFinancials(store.data, new Date());
       const opt = { day: "numeric", month: "short" };
-      document.getElementById("label-periodo").textContent = `CICLO ${fin.cycle.start.toLocaleDateString("it-IT", opt)} – ${fin.cycle.end.toLocaleDateString("it-IT", opt)}`;
+      document.getElementById("label-periodo").textContent = `${fin.cycle.start.toLocaleDateString("it-IT", opt)} – ${fin.cycle.end.toLocaleDateString("it-IT", opt)}`;
 
       const isNeg = fin.availableCents < 0;
       const absCents = Math.abs(fin.availableCents);
@@ -1467,37 +1387,35 @@
       renderRecentList(store.data.transactions.slice(0, 5));
     }
 
-    // ANELLI DI BUDGET ORIZZONTALI (ACTIVITY RINGS ALLA COPILOT)
+    // SPESE PER CATEGORIA REALI (NASCONDIBILE IN MODALITÀ RAPIDA)
     function renderBudgetRings() {
+      const isQuick = Boolean(store.data.settings.quickMode);
+      const section = document.getElementById("section-spese-categoria");
+      if (isQuick) {
+        if (section) section.classList.add("hidden");
+        return;
+      }
+      if (section) section.classList.remove("hidden");
+
       const container = document.getElementById("rings-scroll-list");
       container.innerHTML = "";
       const fin = computeFinancials(store.data, new Date());
 
       const expensesByCat = {};
+      let totalSpent = 0;
       fin.cycleTransactions.filter(t => t.type === "expense").forEach(t => {
         expensesByCat[t.categoryId] = (expensesByCat[t.categoryId] || 0) + t.amountCents;
+        totalSpent += t.amountCents;
       });
 
       store.data.categories.forEach(cat => {
         const spent = expensesByCat[cat.id] || 0;
-        const budget = cat.budgetCents || 10000;
-        const ratio = Math.min(1.2, spent / budget);
+        const ratio = totalSpent > 0 ? (spent / totalSpent) : 0;
 
         const r = 20;
         const c = 2 * Math.PI * r;
         const strokeDash = Math.min(c, ratio * c);
-
-        let strokeColor = "#10B981"; // Verde
-        let statusText = "rimasti";
-        let amountText = formatValuta(Math.max(0, budget - spent));
-
-        if (spent > budget) {
-          strokeColor = "#EF4444"; // Rosso sforato
-          statusText = "oltre";
-          amountText = formatValuta(spent - budget);
-        } else if (ratio > 0.8) {
-          strokeColor = "#F59E0B"; // Arancione
-        }
+        const strokeColor = spent > 0 ? "var(--copilot-blue)" : "#E5E7EB";
 
         const card = document.createElement("div");
         card.className = "ring-card-item";
@@ -1510,10 +1428,57 @@
             </svg>
             <div class="ring-icon-center">${ICONS[cat.key] || ICONS.varie}</div>
           </div>
-          <span class="ring-amount">${amountText}</span>
-          <span class="ring-status-label">${statusText}</span>
+          <span class="ring-amount">${formatValuta(spent)}</span>
+          <span class="ring-status-label">${cat.nome}</span>
         `;
         container.appendChild(card);
+      });
+    }
+
+    // GRAFICO ANDAMENTO MOVIMENTI
+    function renderMovimentiChart(fin) {
+      const container = document.getElementById("movimenti-bar-chart");
+      const avgLabel = document.getElementById("chart-movimenti-avg");
+      if (!container) return;
+      container.innerHTML = "";
+
+      const expenses = fin.cycleTransactions.filter(t => t.type === "expense");
+      const daysPassed = Math.max(1, fin.daysPassed || 1);
+      const avgPerDay = Math.round(fin.variableExpensesCents / daysPassed);
+      if (avgLabel) avgLabel.textContent = `Media: ${formatValuta(avgPerDay)}/g`;
+
+      const dayTotals = {};
+      expenses.forEach(t => {
+        dayTotals[t.date] = (dayTotals[t.date] || 0) + t.amountCents;
+      });
+
+      const maxVal = Math.max(...Object.values(dayTotals), 5000);
+
+      const curr = new Date(fin.cycle.start);
+      const dates = [];
+      while (curr <= fin.cycle.end) {
+        dates.push(toLocalDateString(curr));
+        curr.setDate(curr.getDate() + 1);
+      }
+
+      const recentDates = dates.slice(-14);
+      recentDates.forEach(dStr => {
+        const val = dayTotals[dStr] || 0;
+        const heightPct = Math.min(100, Math.max(6, Math.round((val / maxVal) * 80)));
+        const isToday = dStr === toLocalDateString(new Date());
+
+        const bar = document.createElement("div");
+        bar.style.flex = "1";
+        bar.style.display = "flex";
+        bar.style.flexDirection = "column";
+        bar.style.alignItems = "center";
+        bar.style.height = "100%";
+        bar.style.justifyContent = "flex-end";
+        bar.innerHTML = `
+          <div style="width:100%; max-width:14px; height:${heightPct}%; background:${val > 0 ? (isToday ? 'var(--copilot-blue)' : '#93C5FD') : '#E5E7EB'}; border-radius:4px; transition:height 200ms;"></div>
+          <span style="font-size:9px; color:var(--ink-faint); margin-top:4px;">${parseInt(dStr.split('-')[2], 10)}</span>
+        `;
+        container.appendChild(bar);
       });
     }
 
@@ -1713,7 +1678,8 @@
 
       const editId = document.getElementById("tx-edit-id").value;
       const type = document.querySelector('input[name="tx-type"]:checked').value;
-      const categoryId = document.querySelector('input[name="tx-category"]:checked')?.value || "varie";
+      const isQuick = Boolean(store.data.settings.quickMode);
+      const categoryId = isQuick ? "varie" : (document.querySelector('input[name="tx-category"]:checked')?.value || "varie");
       const dateVal = document.getElementById("tx-date").value || toLocalDateString(new Date());
       const noteVal = document.getElementById("tx-note").value.trim();
 
@@ -1881,7 +1847,6 @@
       }
     });
 
-    // SUBTABS
     document.querySelectorAll(".subnav-btn").forEach(tab => {
       tab.addEventListener("click", () => {
         document.querySelectorAll(".subnav-btn").forEach(t => t.classList.remove("active"));
@@ -1920,7 +1885,6 @@
     }
 
     document.getElementById("btn-export-json").addEventListener("click", exportJsonBackup);
-    document.getElementById("btn-quick-export").addEventListener("click", exportJsonBackup);
 
     document.getElementById("btn-export-csv").addEventListener("click", () => {
       const headers = "ID;Data;Tipo;Importo_Euro;Categoria;Nota\n";
@@ -1962,7 +1926,6 @@
       }
     });
 
-    // DOCK TAB SWITCHING (5 SLOT SIMMETRICI)
     document.querySelectorAll(".dock-slot").forEach(tab => {
       tab.addEventListener("click", () => {
         document.querySelectorAll(".dock-slot").forEach(t => t.classList.remove("active"));
@@ -2003,7 +1966,27 @@
       });
     }
 
+    const toggleQuick = document.getElementById("cfg-quick-mode");
+    if (toggleQuick) {
+      toggleQuick.checked = Boolean(store.data.settings.quickMode);
+      toggleQuick.addEventListener("change", (e) => {
+        store.data.settings.quickMode = e.target.checked;
+        store.save();
+        applyQuickModeUI();
+        renderAll();
+      });
+    }
+
+    function applyQuickModeUI() {
+      const isQuick = Boolean(store.data.settings.quickMode);
+      const catGroup = document.getElementById("modal-category-group");
+      if (catGroup) catGroup.style.display = isQuick ? "none" : "block";
+      const catFilter = document.getElementById("select-category-filter");
+      if (catFilter) catFilter.style.display = isQuick ? "none" : "block";
+    }
+
     initCategoryChips();
+    applyQuickModeUI();
     renderAll();
   </script>
 </body>
