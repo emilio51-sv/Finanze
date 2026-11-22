@@ -812,6 +812,106 @@ body { font-variant-numeric: tabular-nums lining-nums; }
 /* Fix iOS: input almeno 16px, niente zoom automatico di Safari */
 .wallet-category-select, .clean-input-cell { font-size: 16px; }
 /* ===== TIPOGRAFIA PREMIUM (fine) ===== */
+
+
+    /* ALLINEAMENTO MATEMATICO CHIPS E CAMPI FORM */
+    .category-mosaic-grid {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 8px !important;
+      width: 100% !important;
+      margin-top: 6px !important;
+    }
+    .cat-chip-wrap {
+      position: relative !important;
+      cursor: pointer !important;
+      margin: 0 !important;
+      display: flex !important;
+    }
+    .cat-chip-inner {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      padding: 0 4px !important;
+      height: 64px !important;
+      width: 100% !important;
+      background: #F8FAFC !important;
+      border: 1px solid #E5E7EB !important;
+      border-radius: 14px !important;
+      text-align: center !important;
+      transition: all 140ms ease !important;
+      box-sizing: border-box !important;
+    }
+    .cat-chip-inner svg {
+      width: 20px !important;
+      height: 20px !important;
+      stroke: var(--ink-sub) !important;
+      flex-shrink: 0 !important;
+    }
+    .cat-chip-name {
+      font-size: 11px !important;
+      font-weight: 500 !important;
+      color: var(--ink-sub) !important;
+      line-height: 1.1 !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      max-width: 100% !important;
+    }
+    /* Stato attivo: inset shadow per non alterare le dimensioni geometriche */
+    .cat-chip-wrap input:checked + .cat-chip-inner {
+      background: #EEF6FF !important;
+      border-color: var(--copilot-blue) !important;
+      box-shadow: inset 0 0 0 0.5px var(--copilot-blue) !important;
+    }
+    .cat-chip-wrap input:checked + .cat-chip-inner svg {
+      stroke: var(--copilot-blue) !important;
+    }
+    .cat-chip-wrap input:checked + .cat-chip-inner .cat-chip-name {
+      color: var(--copilot-blue) !important;
+      font-weight: 600 !important;
+    }
+
+    /* Allineamento compatto campi Data e Descrizione */
+    .form-duo {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 8px !important;
+      width: 100% !important;
+      margin-top: 10px !important;
+    }
+    .input-pod {
+      background: #F8FAFC !important;
+      border: 1px solid #E5E7EB !important;
+      border-radius: 14px !important;
+      padding: 8px 12px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      height: 58px !important;
+      box-sizing: border-box !important;
+    }
+    .pod-field-label {
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      color: var(--ink-sub) !important;
+      text-transform: capitalize !important;
+      line-height: 1.2 !important;
+    }
+    .pod-input-field {
+      background: transparent !important;
+      border: none !important;
+      outline: none !important;
+      color: var(--ink-headline) !important;
+      font-size: 16px !important;
+      font-family: inherit !important;
+      width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
 </style>
 </head>
 <body>
