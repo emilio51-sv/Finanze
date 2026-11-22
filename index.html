@@ -24,8 +24,6 @@
       --ink-sub: #6B7280;
       --ink-faint: #9CA3AF;
       --ring-green: #10B981;
-      --ring-orange: #F59E0B;
-      --ring-red: #EF4444;
       --border-card: rgba(17, 24, 39, 0.05);
       --shadow-puffy: 0 10px 28px -4px rgba(0, 48, 143, 0.07), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
       --dock-h: 60px;
@@ -36,6 +34,7 @@
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
+      outline: none;
     }
 
     body {
@@ -65,11 +64,6 @@
 
     .copilot-header-fluid {
       padding: calc(18px + env(safe-area-inset-top)) 22px 10px;
-    }
-    .header-main-flex {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
     }
     .native-large-title {
       font-size: 32px;
@@ -353,7 +347,7 @@
       font-variant-numeric: tabular-nums;
     }
 
-    /* COPILOT DOCK - 5 SLOT SIMMETRICI CON + AL CENTRO PERFETTO */
+    /* COPILOT DOCK */
     .copilot-dock {
       position: fixed;
       bottom: 0;
@@ -363,7 +357,7 @@
       max-width: 430px;
       height: calc(var(--dock-h) + env(safe-area-inset-bottom));
       padding-bottom: env(safe-area-inset-bottom);
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.94);
       border-top: 0.5px solid rgba(0, 0, 0, 0.08);
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -371,6 +365,7 @@
       z-index: 50;
       backdrop-filter: blur(28px) saturate(180%);
       -webkit-backdrop-filter: blur(28px) saturate(180%);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.04);
     }
     .dock-slot {
       background: none;
@@ -386,7 +381,7 @@
       cursor: pointer;
       height: 100%;
       padding: 0;
-      transition: color 140ms;
+      outline: none !important;
     }
     .dock-slot svg { width: 20px; height: 20px; }
     .dock-slot.active { color: var(--copilot-blue); }
@@ -399,6 +394,7 @@
       background: none;
       border: none;
       cursor: pointer;
+      outline: none !important;
     }
     .dock-plus-circle {
       width: 44px;
@@ -760,24 +756,6 @@
       width: 90px;
       outline: none;
     }
-    .matrix-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 6px;
-    }
-    .matrix-item-btn {
-      background: #F8FAFC;
-      border: 1px solid #E5E7EB;
-      border-radius: 14px;
-      padding: 12px 8px;
-      text-align: center;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--copilot-blue);
-      cursor: pointer;
-    }
-    .matrix-item-btn.danger { color: #EF4444; border-color: #FEE2E2; }
 
     .empty-placeholder {
       text-align: center;
@@ -793,13 +771,10 @@
 </head>
 <body>
   <div class="app-frame">
+    <!-- HEADER EDITORIALE SARTORIALE -->
     <header class="copilot-header-fluid">
-      <div class="header-main-flex">
-        <div>
-          <h1 class="native-large-title" id="screen-title">Finanze</h1>
-          <span class="cycle-sub-caption" id="label-periodo">28 ott – 27 nov</span>
-        </div>
-      </div>
+      <h1 class="native-large-title" id="screen-title">Finanze</h1>
+      <span class="cycle-sub-caption" id="label-periodo">28 ott – 27 nov</span>
     </header>
 
     <main class="scroll-body">
@@ -840,7 +815,7 @@
           </div>
         </article>
 
-        <!-- SPESE PER CATEGORIA (NASCONDIBILE) -->
+        <!-- SPESE PER CATEGORIA -->
         <section class="activity-group" id="section-spese-categoria">
           <div class="rings-section-head">
             <span class="section-puffy-title">Spese per Categoria</span>
@@ -883,7 +858,7 @@
         </section>
       </section>
 
-      <!-- 2. VISTA MOVIMENTI CON SEZIONE GRAFICA -->
+      <!-- 2. VISTA MOVIMENTI -->
       <section id="view-movimenti" class="view-card hidden">
         <div class="month-stepper">
           <button type="button" class="stepper-btn" id="btn-month-prev">‹</button>
@@ -891,7 +866,7 @@
           <button type="button" class="stepper-btn" id="btn-month-next">›</button>
         </div>
 
-        <!-- CARD GRAFICA ANDAMENTO MOVIMENTI -->
+        <!-- GRAFICO ANDAMENTO MOVIMENTI -->
         <article class="puffy-card" id="card-chart-movimenti" style="padding: 16px 18px 12px;">
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom: 8px;">
             <span class="section-puffy-title" style="margin:0;">Andamento Spese</span>
@@ -945,7 +920,6 @@
 
       <!-- 4. VISTA IMPOSTAZIONI -->
       <section id="view-impostazioni" class="view-card hidden">
-        <!-- TOGGLE MODALITÀ RAPIDA -->
         <article class="puffy-card">
           <span class="section-puffy-title" style="margin-bottom: 8px;">Modalità Inserimento</span>
           <div class="ledger-row-puffy" style="padding: 6px 0;">
@@ -973,29 +947,24 @@
           <button type="button" class="btn-submit-copilot" id="btn-save-settings" style="margin-top: 14px;">Salva Parametri</button>
         </article>
 
-                <article class="puffy-card" style="padding: 14px 18px 10px;">
-          <span class="section-puffy-title" style="margin: 0 0 10px; display:block;">Dati & Salvataggio</span>
-          <div class="ios-settings-list">
-            <div id="btn-export-json" style="display:flex; flex-direction:row; align-items:center; justify-content:space-between; padding:10px 14px; background:#F8FAFC; border:1px solid #E5E7EB; border-radius:16px; cursor:pointer;">
-              <div style="display:flex; flex-direction:row; align-items:center; gap:12px;">
-                <div style="width:36px; height:36px; border-radius:10px; background:#EEF2FF; color:#0066FF; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                </div>
-                <div style="display:flex; flex-direction:column; text-align:left;">
-                  <span style="font-size:14px; font-weight:600; color:#111827; line-height:1.2;">Copia di Backup</span>
-                  <span id="backup-status-text" style="font-size:11px; color:#6B7280; margin-top:2px;">Ultimo backup: mai</span>
-                </div>
+        <article class="puffy-card" style="padding: 16px 18px 14px;">
+          <span class="section-puffy-title" style="margin: 0 0 12px; display:block;">Dati & Salvataggio</span>
+          <div id="btn-export-json" style="display:flex; align-items:center; justify-content:space-between; padding: 10px 12px; background:#F8FAFC; border:1px solid #E5E7EB; border-radius:16px; cursor:pointer;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:36px; height:36px; border-radius:11px; background:#EEF2FF; color:#0066FF; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
               </div>
-              <span style="font-size:18px; color:#9CA3AF; font-weight:300;">›</span>
-            </div>
+              <div style="display:flex; flex-direction:column; gap:2px;">
+                <span style="font-size:14px; font-weight:600; color:var(--ink-headline);">Copia di Backup</span>
+                <span id="backup-status-text" style="font-size:11px; color:var(--ink-sub);">Ultimo backup: mai</span>
               </div>
-              <span class="setting-chevron">›</span>
             </div>
+            <span style="font-size:18px; color:#9CA3AF; font-weight:300; padding-right:2px;">›</span>
           </div>
         </article>
 
-        <!-- AZZERA DATI ISOLATO -->
-        <div style="padding: 6px 8px;">
+        <!-- AZZERA TUTTI I DATI: ISOLATO E CENTRATO IN FONDO AL MENU -->
+        <div style="padding: 8px 12px 16px;">
           <button type="button" id="btn-reset-data" style="width:100%; background:none; border:none; color:#EF4444; font-size:14px; font-weight:600; padding:12px; cursor:pointer; text-align:center;">
             Azzera tutti i dati
           </button>
@@ -1003,7 +972,7 @@
       </section>
     </main>
 
-    <!-- ACTION DOCK (5 SLOT SIMMETRICI CON + AL CENTRO PERFETTO) -->
+    <!-- ACTION DOCK -->
     <nav class="copilot-dock" aria-label="Navigazione Principale">
       <button type="button" class="dock-slot active" data-tab="oggi">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -1027,7 +996,7 @@
       </button>
 
       <button type="button" class="dock-slot" data-tab="impostazioni">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
         <span>Menu</span>
       </button>
     </nav>
@@ -1893,39 +1862,6 @@
     }
 
     document.getElementById("btn-export-json").addEventListener("click", exportJsonBackup);
-
-    const btnCsv = document.getElementById("btn-export-csv"); if (btnCsv) btnCsv.addEventListener("click", () => {
-      const headers = "ID;Data;Tipo;Importo_Euro;Categoria;Nota\n";
-      const rows = store.data.transactions.map(t => `${t.id};${t.date};${t.type};${(t.amountCents / 100).toFixed(2)};${t.categoryId};"${(t.note || '').replace(/"/g, '""')}"`).join("\n");
-      const blob = new Blob(["\uFEFF" + headers + rows], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `movimenti-${toLocalDateString(new Date())}.csv`;
-      a.click();
-      URL.revokeObjectURL(url);
-    });
-
-    const inputJson = document.getElementById("input-import-json"); if (inputJson) inputJson.addEventListener("change", (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (evt) => {
-        try {
-          const parsed = JSON.parse(evt.target.result);
-          if (parsed.transactions && parsed.settings) {
-            if (confirm(`Ripristinare ${parsed.transactions.length} movimenti sovrascrivendo i dati attuali?`)) {
-              store.data = parsed;
-              store.save();
-              location.reload();
-            }
-          }
-        } catch (err) {
-          alert("File non valido.");
-        }
-      };
-      reader.readAsText(file);
-    });
 
     document.getElementById("btn-reset-data").addEventListener("click", () => {
       if (confirm("Azzerare completamente tutti i dati dell'applicazione?")) {
