@@ -1559,6 +1559,7 @@
 
       const opt = { month: "long", year: "numeric" };
       document.getElementById("label-selected-month").textContent = fin.cycle.start.toLocaleDateString("it-IT", opt);
+      renderMovimentiChart(fin);
 
       const query = document.getElementById("input-search-tx").value.trim().toLowerCase();
       const catFilter = document.getElementById("select-category-filter").value;
