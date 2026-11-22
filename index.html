@@ -973,19 +973,30 @@
           <button type="button" class="btn-submit-copilot" id="btn-save-settings" style="margin-top: 14px;">Salva Parametri</button>
         </article>
 
-        <article class="puffy-card">
-          <span class="section-puffy-title" style="margin-bottom: 12px;">Dati & Backup</span>
-          <div class="matrix-grid">
-            <button type="button" class="matrix-item-btn" id="btn-export-json">Backup JSON</button>
-            <button type="button" class="matrix-item-btn" id="btn-export-csv">Esporta CSV</button>
-            <label class="matrix-item-btn">
-              <span>Ripristina JSON</span>
-              <input type="file" id="input-import-json" accept=".json" class="hidden">
-            </label>
-            <button type="button" class="matrix-item-btn danger" id="btn-reset-data">Azzera Dati</button>
+                <article class="puffy-card" style="padding: 14px 18px 10px;">
+          <span class="section-puffy-title" style="margin: 0 0 10px; display:block;">Dati & Salvataggio</span>
+          <div class="ios-settings-list">
+            <div class="ios-setting-row" id="btn-export-json" style="cursor:pointer; padding: 6px 0;">
+              <div class="setting-left">
+                <div class="setting-icon-box" style="background:#EEF2FF; color:#0066FF;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                </div>
+                <div>
+                  <div class="setting-title">Copia di Backup</div>
+                  <div class="setting-subtitle" id="backup-status-text">Ultimo salvataggio: mai</div>
+                </div>
+              </div>
+              <span class="setting-chevron">›</span>
+            </div>
           </div>
-          <div style="font-size:11px; color:var(--ink-faint); text-align:center; margin-top:12px;" id="backup-status-text">Ultimo backup: mai</div>
         </article>
+
+        <!-- AZZERA DATI ISOLATO -->
+        <div style="padding: 6px 8px;">
+          <button type="button" id="btn-reset-data" style="width:100%; background:none; border:none; color:#EF4444; font-size:14px; font-weight:600; padding:12px; cursor:pointer; text-align:center;">
+            Azzera tutti i dati
+          </button>
+        </div>
       </section>
     </main>
 
