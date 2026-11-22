@@ -12,32 +12,28 @@ const ICONS = {
 };
 
 const DEFAULT_CATEGORIES = [
-  { id: "carburante", nome: "Carburante", key: "carburante", color: "#8E8E93" },
-  { id: "auto", nome: "Auto", key: "auto", color: "#D1D1D6" },
-  { id: "svago", nome: "Svago", key: "svago", color: "#E5C07B" },
-  { id: "shopping", nome: "Acquisti", key: "shopping", color: "#A1A1A6" },
-  { id: "abbonamenti", nome: "Servizi", key: "abbonamenti", color: "#636366" },
-  { id: "salute", nome: "Salute", key: "salute", color: "#48484A" },
-  { id: "lavoro", nome: "Lavoro", key: "lavoro", color: "#C7C7CC" },
-  { id: "varie", nome: "Varie", key: "varie", color: "#3A3A3C" }
+  { id: "carburante", nome: "Carburante", key: "carburante", color: "#6EA8FE" },
+  { id: "auto", nome: "Auto", key: "auto", color: "#B49BFF" },
+  { id: "svago", nome: "Svago", key: "svago", color: "#E7C77F" },
+  { id: "shopping", nome: "Acquisti", key: "shopping", color: "#F08FB5" },
+  { id: "abbonamenti", nome: "Servizi", key: "abbonamenti", color: "#63C7C1" },
+  { id: "salute", nome: "Salute", key: "salute", color: "#FF8A80" },
+  { id: "lavoro", nome: "Lavoro", key: "lavoro", color: "#7BCFA5" },
+  { id: "varie", nome: "Varie", key: "varie", color: "#A7A7B0" }
 ];
 
 const INITIAL_DATA = {
   version: 3,
   settings: {
     salaryDay: 28,
-    monthlyIncomeCents: 180000,
+    monthlyIncomeCents: 0,
     pinHash: null,
     lastBackupDate: null
   },
   categories: DEFAULT_CATEGORIES,
   transactions: [],
-  recurring: [
-    { id: "rec_auto", name: "Rata Auto", amountCents: 25000, frequency: "monthly", day: 15, categoryId: "auto", active: true }
-  ],
-  goals: [
-    { id: "goal_pac", name: "PAC ETF", targetCents: 1000000, currentCents: 200000, monthlyCents: 20000, deadline: "" }
-  ]
+  recurring: [],
+  goals: []
 };
 
 function escapeHtml(str) {
