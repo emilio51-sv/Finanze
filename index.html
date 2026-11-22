@@ -767,7 +767,52 @@
       gap: 3px;
     }
     .hidden { display: none !important; }
-  </style>
+  
+/* ===== TIPOGRAFIA PREMIUM (inizio) ===== */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-kerning: normal;
+  font-feature-settings: "kern", "liga", "calt";
+}
+body { font-variant-numeric: tabular-nums lining-nums; }
+
+/* Titolo grande + data ciclo */
+.native-large-title { font-size: 34px; font-weight: 700; letter-spacing: -0.045em; line-height: 1.05; }
+.cycle-sub-caption { font-size: 13px; font-weight: 500; letter-spacing: 0.005em; margin-top: 4px; }
+
+/* Hero: cifra monumentale */
+.balance-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.balance-int { font-weight: 600; letter-spacing: -0.055em; line-height: 1; font-variant-numeric: tabular-nums lining-nums; }
+.balance-dec { font-weight: 500; letter-spacing: -0.02em; font-variant-numeric: tabular-nums lining-nums; }
+.balance-curr { font-weight: 500; }
+.balance-subtext { font-size: 12.5px; font-weight: 500; letter-spacing: 0; }
+
+/* Duo metriche */
+.duo-label { font-size: 12px; font-weight: 500; letter-spacing: 0.01em; }
+.duo-val { font-weight: 600; letter-spacing: -0.035em; font-variant-numeric: tabular-nums lining-nums; }
+.duo-sub { font-size: 11.5px; letter-spacing: 0; }
+
+/* Titoli di sezione e etichette: piccoli, spaziati, secondari */
+.section-puffy-title { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: var(--ink-sub); }
+.category-mosaic-label { letter-spacing: 0.08em; }
+.pod-field-label { font-size: 12px; font-weight: 500; letter-spacing: 0.01em; }
+.day-header { letter-spacing: 0.06em; }
+
+/* Anelli, lista movimenti, dock */
+.ring-amount { letter-spacing: -0.01em; font-variant-numeric: tabular-nums lining-nums; }
+.tx-title-puffy { font-size: 15px; font-weight: 500; letter-spacing: -0.012em; }
+.tx-sub-puffy { font-size: 12.5px; letter-spacing: 0; }
+.dock-slot { font-size: 10px; font-weight: 500; letter-spacing: 0.01em; }
+
+/* Titolo dei bottom sheet */
+.sheet-title { font-size: 18px; font-weight: 700; letter-spacing: -0.03em; }
+
+/* Fix iOS: input almeno 16px, niente zoom automatico di Safari */
+.wallet-category-select, .clean-input-cell { font-size: 16px; }
+/* ===== TIPOGRAFIA PREMIUM (fine) ===== */
+</style>
 </head>
 <body>
   <div class="app-frame">
