@@ -1,4 +1,4 @@
-const CACHE_NAME = "finanze-v4";
+const CACHE_NAME = "finanze-v5";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -26,17 +26,41 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
+  const isDocument = event.request.mode === "navigate"
+    || new URL(event.request.url).pathname.endsWith("/index.html");
+
+  if (isDocument) {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          if (response.ok) {
+            const copy = response.clone();
+            return caches.open(CACHE_NAME)
+              .then(cache => cache.put(event.request, copy))
+              .then(() => response);
+          }
+          return response;
+        })
+        .catch(async () => {
+          const cached = await caches.match(event.request) || await caches.match("./index.html");
+          return cached || new Response("Offline", { status: 503, statusText: "Offline" });
+        })
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then(cached => {
-      const network = fetch(event.request).then(response => {
+      if (cached) return cached;
+      return fetch(event.request).then(response => {
         if (response && response.ok) {
           const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+          return caches.open(CACHE_NAME)
+            .then(cache => cache.put(event.request, copy))
+            .then(() => response);
         }
         return response;
-      }).catch(() => cached || caches.match("./index.html"));
-
-      return cached || network;
+      });
     })
   );
 });
