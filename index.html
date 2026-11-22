@@ -951,14 +951,18 @@ body { font-variant-numeric: tabular-nums lining-nums; }
           </article>
         </div>
 
-        <div id="sub-pac" class="subnav-pane hidden">
+        <div id="sub-pac" class="subnav-pane">
           <article class="puffy-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
-              <span class="section-puffy-title" style="margin:0;">Piani di Accumulo</span>
-              <button type="button" class="sheet-close-btn" id="btn-open-goal-modal">+ Nuovo Piano</button>
+              <span class="section-puffy-title" style="margin:0;">Piani di Accumulo & Risparmio</span>
+              <button type="button" class="sheet-close-btn" id="btn-open-goal-modal" style="font-size:14px; font-weight:600;">+ Aggiungi</button>
             </div>
-            <p style="font-size:12px; color:var(--ink-sub); margin-bottom:12px;">Investimenti sottratti a inizio ciclo prima del calcolo spesa.</p>
-            <div id="goals-list" style="display:flex; flex-direction:column;"></div>
+            <p style="font-size:12px; color:var(--ink-sub); margin-bottom:12px;">Quote accantonate a inizio ciclo prima del calcolo della spesa libera.</p>
+            <div id="goals-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+            <div id="goals-empty" class="empty-placeholder hidden" style="padding:16px 0;">
+              <p>Nessun obiettivo PAC configurato</p>
+              <span style="font-size:11px; color:var(--ink-faint);">Tocca + Aggiungi per creare il primo piano</span>
+            </div>
           </article>
         </div>
       </section>
@@ -1593,39 +1597,25 @@ body { font-variant-numeric: tabular-nums lining-nums; }
 
     function renderFisseView() {
       const recList = document.getElementById("recurring-list");
-      recList.innerHTML = "";
-      store.data.recurring.forEach(r => {
-        const row = document.createElement("div");
-        row.className = "ledger-row-puffy";
-        row.style.cursor = "pointer";
-        const freq = r.frequency === "annual" ? "Annuale (/12)" : (r.frequency === "quarterly" ? "Trimestrale (/3)" : "Mensile");
-        row.innerHTML = `
-          <div>
-            <div class="puffy-row-label">${escapeHtml(r.name)}</div>
-            <div style="font-size:11px; color:var(--ink-sub); margin-top:2px;">${freq} • Il ${r.day} del mese</div>
-          </div>
-          <span class="puffy-row-val">${formatValuta(r.amountCents)}</span>
-        `;
-        row.addEventListener("click", () => openRecurringModal(r));
-        recList.appendChild(row);
-      });
-
-      const goalList = document.getElementById("goals-list");
-      goalList.innerHTML = "";
-      store.data.goals.forEach(g => {
-        const row = document.createElement("div");
-        row.className = "ledger-row-puffy";
-        row.style.cursor = "pointer";
-        row.innerHTML = `
-          <div>
-            <div class="puffy-row-label">${escapeHtml(g.name)}</div>
-            <div style="font-size:11px; color:var(--ink-sub); margin-top:2px;">Accantonati: ${formatValuta(g.currentCents || 0)}</div>
-          </div>
-          <span class="puffy-row-val">${formatValuta(g.monthlyCents)}/mese</span>
-        `;
-        row.addEventListener("click", () => openGoalModal(g));
-        goalList.appendChild(row);
-      });
+      if (recList) {
+        recList.innerHTML = "";
+        store.data.recurring.forEach(r => {
+          const row = document.createElement("div");
+          row.className = "ledger-row-puffy";
+          row.style.cursor = "pointer";
+          const freq = r.frequency === "annual" ? "Annuale (/12)" : (r.frequency === "quarterly" ? "Trimestrale (/3)" : "Mensile");
+          row.innerHTML = `
+            <div>
+              <div class="puffy-row-label">${escapeHtml(r.name)}</div>
+              <div style="font-size:11px; color:var(--ink-sub); margin-top:2px;">${freq} • Il ${r.day} del mese</div>
+            </div>
+            <span class="puffy-row-val">${formatValuta(r.amountCents)}</span>
+          `;
+          row.addEventListener("click", () => openRecurringModal(r));
+          recList.appendChild(row);
+        });
+      }
+      renderGoalsView();
     }
 
     function renderImpostazioniView() {
