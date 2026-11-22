@@ -3,40 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#0066FF">
   <title>Finanze</title>
 
-  <!-- Meta tag nativi Apple PWA -->
+  <!-- Meta tag iOS PWA -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Finanze">
   
-  <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180' width='180' height='180'%3E%3Crect width='180' height='180' rx='42' fill='%23000000'/%3E%3Cpath d='M90 46v88M60 72h60M60 100h48' stroke='%23F5F5F7' stroke-width='7.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180' width='180' height='180'%3E%3Crect width='180' height='180' rx='42' fill='%23000000'/%3E%3Cpath d='M90 46v88M60 72h60M60 100h48' stroke='%23F5F5F7' stroke-width='7.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180' width='180' height='180'%3E%3Crect width='180' height='180' rx='42' fill='%230066FF'/%3E%3Cpath d='M90 46v88M60 72h60M60 100h48' stroke='%23FFFFFF' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180' width='180' height='180'%3E%3Crect width='180' height='180' rx='42' fill='%230066FF'/%3E%3Cpath d='M90 46v88M60 72h60M60 100h48' stroke='%23FFFFFF' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="manifest" href="manifest.json">
 
   <style>
     /* =========================================================
-       APPLE CARD & WALLET DESIGN SYSTEM (iOS NATIVE)
+       COPILOT MONEY AESTHETICS (APPLE DESIGN AWARD THEME)
        ========================================================= */
     :root {
-      --font-system: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
-      --bg-black: #000000;
-      --card-titanium: linear-gradient(145deg, #18181c 0%, #0d0d10 100%);
-      --card-inset: #121215;
-      --card-surface: #1a1a1f;
-      --border-hairline: rgba(255, 255, 255, 0.11);
-      --border-subtle: rgba(255, 255, 255, 0.05);
-      --text-optic-white: #ffffff;
-      --text-matte: #f5f5f7;
-      --text-secondary: #8e8e93;
-      --text-tertiary: #636366;
-      --apple-green: #30d158;
-      --apple-red: #ff453a;
-      --apple-gold: #e5c07b;
-      --radius-wallet: 24px;
-      --radius-pod: 16px;
-      --dock-height: 58px;
+      --font-copilot: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "SF Pro Display", "Helvetica Neue", sans-serif;
+      --copilot-blue: #0066FF;
+      --copilot-sky: #4CA0FF;
+      --bg-canvas: #F4F6FA;
+      --card-white: #FFFFFF;
+      --ink-headline: #111827;
+      --ink-sub: #6B7280;
+      --ink-faint: #9CA3AF;
+      --ring-green: #10B981;
+      --ring-orange: #F59E0B;
+      --ring-red: #EF4444;
+      --border-card: rgba(17, 24, 39, 0.05);
+      --shadow-puffy: 0 10px 28px -4px rgba(0, 48, 143, 0.07), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+      --dock-h: 60px;
     }
 
     *, *::before, *::after {
@@ -47,9 +44,9 @@
     }
 
     body {
-      font-family: var(--font-system);
-      background-color: var(--bg-black);
-      color: var(--text-matte);
+      font-family: var(--font-copilot);
+      background-color: var(--bg-canvas);
+      color: var(--ink-headline);
       min-height: 100dvh;
       display: flex;
       justify-content: center;
@@ -57,313 +54,385 @@
       -webkit-user-select: none;
       touch-action: manipulation;
       overflow-x: hidden;
-      letter-spacing: -0.015em;
+      letter-spacing: -0.012em;
     }
 
-    .app-container {
+    .app-frame {
       width: 100%;
       max-width: 430px;
       min-height: 100dvh;
       display: flex;
       flex-direction: column;
       position: relative;
-      background: var(--bg-black);
-      padding-bottom: calc(var(--dock-height) + 22px + env(safe-area-inset-bottom));
+      background: var(--bg-canvas);
+      padding-bottom: calc(var(--dock-h) + 26px + env(safe-area-inset-bottom));
     }
 
-    /* TOP BAR NATIVA WALLET */
-    .wallet-header {
-      padding: calc(14px + env(safe-area-inset-top)) 20px 8px;
+    /* COPILOT ATMOSPHERIC HEADER */
+    .copilot-hero-banner {
+      background: linear-gradient(180deg, #005CEE 0%, #0066FF 65%, #257CFF 100%);
+      padding: calc(14px + env(safe-area-inset-top)) 20px 32px;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 12px;
+      color: #FFFFFF;
+      border-radius: 0 0 32px 32px;
+      box-shadow: 0 12px 30px rgba(0, 102, 255, 0.22);
     }
-    .header-top-row {
+    .banner-top-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .cycle-badge {
+    .banner-brand {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #FFFFFF;
+    }
+    .cycle-pill-copilot {
       font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
+      font-weight: 700;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
-      color: var(--text-secondary);
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
       padding: 4px 10px;
       border-radius: 999px;
-      border: 0.5px solid var(--border-hairline);
+      color: #FFFFFF;
     }
-    .header-action-btn {
+    .icon-ghost-btn {
       background: none;
       border: none;
-      color: var(--text-secondary);
+      color: #FFFFFF;
       cursor: pointer;
-      padding: 4px;
       display: flex;
       align-items: center;
+      padding: 4px;
     }
-    .wallet-title {
-      font-size: 34px;
+
+    /* SEGMENTED PILL COPILOT */
+    .copilot-subpill-nav {
+      display: flex;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .subpill-item {
+      flex: 1;
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 12px;
       font-weight: 700;
-      letter-spacing: -0.04em;
-      color: var(--text-optic-white);
-      margin-top: 2px;
+      padding: 6px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 160ms;
+    }
+    .subpill-item.active {
+      background: #FFFFFF;
+      color: var(--copilot-blue);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     }
 
-    /* CONTENITORE PRINCIPALE */
-    .viewport-content {
-      padding: 6px 18px 20px;
+    /* SCROLL CONTENUTI */
+    .scroll-body {
+      padding: 14px 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: -16px;
+    }
+    .view-card {
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
-    .view-pane {
+
+    /* PUFFY PILLOW CARDS BIANCHE */
+    .puffy-card {
+      background: var(--card-white);
+      border-radius: 26px;
+      padding: 22px 20px;
+      border: 0.5px solid var(--border-card);
+      box-shadow: var(--shadow-puffy);
       display: flex;
       flex-direction: column;
-      gap: 16px;
     }
 
-    /* =========================================================
-       TITANIUM CARD (APPLE CARD A SCHERMO)
-       ========================================================= */
-    .titanium-card {
-      background: var(--card-titanium);
-      border: 0.5px solid var(--border-hairline);
-      border-radius: var(--radius-wallet);
-      padding: 24px 22px 20px;
+    /* HERO BALANCE DIGITS */
+    .balance-center-group {
       display: flex;
       flex-direction: column;
-      position: relative;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+      align-items: center;
+      text-align: center;
     }
-    .card-eyebrow {
-      font-size: 11px;
+    .balance-eyebrow {
+      font-size: 12px;
       font-weight: 600;
-      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+      color: var(--ink-sub);
+      margin-bottom: 4px;
     }
-    .card-balance-row {
+    .balance-digits-wrap {
       display: flex;
       align-items: baseline;
+      justify-content: center;
       font-variant-numeric: tabular-nums;
-      letter-spacing: -0.045em;
+      margin: 2px 0 6px;
       line-height: 1;
-      margin: 4px 0 16px;
     }
-    .card-currency {
+    .balance-curr {
       font-size: 26px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      margin-right: 6px;
+      font-weight: 600;
+      color: var(--ink-sub);
+      margin-right: 4px;
     }
-    .card-int {
+    .balance-int {
       font-size: 48px;
-      font-weight: 700;
-      color: var(--text-optic-white);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--ink-headline);
     }
-    .card-dec {
+    .balance-dec {
       font-size: 28px;
-      font-weight: 500;
-      color: var(--text-secondary);
+      font-weight: 600;
+      color: var(--ink-faint);
+    }
+    .balance-subtext {
+      font-size: 12px;
+      color: var(--ink-sub);
     }
 
-    /* GHIERA / BARRA DI CONSUMO */
-    .gauge-track {
+    /* BARRA PROCESSO RAFFINATA */
+    .copilot-track-wrap {
       width: 100%;
-      height: 5px;
-      background: rgba(255, 255, 255, 0.1);
+      margin: 16px 0 4px;
+    }
+    .copilot-track {
+      width: 100%;
+      height: 7px;
+      background: #EBF0F8;
       border-radius: 999px;
       overflow: hidden;
-      margin: 4px 0 8px;
     }
-    .gauge-fill {
+    .copilot-bar {
       height: 100%;
-      background: var(--text-optic-white);
+      background: linear-gradient(90deg, #0066FF, #00D2FF);
       border-radius: 999px;
-      transition: width 350ms cubic-bezier(0.16, 1, 0.3, 1);
+      transition: width 350ms ease;
     }
-    .gauge-legend {
+    .track-meta {
       display: flex;
       justify-content: space-between;
-      font-size: 12px;
-      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink-sub);
+      margin-top: 6px;
       font-variant-numeric: tabular-nums;
     }
 
-    /* DOPPIA METRICA INCASSATA */
-    .card-metrics-split {
+    /* DOPPIA METRICA COMPATTA */
+    .metric-duo-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-top: 18px;
-      padding-top: 16px;
-      border-top: 0.5px solid var(--border-subtle);
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 0.5px solid rgba(0, 0, 0, 0.05);
     }
-    .metric-pod {
+    .metric-duo-cell {
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
-    .pod-label {
+    .duo-label {
       font-size: 11px;
-      font-weight: 500;
-      color: var(--text-secondary);
+      font-weight: 600;
+      color: var(--ink-sub);
     }
-    .pod-value {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.025em;
+    .duo-val {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
       font-variant-numeric: tabular-nums;
-      color: var(--text-optic-white);
+      color: var(--ink-headline);
     }
-    .pod-hint {
+    .duo-sub {
       font-size: 11px;
-      color: var(--text-tertiary);
+      color: var(--ink-faint);
     }
 
     /* =========================================================
-       INSET LEDGER — RIEPILOGO EDITORIALE
+       ANELLI DI BUDGET ALLA COPILOT (BUDGET RINGS)
        ========================================================= */
-    .ledger-block {
-      background: var(--card-inset);
-      border: 0.5px solid var(--border-subtle);
-      border-radius: var(--radius-pod);
-      padding: 18px 20px;
-      display: flex;
-      flex-direction: column;
-    }
-    .ledger-heading {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      margin-bottom: 10px;
-    }
-    .ledger-list {
-      display: flex;
-      flex-direction: column;
-    }
-    .ledger-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
-      font-size: 14px;
-      border-bottom: 0.5px solid var(--border-subtle);
-    }
-    .ledger-item:last-child {
-      border-bottom: none;
-      padding-bottom: 2px;
-    }
-    .item-label {
-      color: var(--text-matte);
-      font-weight: 400;
-    }
-    .item-num {
-      font-weight: 600;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: -0.02em;
-    }
-
-    /* LISTA MOVIMENTI NATIVA STILE WALLET */
-    .activity-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .activity-header {
+    .rings-section-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 0 4px;
+      margin-top: 4px;
     }
-    .activity-title {
+    .section-puffy-title {
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 800;
       letter-spacing: -0.02em;
-      color: var(--text-optic-white);
+      color: var(--ink-headline);
+      text-transform: uppercase;
     }
-    .activity-total-badge {
-      font-size: 12px;
-      color: var(--text-tertiary);
+    .rings-horizontal-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 4px 2px 8px;
+      scrollbar-width: none;
     }
-    .tx-feed {
+    .rings-horizontal-scroll::-webkit-scrollbar { display: none; }
+
+    .ring-card-item {
+      background: var(--card-white);
+      border-radius: 22px;
+      padding: 14px 12px;
+      min-width: 82px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--shadow-puffy);
+      border: 0.5px solid var(--border-card);
+      flex-shrink: 0;
     }
-    .tx-row {
-      background: var(--card-inset);
-      border: 0.5px solid var(--border-subtle);
-      border-radius: 14px;
+    .ring-circle-svg-wrap {
+      width: 48px;
+      height: 48px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ring-circle-svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+    .ring-icon-center {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-headline);
+    }
+    .ring-icon-center svg {
+      width: 18px;
+      height: 18px;
+    }
+    .ring-amount {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--ink-headline);
+      font-variant-numeric: tabular-nums;
+    }
+    .ring-status-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--ink-sub);
+    }
+
+    /* RIEPILOGO COMPOSIZIONE CICLO */
+    .ledger-row-puffy {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 0;
+      font-size: 14px;
+      border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
+    }
+    .ledger-row-puffy:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .puffy-row-label {
+      font-weight: 500;
+      color: var(--ink-headline);
+    }
+    .puffy-row-val {
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* LISTA MOVIMENTI NATIVA */
+    .tx-puffy-row {
+      background: var(--card-white);
+      border-radius: 18px;
       padding: 12px 14px;
       display: flex;
       align-items: center;
       gap: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      border: 0.5px solid var(--border-card);
       cursor: pointer;
-      transition: transform 120ms ease;
+      transition: transform 120ms;
     }
-    .tx-row:active {
+    .tx-puffy-row:active {
       transform: scale(0.985);
     }
-    .tx-icon-bubble {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      background: var(--card-surface);
+    .tx-bubble-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: #F0F4FA;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--text-optic-white);
+      color: var(--copilot-blue);
       flex-shrink: 0;
     }
-    .tx-icon-bubble svg {
-      width: 19px;
-      height: 19px;
+    .tx-bubble-icon svg {
+      width: 20px;
+      height: 20px;
     }
-    .tx-meta {
+    .tx-meta-puffy {
       flex: 1;
       min-width: 0;
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
-    .tx-title {
+    .tx-title-puffy {
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      color: var(--ink-headline);
     }
-    .tx-sub {
+    .tx-sub-puffy {
       font-size: 12px;
-      color: var(--text-secondary);
+      color: var(--ink-sub);
     }
-    .tx-val {
+    .tx-val-puffy {
       font-size: 15px;
-      font-weight: 600;
-      letter-spacing: -0.02em;
+      font-weight: 700;
       font-variant-numeric: tabular-nums;
     }
 
     /* =========================================================
-       DOCK BAR A 5 SLOT CON + CENTRALE PERFETTO
+       DOCK BAR SOSPESA ALLA COPILOT (+ CENTRALE ELETTRICO)
        ========================================================= */
-    .apple-dock {
+    .copilot-dock {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
       margin: 0 auto;
       max-width: 430px;
-      height: calc(var(--dock-height) + env(safe-area-inset-bottom));
+      height: calc(var(--dock-h) + env(safe-area-inset-bottom));
       padding-bottom: env(safe-area-inset-bottom);
-      background: rgba(14, 14, 16, 0.88);
-      border-top: 0.5px solid var(--border-hairline);
+      background: rgba(255, 255, 255, 0.92);
+      border-top: 0.5px solid rgba(0, 0, 0, 0.08);
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       align-items: center;
@@ -371,32 +440,32 @@
       backdrop-filter: blur(28px) saturate(180%);
       -webkit-backdrop-filter: blur(28px) saturate(180%);
     }
-    .dock-tab {
+    .dock-slot {
       background: none;
       border: none;
-      color: var(--text-tertiary);
+      color: var(--ink-faint);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 4px;
       font-size: 10px;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
       height: 100%;
       padding: 0;
-      transition: color 140ms ease;
+      transition: color 140ms;
     }
-    .dock-tab svg {
+    .dock-slot svg {
       width: 20px;
       height: 20px;
     }
-    .dock-tab.active {
-      color: var(--text-optic-white);
+    .dock-slot.active {
+      color: var(--copilot-blue);
     }
 
-    /* SLOT 3: PULSANTE + AL CENTRO GEOMETRICO */
-    .dock-plus-wrap {
+    /* SLOT 3: PULSANTE + CENTRALE BLU ELETTRICO */
+    .dock-plus-slot {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -405,32 +474,32 @@
       border: none;
       cursor: pointer;
     }
-    .dock-plus-disc {
-      width: 44px;
-      height: 44px;
+    .dock-plus-circle {
+      width: 46px;
+      height: 46px;
       border-radius: 999px;
-      background: var(--text-optic-white);
-      color: var(--bg-black);
+      background: var(--copilot-blue);
+      color: #FFFFFF;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
-      transition: transform 140ms cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 6px 18px rgba(0, 102, 255, 0.38);
+      transition: transform 140ms ease;
     }
-    .dock-plus-wrap:active .dock-plus-disc {
+    .dock-plus-slot:active .dock-plus-circle {
       transform: scale(0.92);
     }
 
     /* =========================================================
-       BOTTOM SHEET — INSERIMENTO RAPIDO
+       BOTTOM SHEET COPILOT
        ========================================================= */
     .sheet-scrim {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.72);
+      background: rgba(17, 24, 39, 0.45);
       z-index: 90;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
     .bottom-sheet {
       position: fixed;
@@ -439,15 +508,14 @@
       bottom: 0;
       max-width: 430px;
       margin: 0 auto;
-      background: #141418;
-      border-top: 0.5px solid var(--border-hairline);
-      border-radius: 26px 26px 0 0;
-      padding: 12px 18px calc(24px + env(safe-area-inset-bottom));
+      background: #FFFFFF;
+      border-radius: 28px 28px 0 0;
+      padding: 12px 20px calc(24px + env(safe-area-inset-bottom));
       z-index: 100;
       display: flex;
       flex-direction: column;
       gap: 14px;
-      box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.12);
       max-height: 88vh;
       overflow-y: auto;
       transform: translateY(0);
@@ -457,12 +525,11 @@
       transform: translateY(105%);
     }
     .sheet-handle {
-      width: 36px;
+      width: 38px;
       height: 4px;
-      background: var(--text-tertiary);
+      background: #D1D5DB;
       border-radius: 999px;
       margin: 0 auto 2px;
-      opacity: 0.6;
     }
     .sheet-header-row {
       display: flex;
@@ -470,22 +537,24 @@
       align-items: center;
     }
     .sheet-title {
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 17px;
+      font-weight: 800;
       letter-spacing: -0.02em;
+      color: var(--ink-headline);
     }
     .sheet-close-btn {
       background: none;
       border: none;
-      color: var(--text-secondary);
+      color: var(--copilot-blue);
       font-size: 15px;
+      font-weight: 700;
       cursor: pointer;
     }
 
     .pill-switch {
       display: flex;
-      background: var(--card-inset);
-      border-radius: 10px;
+      background: #F3F4F6;
+      border-radius: 12px;
       padding: 3px;
     }
     .switch-option {
@@ -494,21 +563,19 @@
       cursor: pointer;
       position: relative;
     }
-    .switch-option input {
-      position: absolute;
-      opacity: 0;
-    }
+    .switch-option input { position: absolute; opacity: 0; }
     .switch-option span {
       display: block;
-      padding: 6px;
+      padding: 7px;
       font-size: 13px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      border-radius: 8px;
+      font-weight: 700;
+      color: var(--ink-sub);
+      border-radius: 9px;
     }
     .switch-option input:checked + span {
-      background: var(--card-surface);
-      color: var(--text-optic-white);
+      background: #FFFFFF;
+      color: var(--copilot-blue);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     }
 
     .key-input-display {
@@ -516,21 +583,21 @@
       align-items: baseline;
       justify-content: center;
       padding: 12px 0;
-      background: var(--card-inset);
-      border-radius: 16px;
+      background: #F8FAFC;
+      border-radius: 18px;
     }
     .display-curr {
       font-size: 26px;
-      font-weight: 600;
-      color: var(--text-secondary);
+      font-weight: 700;
+      color: var(--ink-sub);
       margin-right: 6px;
     }
     #tx-amount {
       background: transparent;
       border: none;
-      font-size: 40px;
-      font-weight: 700;
-      color: var(--text-optic-white);
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--ink-headline);
       outline: none;
       width: 170px;
       font-variant-numeric: tabular-nums;
@@ -539,70 +606,68 @@
 
     .category-mosaic-label {
       font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
+      font-weight: 700;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--text-secondary);
+      color: var(--ink-sub);
     }
     .category-mosaic-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 7px;
+      gap: 8px;
     }
     .cat-chip-wrap {
       position: relative;
       cursor: pointer;
     }
-    .cat-chip-wrap input {
-      position: absolute;
-      opacity: 0;
-    }
+    .cat-chip-wrap input { position: absolute; opacity: 0; }
     .cat-chip-inner {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 5px;
-      padding: 9px 4px;
-      background: var(--card-inset);
-      border: 0.5px solid transparent;
-      border-radius: 12px;
+      padding: 10px 4px;
+      background: #F8FAFC;
+      border: 1px solid #E5E7EB;
+      border-radius: 14px;
       text-align: center;
       transition: all 120ms;
     }
     .cat-chip-inner svg {
-      width: 18px;
-      height: 18px;
-      stroke: var(--text-secondary);
+      width: 20px;
+      height: 20px;
+      stroke: var(--ink-sub);
     }
     .cat-chip-name {
       font-size: 11px;
-      font-weight: 500;
-      color: var(--text-secondary);
+      font-weight: 600;
+      color: var(--ink-sub);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       max-width: 100%;
     }
     .cat-chip-wrap input:checked + .cat-chip-inner {
-      background: var(--card-surface);
-      border-color: var(--text-optic-white);
+      background: #EEF6FF;
+      border-color: var(--copilot-blue);
     }
     .cat-chip-wrap input:checked + .cat-chip-inner svg {
-      stroke: var(--text-optic-white);
+      stroke: var(--copilot-blue);
     }
     .cat-chip-wrap input:checked + .cat-chip-inner .cat-chip-name {
-      color: var(--text-optic-white);
-      font-weight: 600;
+      color: var(--copilot-blue);
+      font-weight: 700;
     }
 
     .form-duo {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 9px;
+      gap: 10px;
     }
     .input-pod {
-      background: var(--card-inset);
-      border-radius: 12px;
+      background: #F8FAFC;
+      border: 1px solid #E5E7EB;
+      border-radius: 14px;
       padding: 8px 12px;
       display: flex;
       flex-direction: column;
@@ -610,14 +675,14 @@
     }
     .pod-field-label {
       font-size: 11px;
-      font-weight: 500;
-      color: var(--text-secondary);
+      font-weight: 600;
+      color: var(--ink-sub);
     }
     .pod-input-field {
       background: transparent;
       border: none;
       outline: none;
-      color: var(--text-optic-white);
+      color: var(--ink-headline);
       font-size: 16px;
       font-family: inherit;
       width: 100%;
@@ -628,29 +693,28 @@
       gap: 8px;
       margin-top: 4px;
     }
-    .btn-submit-wallet {
+    .btn-submit-copilot {
       flex: 2;
       padding: 14px;
-      border-radius: 14px;
-      background: var(--text-optic-white);
-      color: var(--bg-black);
+      border-radius: 16px;
+      background: var(--copilot-blue);
+      color: #FFFFFF;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 700;
       border: none;
       cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 102, 255, 0.3);
       transition: transform 120ms;
     }
-    .btn-submit-wallet:active {
-      transform: scale(0.98);
-    }
-    .btn-delete-wallet {
+    .btn-submit-copilot:active { transform: scale(0.98); }
+    .btn-delete-copilot {
       flex: 1;
       padding: 14px;
-      border-radius: 14px;
-      background: rgba(255, 69, 58, 0.12);
-      color: var(--apple-red);
+      border-radius: 16px;
+      background: #FEE2E2;
+      color: #DC2626;
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 700;
       border: none;
       cursor: pointer;
     }
@@ -660,135 +724,121 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--card-inset);
-      padding: 8px 14px;
-      border-radius: 14px;
-      border: 0.5px solid var(--border-subtle);
+      background: var(--card-white);
+      padding: 10px 16px;
+      border-radius: 18px;
+      box-shadow: var(--shadow-puffy);
+      border: 0.5px solid var(--border-card);
     }
     .stepper-btn {
       background: none;
       border: none;
-      color: var(--text-optic-white);
-      font-size: 22px;
+      color: var(--copilot-blue);
+      font-size: 24px;
       line-height: 1;
       cursor: pointer;
       padding: 4px 8px;
+      font-weight: 700;
     }
     .stepper-label {
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 15px;
+      font-weight: 800;
       text-transform: capitalize;
     }
 
-    .filter-search-row {
-      display: flex;
-      gap: 8px;
-    }
+    .filter-search-row { display: flex; gap: 8px; }
     .wallet-search-input {
       flex: 2;
-      background: var(--card-inset);
-      border: 0.5px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 9px 12px;
-      color: var(--text-optic-white);
+      background: var(--card-white);
+      border: 0.5px solid var(--border-card);
+      border-radius: 14px;
+      padding: 10px 14px;
+      color: var(--ink-headline);
       font-size: 16px;
       outline: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
     }
     .wallet-category-select {
       flex: 1;
-      background: var(--card-inset);
-      border: 0.5px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 9px 6px;
-      color: var(--text-secondary);
+      background: var(--card-white);
+      border: 0.5px solid var(--border-card);
+      border-radius: 14px;
+      padding: 10px 8px;
+      color: var(--ink-sub);
       font-size: 13px;
       outline: none;
     }
 
-    .day-block {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+    .day-block { display: flex; flex-direction: column; gap: 6px; }
     .day-header {
       display: flex;
       justify-content: space-between;
       font-size: 11px;
-      font-weight: 600;
-      color: var(--text-secondary);
+      font-weight: 700;
+      color: var(--ink-sub);
       text-transform: uppercase;
       padding: 0 4px;
     }
 
     .subnav-pills {
       display: flex;
-      background: var(--card-inset);
-      border-radius: 12px;
+      background: #E5E7EB;
+      border-radius: 14px;
       padding: 3px;
-      border: 0.5px solid var(--border-subtle);
     }
     .subnav-btn {
       flex: 1;
       background: none;
       border: none;
-      color: var(--text-secondary);
+      color: var(--ink-sub);
       padding: 8px;
       font-size: 13px;
-      font-weight: 600;
-      border-radius: 9px;
+      font-weight: 700;
+      border-radius: 11px;
       cursor: pointer;
     }
     .subnav-btn.active {
-      background: var(--card-surface);
-      color: var(--text-optic-white);
+      background: var(--card-white);
+      color: var(--copilot-blue);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     }
     .subnav-pane { display: none; }
     .subnav-pane.active { display: block; }
 
-    .link-action-text {
-      background: none;
-      border: none;
-      color: var(--text-optic-white);
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
     /* TOAST */
     .wallet-toast {
       position: fixed;
-      bottom: calc(var(--dock-height) + 16px + env(safe-area-inset-bottom));
+      bottom: calc(var(--dock-h) + 16px + env(safe-area-inset-bottom));
       left: 18px;
       right: 18px;
       max-width: 390px;
       margin: 0 auto;
-      background: var(--card-surface);
-      border: 0.5px solid var(--border-hairline);
-      color: var(--text-optic-white);
-      padding: 12px 16px;
-      border-radius: 14px;
+      background: var(--ink-headline);
+      color: #FFFFFF;
+      padding: 12px 18px;
+      border-radius: 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 110;
       font-size: 13px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
     }
     .toast-undo-btn {
       background: none;
       border: none;
-      color: var(--apple-gold);
-      font-weight: 600;
+      color: #FCD34D;
+      font-weight: 700;
       font-size: 13px;
       cursor: pointer;
     }
 
     .clean-input-cell {
-      background: var(--card-surface);
+      background: #F3F4F6;
       border: none;
       padding: 6px 10px;
       border-radius: 8px;
-      color: var(--text-optic-white);
+      color: var(--ink-headline);
       font-size: 15px;
       text-align: right;
       width: 90px;
@@ -797,26 +847,26 @@
     .matrix-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 9px;
+      gap: 10px;
       margin-top: 6px;
     }
     .matrix-item-btn {
-      background: var(--card-surface);
-      border: 0.5px solid var(--border-subtle);
-      border-radius: 12px;
+      background: #F8FAFC;
+      border: 1px solid #E5E7EB;
+      border-radius: 14px;
       padding: 12px 8px;
       text-align: center;
       font-size: 13px;
-      font-weight: 600;
-      color: var(--text-optic-white);
+      font-weight: 700;
+      color: var(--copilot-blue);
       cursor: pointer;
     }
-    .matrix-item-btn.danger { color: var(--apple-red); }
+    .matrix-item-btn.danger { color: #EF4444; border-color: #FEE2E2; }
 
     .empty-placeholder {
       text-align: center;
       padding: 24px 14px;
-      color: var(--text-secondary);
+      color: var(--ink-sub);
       font-size: 13px;
       display: flex;
       flex-direction: column;
@@ -826,90 +876,106 @@
   </style>
 </head>
 <body>
-  <div class="app-container">
-    <!-- HEADER -->
-    <header class="wallet-header">
-      <div class="header-top-row">
-        <span class="cycle-badge" id="label-periodo">CICLO IN CORSO</span>
-        <button type="button" class="header-action-btn" id="btn-quick-export" title="Backup">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-        </button>
+  <div class="app-frame">
+    <!-- COPILOT BLUE MESH HEADER -->
+    <header class="copilot-hero-banner">
+      <div class="banner-top-row">
+        <span class="banner-brand">Finanze</span>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="cycle-pill-copilot" id="label-periodo">CICLO 28</span>
+          <button type="button" class="icon-ghost-btn" id="btn-quick-export" title="Backup">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          </button>
+        </div>
       </div>
-      <h1 class="wallet-title" id="screen-title">Oggi</h1>
     </header>
 
-    <main class="viewport-content">
-      <!-- 1. VISTA OGGI (APPLE CARD TITANIUM) -->
-      <section id="view-oggi" class="view-pane active">
-        <article class="titanium-card">
-          <span class="card-eyebrow">Disponibile del mese</span>
-          <div class="card-balance-row">
-            <span class="card-currency">€</span>
-            <span class="card-int" id="val-disp-int">0</span>
-            <span class="card-dec" id="val-disp-dec">,00</span>
-          </div>
-
-          <div class="gauge-track">
-            <div class="gauge-fill" id="progress-fill" style="width: 0%;"></div>
-          </div>
-          <div class="gauge-legend">
-            <span id="label-speso-mese">Spesi 0,00 €</span>
-            <span id="label-perc-speso">0% allocato</span>
-          </div>
-
-          <div class="card-metrics-split">
-            <div class="metric-pod">
-              <span class="pod-label">Oggi puoi spendere</span>
-              <span class="pod-value" id="val-budget-oggi">0,00 €</span>
-              <span class="pod-hint" id="val-giorni-rimasti">Calcolo...</span>
+    <main class="scroll-body">
+      <!-- 1. VISTA OGGI (COPILOT MONEY CARD & RINGS) -->
+      <section id="view-oggi" class="view-card active">
+        <!-- CARD PRINCIPALE BIANCA PUFFY -->
+        <article class="puffy-card">
+          <div class="balance-center-group">
+            <span class="balance-eyebrow">Disponibile del mese</span>
+            <div class="balance-digits-wrap">
+              <span class="balance-curr">€</span>
+              <span class="balance-int" id="val-disp-int">0</span>
+              <span class="balance-dec" id="val-disp-dec">,00</span>
             </div>
-            <div class="metric-pod">
-              <span class="pod-label">Ritmo di marcia</span>
-              <span class="pod-value" id="val-ritmo-spesa">—</span>
-              <span class="pod-hint" id="val-ritmo-dettaglio">in linea</span>
+            <span class="balance-subtext" id="label-speso-mese">Spesi 0,00 € di budget</span>
+          </div>
+
+          <div class="copilot-track-wrap">
+            <div class="copilot-track">
+              <div class="copilot-bar" id="progress-fill" style="width: 0%;"></div>
+            </div>
+            <div class="track-meta">
+              <span>0% allocato</span>
+              <span id="val-giorni-rimasti">Calcolo...</span>
+            </div>
+          </div>
+
+          <div class="metric-duo-grid">
+            <div class="metric-duo-cell">
+              <span class="duo-label">Budget di oggi</span>
+              <span class="duo-val" id="val-budget-oggi">0,00 €</span>
+              <span class="duo-sub">consigliato</span>
+            </div>
+            <div class="metric-duo-cell">
+              <span class="duo-label">Ritmo di spesa</span>
+              <span class="duo-val" id="val-ritmo-spesa">—</span>
+              <span class="duo-sub" id="val-ritmo-dettaglio">in linea col mese</span>
             </div>
           </div>
         </article>
 
-        <!-- COMPOSIZIONE CICLO INSET -->
-        <article class="ledger-block">
-          <span class="ledger-heading">Composizione Ciclo</span>
-          <div class="ledger-list">
-            <div class="ledger-item">
-              <span class="item-label">Entrate previste</span>
-              <span class="item-num" id="val-sum-entrate">1.800,00 €</span>
-            </div>
-            <div class="ledger-item">
-              <span class="item-label">PAC & Risparmio protetto</span>
-              <span class="item-num" id="val-sum-pac">200,00 €</span>
-            </div>
-            <div class="ledger-item">
-              <span class="item-label">Spese fisse ammortizzate</span>
-              <span class="item-num" id="val-sum-fisse">250,00 €</span>
-            </div>
-            <div class="ledger-item">
-              <span class="item-label" style="color: var(--text-secondary);">Uscite variabili registrate</span>
-              <span class="item-num" id="val-sum-variabili" style="color: var(--text-secondary);">0,00 €</span>
-            </div>
+        <!-- ANELLI DI BUDGET ALLA COPILOT (BUDGET RINGS) -->
+        <section class="activity-group">
+          <div class="rings-section-head">
+            <span class="section-puffy-title">Budget per Categoria</span>
+          </div>
+          <div class="rings-horizontal-scroll" id="rings-scroll-list">
+            <!-- Render dinamico da app.js -->
+          </div>
+        </section>
+
+        <!-- COMPOSIZIONE CICLO (CARD PUFFY) -->
+        <article class="puffy-card">
+          <span class="section-puffy-title" style="margin-bottom: 8px;">Composizione Ciclo</span>
+          <div class="ledger-row-puffy">
+            <span class="puffy-row-label">Entrate previste</span>
+            <span class="puffy-row-val" style="color: var(--ring-green);" id="val-sum-entrate">1.800,00 €</span>
+          </div>
+          <div class="ledger-row-puffy">
+            <span class="puffy-row-label">PAC & Risparmio protetto</span>
+            <span class="puffy-row-val" id="val-sum-pac">200,00 €</span>
+          </div>
+          <div class="ledger-row-puffy">
+            <span class="puffy-row-label">Spese fisse ammortizzate</span>
+            <span class="puffy-row-val" id="val-sum-fisse">250,00 €</span>
+          </div>
+          <div class="ledger-row-puffy">
+            <span class="puffy-row-label">Uscite variabili registrate</span>
+            <span class="puffy-row-val" style="color: var(--ink-sub);" id="val-sum-variabili">0,00 €</span>
           </div>
         </article>
 
         <!-- ATTIVITÀ RECENTI -->
         <section class="activity-group">
-          <div class="activity-header">
-            <span class="activity-title">Attività Recenti</span>
-            <span class="activity-total-badge" id="badge-totale-movimenti">0</span>
+          <div class="rings-section-head">
+            <span class="section-puffy-title">Attività Recenti</span>
+            <span style="font-size: 12px; color: var(--ink-sub);" id="badge-totale-movimenti">0</span>
           </div>
-          <div class="tx-feed" id="recent-transactions-list"></div>
+          <div class="tx-feed" id="recent-transactions-list" style="display:flex; flex-direction:column; gap:8px;"></div>
           <div id="recent-empty-state" class="empty-placeholder hidden">
             <p>Nessun movimento in questo ciclo</p>
-            <span style="font-size: 11px; color: var(--text-tertiary);">Tocca il tasto + al centro per iniziare</span>
+            <span style="font-size: 11px; color: var(--ink-faint);">Tocca il tasto + al centro per iniziare</span>
           </div>
         </section>
       </section>
 
       <!-- 2. VISTA MOVIMENTI -->
-      <section id="view-movimenti" class="view-pane hidden">
+      <section id="view-movimenti" class="view-card hidden">
         <div class="month-stepper">
           <button type="button" class="stepper-btn" id="btn-month-prev">‹</button>
           <span class="stepper-label" id="label-selected-month">Mese Corrente</span>
@@ -923,61 +989,59 @@
           </select>
         </div>
 
-        <div class="tx-feed" id="all-transactions-grouped"></div>
+        <div class="tx-feed" id="all-transactions-grouped" style="display:flex; flex-direction:column; gap:8px;"></div>
         <div id="tx-empty-state" class="empty-placeholder hidden">
           <p>Nessuna voce corrispondente</p>
         </div>
       </section>
 
       <!-- 3. VISTA FISSE & PAC -->
-      <section id="view-fisse" class="view-pane hidden">
+      <section id="view-fisse" class="view-card hidden">
         <div class="subnav-pills">
           <button type="button" class="subnav-btn active" data-sub="sub-fisse">Spese Fisse</button>
           <button type="button" class="subnav-btn" data-sub="sub-pac">PAC & Target</button>
         </div>
 
         <div id="sub-fisse" class="subnav-pane active">
-          <article class="ledger-block">
+          <article class="puffy-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
-              <span class="ledger-heading" style="margin:0;">Spese Ricorrenti</span>
-              <button type="button" class="link-action-text" id="btn-open-recurring-modal">+ Aggiungi</button>
+              <span class="section-puffy-title" style="margin:0;">Spese Ricorrenti</span>
+              <button type="button" class="sheet-close-btn" id="btn-open-recurring-modal">+ Aggiungi</button>
             </div>
-            <p style="font-size:11px; color:var(--text-tertiary); margin-bottom:10px;">Quota auto e spese annualizzate (/12) accantonate a monte.</p>
-            <div class="ledger-list" id="recurring-list"></div>
+            <p style="font-size:12px; color:var(--ink-sub); margin-bottom:12px;">Quota auto e spese annualizzate (/12) accantonate a monte.</p>
+            <div id="recurring-list" style="display:flex; flex-direction:column;"></div>
           </article>
         </div>
 
         <div id="sub-pac" class="subnav-pane hidden">
-          <article class="ledger-block">
+          <article class="puffy-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
-              <span class="ledger-heading" style="margin:0;">Piani di Accumulo</span>
-              <button type="button" class="link-action-text" id="btn-open-goal-modal">+ Nuovo Piano</button>
+              <span class="section-puffy-title" style="margin:0;">Piani di Accumulo</span>
+              <button type="button" class="sheet-close-btn" id="btn-open-goal-modal">+ Nuovo Piano</button>
             </div>
-            <p style="font-size:11px; color:var(--text-tertiary); margin-bottom:10px;">Investimenti sottratti a inizio ciclo prima del calcolo spesa.</p>
-            <div class="ledger-list" id="goals-list"></div>
+            <p style="font-size:12px; color:var(--ink-sub); margin-bottom:12px;">Investimenti sottratti a inizio ciclo prima del calcolo spesa.</p>
+            <div id="goals-list" style="display:flex; flex-direction:column;"></div>
           </article>
         </div>
       </section>
 
       <!-- 4. VISTA IMPOSTAZIONI -->
-      <section id="view-impostazioni" class="view-pane hidden">
-        <article class="ledger-block">
-          <span class="ledger-heading">Parametri Ciclo</span>
-          <div class="ledger-list">
-            <div class="ledger-item">
-              <label for="cfg-salary-day" class="item-label">Giorno stipendio</label>
-              <input type="number" id="cfg-salary-day" class="clean-input-cell" min="1" max="28" value="28">
-            </div>
-            <div class="ledger-item">
-              <label for="cfg-monthly-income" class="item-label">Entrata netta (€)</label>
-              <input type="number" id="cfg-monthly-income" class="clean-input-cell" step="50" placeholder="1800">
-            </div>
+      <section id="view-impostazioni" class="view-card hidden">
+        <article class="puffy-card">
+          <span class="section-puffy-title" style="margin-bottom: 12px;">Parametri Ciclo</span>
+          <div class="ledger-row-puffy">
+            <label for="cfg-salary-day" class="puffy-row-label">Giorno stipendio</label>
+            <input type="number" id="cfg-salary-day" class="clean-input-cell" min="1" max="28" value="28">
           </div>
-          <button type="button" class="btn-submit-wallet" id="btn-save-settings" style="margin-top: 14px; padding: 12px;">Salva Parametri</button>
+          <div class="ledger-row-puffy">
+            <label for="cfg-monthly-income" class="puffy-row-label">Entrata netta (€)</label>
+            <input type="number" id="cfg-monthly-income" class="clean-input-cell" step="50" placeholder="1800">
+          </div>
+          <button type="button" class="btn-submit-copilot" id="btn-save-settings" style="margin-top: 14px;">Salva Parametri</button>
         </article>
 
-        <article class="ledger-block">
-          <span class="ledger-heading">Dati & Backup</span>
+        <article class="puffy-card">
+          <span class="section-puffy-title" style="margin-bottom: 12px;">Dati & Backup</span>
           <div class="matrix-grid">
             <button type="button" class="matrix-item-btn" id="btn-export-json">Backup JSON</button>
             <button type="button" class="matrix-item-btn" id="btn-export-csv">Esporta CSV</button>
@@ -987,37 +1051,37 @@
             </label>
             <button type="button" class="matrix-item-btn danger" id="btn-reset-data">Azzera Dati</button>
           </div>
-          <div style="font-size:11px; color:var(--text-tertiary); text-align:center; margin-top:12px;" id="backup-status-text">Ultimo backup: mai</div>
+          <div style="font-size:11px; color:var(--ink-faint); text-align:center; margin-top:12px;" id="backup-status-text">Ultimo backup: mai</div>
         </article>
       </section>
     </main>
 
-    <!-- ACTION DOCK (5 SLOT SIMMETRICI CON + AL CENTRO PERFETTO) -->
-    <nav class="apple-dock" aria-label="Navigazione Principale">
-      <button type="button" class="dock-tab active" data-tab="oggi">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+    <!-- ACTION DOCK COPILOT A 5 SLOT CON + CENTRALE BLU -->
+    <nav class="copilot-dock" aria-label="Navigazione Principale">
+      <button type="button" class="dock-slot active" data-tab="oggi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
         <span>Oggi</span>
       </button>
 
-      <button type="button" class="dock-tab" data-tab="movimenti">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+      <button type="button" class="dock-slot" data-tab="movimenti">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
         <span>Movimenti</span>
       </button>
 
-      <!-- SLOT CENTRALE ESATTO: TASTO + -->
-      <button type="button" class="dock-plus-wrap" id="btn-open-modal" aria-label="Nuovo Movimento">
-        <div class="dock-plus-disc">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      <!-- SLOT 3: PULSANTE + CENTRALE COPILOT -->
+      <button type="button" class="dock-plus-slot" id="btn-open-modal" aria-label="Nuovo Movimento">
+        <div class="dock-plus-circle">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         </div>
       </button>
 
-      <button type="button" class="dock-tab" data-tab="fisse">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+      <button type="button" class="dock-slot" data-tab="fisse">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
         <span>Fisse & PAC</span>
       </button>
 
-      <button type="button" class="dock-tab" data-tab="impostazioni">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+      <button type="button" class="dock-slot" data-tab="impostazioni">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
         <span>Menu</span>
       </button>
     </nav>
@@ -1066,8 +1130,8 @@
       </div>
 
       <div class="sheet-action-row">
-        <button type="button" class="btn-delete-wallet hidden" id="btn-delete-tx">Elimina</button>
-        <button type="submit" class="btn-submit-wallet" id="btn-save-tx">Salva Operazione</button>
+        <button type="button" class="btn-delete-copilot hidden" id="btn-delete-tx">Elimina</button>
+        <button type="submit" class="btn-submit-copilot" id="btn-save-tx">Salva Operazione</button>
       </div>
     </form>
   </section>
@@ -1114,8 +1178,8 @@
       </div>
 
       <div class="sheet-action-row" style="margin-top: 14px;">
-        <button type="button" class="btn-delete-wallet hidden" id="btn-delete-recurring">Rimuovi</button>
-        <button type="submit" class="btn-submit-wallet">Memorizza Spesa</button>
+        <button type="button" class="btn-delete-copilot hidden" id="btn-delete-recurring">Rimuovi</button>
+        <button type="submit" class="btn-submit-copilot">Memorizza Spesa</button>
       </div>
     </form>
   </section>
@@ -1147,8 +1211,8 @@
       </div>
 
       <div class="sheet-action-row" style="margin-top: 14px;">
-        <button type="button" class="btn-delete-wallet hidden" id="btn-delete-goal">Rimuovi</button>
-        <button type="submit" class="btn-submit-wallet">Salva Piano</button>
+        <button type="button" class="btn-delete-copilot hidden" id="btn-delete-goal">Rimuovi</button>
+        <button type="submit" class="btn-submit-copilot">Salva Piano</button>
       </div>
     </form>
   </section>
@@ -1161,7 +1225,7 @@
 
   <script>
     /* =========================================================
-       LOGICA APPLICATIVA
+       LOGICA CORE RESILIENTE + BUDGET RINGS COPILOT
        ========================================================= */
     const STORAGE_KEY = "finanze_pwa_master_v3";
 
@@ -1177,14 +1241,14 @@
     };
 
     const DEFAULT_CATEGORIES = [
-      { id: "carburante", nome: "Carburante", key: "carburante" },
-      { id: "auto", nome: "Auto", key: "auto" },
-      { id: "svago", nome: "Svago", key: "svago" },
-      { id: "shopping", nome: "Acquisti", key: "shopping" },
-      { id: "abbonamenti", nome: "Servizi", key: "abbonamenti" },
-      { id: "salute", nome: "Salute", key: "salute" },
-      { id: "lavoro", nome: "Lavoro", key: "lavoro" },
-      { id: "varie", nome: "Varie", key: "varie" }
+      { id: "carburante", nome: "Benzina", key: "carburante", budgetCents: 15000 },
+      { id: "auto", nome: "Auto", key: "auto", budgetCents: 10000 },
+      { id: "svago", nome: "Svago", key: "svago", budgetCents: 20000 },
+      { id: "shopping", nome: "Acquisti", key: "shopping", budgetCents: 15000 },
+      { id: "abbonamenti", nome: "Servizi", key: "abbonamenti", budgetCents: 5000 },
+      { id: "salute", nome: "Salute", key: "salute", budgetCents: 5000 },
+      { id: "lavoro", nome: "Lavoro", key: "lavoro", budgetCents: 5000 },
+      { id: "varie", nome: "Varie", key: "varie", budgetCents: 10000 }
     ];
 
     const INITIAL_DATA = {
@@ -1337,6 +1401,7 @@
 
     function renderAll() {
       try { renderHome(); } catch (e) { console.error("renderHome", e); }
+      try { renderBudgetRings(); } catch (e) { console.error("renderRings", e); }
       try { renderMovimentiView(); } catch (e) { console.error("renderMovimenti", e); }
       try { renderFisseView(); } catch (e) { console.error("renderFisse", e); }
       try { renderImpostazioniView(); } catch (e) { console.error("renderImpostazioni", e); }
@@ -1345,7 +1410,7 @@
     function renderHome() {
       const fin = computeFinancials(store.data, new Date());
       const opt = { day: "numeric", month: "short" };
-      document.getElementById("label-periodo").textContent = `CICLO: ${fin.cycle.start.toLocaleDateString("it-IT", opt)} – ${fin.cycle.end.toLocaleDateString("it-IT", opt)}`;
+      document.getElementById("label-periodo").textContent = `CICLO ${fin.cycle.start.toLocaleDateString("it-IT", opt)} – ${fin.cycle.end.toLocaleDateString("it-IT", opt)}`;
 
       const isNeg = fin.availableCents < 0;
       const absCents = Math.abs(fin.availableCents);
@@ -1356,15 +1421,14 @@
       const decEl = document.getElementById("val-disp-dec");
       intEl.textContent = `${isNeg ? '-' : ''}${intPart.toLocaleString("it-IT")}`;
       decEl.textContent = `,${decPart}`;
-      intEl.style.color = isNeg ? "var(--apple-red)" : "var(--text-optic-white)";
+      intEl.style.color = isNeg ? "#EF4444" : "var(--ink-headline)";
 
       const percSpeso = fin.budgetVariabilePianificato > 0 ? Math.min(100, Math.round((fin.variableExpensesCents / fin.budgetVariabilePianificato) * 100)) : 100;
       const progressFill = document.getElementById("progress-fill");
       progressFill.style.width = `${percSpeso}%`;
-      progressFill.style.backgroundColor = percSpeso >= 100 ? "var(--apple-red)" : "var(--text-optic-white)";
+      progressFill.style.background = percSpeso >= 100 ? "#EF4444" : "linear-gradient(90deg, #0066FF, #00D2FF)";
 
       document.getElementById("label-speso-mese").textContent = `Spesi ${formatValuta(fin.variableExpensesCents)}`;
-      document.getElementById("label-perc-speso").textContent = `${percSpeso}% allocato`;
 
       document.getElementById("val-budget-oggi").textContent = formatValuta(fin.dailyBudgetCents);
       document.getElementById("val-giorni-rimasti").textContent = `${fin.daysRemaining} giorni rimasti`;
@@ -1373,11 +1437,11 @@
       const ritmoSub = document.getElementById("val-ritmo-dettaglio");
       if (fin.differenzaRitmoCents >= 0) {
         ritmoEl.textContent = `+${formatValuta(fin.differenzaRitmoCents)}`;
-        ritmoEl.style.color = "var(--text-optic-white)";
+        ritmoEl.style.color = "#10B981";
         ritmoSub.textContent = "in anticipo su target";
       } else {
         ritmoEl.textContent = `-${formatValuta(Math.abs(fin.differenzaRitmoCents))}`;
-        ritmoEl.style.color = "var(--apple-red)";
+        ritmoEl.style.color = "#EF4444";
         ritmoSub.textContent = "sopra la media attesa";
       }
 
@@ -1387,6 +1451,56 @@
       document.getElementById("val-sum-variabili").textContent = formatValuta(fin.variableExpensesCents);
 
       renderRecentList(store.data.transactions.slice(0, 5));
+    }
+
+    // ANELLI DI BUDGET ORIZZONTALI (ACTIVITY RINGS ALLA COPILOT)
+    function renderBudgetRings() {
+      const container = document.getElementById("rings-scroll-list");
+      container.innerHTML = "";
+      const fin = computeFinancials(store.data, new Date());
+
+      const expensesByCat = {};
+      fin.cycleTransactions.filter(t => t.type === "expense").forEach(t => {
+        expensesByCat[t.categoryId] = (expensesByCat[t.categoryId] || 0) + t.amountCents;
+      });
+
+      store.data.categories.forEach(cat => {
+        const spent = expensesByCat[cat.id] || 0;
+        const budget = cat.budgetCents || 10000;
+        const ratio = Math.min(1.2, spent / budget);
+
+        const r = 20;
+        const c = 2 * Math.PI * r;
+        const strokeDash = Math.min(c, ratio * c);
+
+        let strokeColor = "#10B981"; // Verde
+        let statusText = "rimasti";
+        let amountText = formatValuta(Math.max(0, budget - spent));
+
+        if (spent > budget) {
+          strokeColor = "#EF4444"; // Rosso sforato
+          statusText = "oltre";
+          amountText = formatValuta(spent - budget);
+        } else if (ratio > 0.8) {
+          strokeColor = "#F59E0B"; // Arancione
+        }
+
+        const card = document.createElement("div");
+        card.className = "ring-card-item";
+        card.innerHTML = `
+          <div class="ring-circle-svg-wrap">
+            <svg class="ring-circle-svg" viewBox="0 0 48 48">
+              <circle cx="24" cy="24" r="${r}" fill="none" stroke="#EBF0F8" stroke-width="4.5"/>
+              <circle cx="24" cy="24" r="${r}" fill="none" stroke="${strokeColor}" stroke-width="4.5"
+                stroke-dasharray="${strokeDash} ${c}" stroke-linecap="round"/>
+            </svg>
+            <div class="ring-icon-center">${ICONS[cat.key] || ICONS.varie}</div>
+          </div>
+          <span class="ring-amount">${amountText}</span>
+          <span class="ring-status-label">${statusText}</span>
+        `;
+        container.appendChild(card);
+      });
     }
 
     function renderRecentList(recentList) {
@@ -1405,18 +1519,18 @@
 
     function createTxElement(tx) {
       const el = document.createElement("div");
-      el.className = "tx-row";
+      el.className = "tx-puffy-row";
       const cat = store.data.categories.find(c => c.id === tx.categoryId) || { nome: "Spesa", key: "varie" };
       const isInc = tx.type === "income";
       const dateFormatted = parseLocalDateString(tx.date).toLocaleDateString("it-IT", { day: "numeric", month: "short" });
 
       el.innerHTML = `
-        <div class="tx-icon-bubble">${ICONS[cat.key] || ICONS.varie}</div>
-        <div class="tx-meta">
-          <span class="tx-title">${escapeHtml(tx.note || cat.nome)}</span>
-          <span class="tx-sub">${escapeHtml(cat.nome)} • ${dateFormatted}</span>
+        <div class="tx-bubble-icon">${ICONS[cat.key] || ICONS.varie}</div>
+        <div class="tx-meta-puffy">
+          <span class="tx-title-puffy">${escapeHtml(tx.note || cat.nome)}</span>
+          <span class="tx-sub-puffy">${escapeHtml(cat.nome)} • ${dateFormatted}</span>
         </div>
-        <span class="tx-val" style="color: ${isInc ? 'var(--apple-green)' : 'var(--text-optic-white)'}">${isInc ? '+' : '-'}${formatValuta(tx.amountCents)}</span>
+        <span class="tx-val-puffy" style="color: ${isInc ? '#10B981' : 'var(--ink-headline)'}">${isInc ? '+' : '-'}${formatValuta(tx.amountCents)}</span>
       `;
       el.addEventListener("click", () => openTxModal(tx));
       return el;
@@ -1465,7 +1579,9 @@
 
         dayGroup.innerHTML = `<div class="day-header"><span>${dateFormatted}</span><span>${formatValuta(dayTotal)}</span></div>`;
         const feed = document.createElement("div");
-        feed.className = "tx-feed";
+        feed.style.display = "flex";
+        feed.style.flexDirection = "column";
+        feed.style.gap = "8px";
         groups[dateStr].forEach(tx => feed.appendChild(createTxElement(tx)));
         dayGroup.appendChild(feed);
         container.appendChild(dayGroup);
@@ -1477,15 +1593,15 @@
       recList.innerHTML = "";
       store.data.recurring.forEach(r => {
         const row = document.createElement("div");
-        row.className = "ledger-item";
+        row.className = "ledger-row-puffy";
         row.style.cursor = "pointer";
         const freq = r.frequency === "annual" ? "Annuale (/12)" : (r.frequency === "quarterly" ? "Trimestrale (/3)" : "Mensile");
         row.innerHTML = `
           <div>
-            <div class="item-label">${escapeHtml(r.name)}</div>
-            <div style="font-size:11px; color:var(--text-tertiary); margin-top:2px;">${freq} • Il ${r.day} del mese</div>
+            <div class="puffy-row-label">${escapeHtml(r.name)}</div>
+            <div style="font-size:11px; color:var(--ink-sub); margin-top:2px;">${freq} • Il ${r.day} del mese</div>
           </div>
-          <span class="item-num">${formatValuta(r.amountCents)}</span>
+          <span class="puffy-row-val">${formatValuta(r.amountCents)}</span>
         `;
         row.addEventListener("click", () => openRecurringModal(r));
         recList.appendChild(row);
@@ -1495,14 +1611,14 @@
       goalList.innerHTML = "";
       store.data.goals.forEach(g => {
         const row = document.createElement("div");
-        row.className = "ledger-item";
+        row.className = "ledger-row-puffy";
         row.style.cursor = "pointer";
         row.innerHTML = `
           <div>
-            <div class="item-label">${escapeHtml(g.name)}</div>
-            <div style="font-size:11px; color:var(--text-tertiary); margin-top:2px;">Accantonati: ${formatValuta(g.currentCents || 0)}</div>
+            <div class="puffy-row-label">${escapeHtml(g.name)}</div>
+            <div style="font-size:11px; color:var(--ink-sub); margin-top:2px;">Accantonati: ${formatValuta(g.currentCents || 0)}</div>
           </div>
-          <span class="item-num">${formatValuta(g.monthlyCents)}/mese</span>
+          <span class="puffy-row-val">${formatValuta(g.monthlyCents)}/mese</span>
         `;
         row.addEventListener("click", () => openGoalModal(g));
         goalList.appendChild(row);
@@ -1832,20 +1948,15 @@
     });
 
     // DOCK TAB SWITCHING (5 SLOT SIMMETRICI)
-    document.querySelectorAll(".dock-tab").forEach(tab => {
+    document.querySelectorAll(".dock-slot").forEach(tab => {
       tab.addEventListener("click", () => {
-        document.querySelectorAll(".dock-tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".dock-slot").forEach(t => t.classList.remove("active"));
         tab.classList.add("active");
 
         const target = tab.dataset.tab;
-        document.querySelectorAll(".view-pane").forEach(sec => sec.classList.add("hidden"));
+        document.querySelectorAll(".view-card").forEach(sec => sec.classList.add("hidden"));
         const secToShow = document.getElementById(`view-${target}`);
         if (secToShow) secToShow.classList.remove("hidden");
-
-        document.getElementById("screen-title").textContent =
-          target === "oggi" ? "Oggi" :
-          target === "movimenti" ? "Movimenti" :
-          target === "fisse" ? "Fisse & PAC" : "Menu";
 
         if (target === "movimenti") renderMovimentiView();
         if (target === "fisse") renderFisseView();
