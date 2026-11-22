@@ -793,7 +793,6 @@
 </head>
 <body>
   <div class="app-frame">
-    <!-- HEADER EDITORIALE SARTORIALE -->
     <header class="copilot-header-fluid">
       <div class="header-main-flex">
         <div>
@@ -806,7 +805,6 @@
     <main class="scroll-body">
       <!-- 1. VISTA OGGI -->
       <section id="view-oggi" class="view-card active">
-        <!-- CARD PRINCIPALE BIANCA PUFFY -->
         <article class="puffy-card">
           <div class="balance-center-group">
             <span class="balance-eyebrow">Disponibile del mese</span>
@@ -842,7 +840,7 @@
           </div>
         </article>
 
-        <!-- SPESE PER CATEGORIA -->
+        <!-- SPESE PER CATEGORIA (NASCONDIBILE) -->
         <section class="activity-group" id="section-spese-categoria">
           <div class="rings-section-head">
             <span class="section-puffy-title">Spese per Categoria</span>
@@ -1003,7 +1001,6 @@
         <span>Movimenti</span>
       </button>
 
-      <!-- SLOT 3: PULSANTE + AL CENTRO GEOMETRICO -->
       <button type="button" class="dock-plus-slot" id="btn-open-modal" aria-label="Nuovo Movimento">
         <div class="dock-plus-circle">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -1016,7 +1013,7 @@
       </button>
 
       <button type="button" class="dock-slot" data-tab="impostazioni">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
         <span>Menu</span>
       </button>
     </nav>
@@ -1387,7 +1384,6 @@
       renderRecentList(store.data.transactions.slice(0, 5));
     }
 
-    // SPESE PER CATEGORIA REALI (NASCONDIBILE IN MODALITÀ RAPIDA)
     function renderBudgetRings() {
       const isQuick = Boolean(store.data.settings.quickMode);
       const section = document.getElementById("section-spese-categoria");
@@ -1435,7 +1431,6 @@
       });
     }
 
-    // GRAFICO ANDAMENTO MOVIMENTI
     function renderMovimentiChart(fin) {
       const container = document.getElementById("movimenti-bar-chart");
       const avgLabel = document.getElementById("chart-movimenti-avg");
@@ -1614,7 +1609,6 @@
       }
     }
 
-    // MODALI
     const modalBackdrop = document.getElementById("modal-backdrop");
     const modalAdd = document.getElementById("modal-add");
     const modalRecurring = document.getElementById("modal-recurring");
