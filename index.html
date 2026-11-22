@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#0066FF">
+  <meta name="theme-color" content="#CDE2FF">
   <title>Finanze</title>
 
   <!-- Meta tag iOS PWA -->
@@ -69,46 +69,62 @@
     }
 
     /* COPILOT ATMOSPHERIC HEADER */
-    .copilot-hero-banner {
-      background: linear-gradient(180deg, #005CEE 0%, #0066FF 65%, #257CFF 100%);
-      padding: calc(14px + env(safe-area-inset-top)) 20px 32px;
+    .app-frame {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      color: #FFFFFF;
-      border-radius: 0 0 32px 32px;
-      box-shadow: 0 12px 30px rgba(0, 102, 255, 0.22);
+      position: relative;
+      /* Atmosfera fluida Apple / Copilot: sfumatura radiale morbida in alto */
+      background: radial-gradient(ellipse 120% 40% at 50% -10%, #CDE2FF 0%, #E8F1FC 45%, #F4F6FA 85%);
+      padding-bottom: calc(var(--dock-h) + 26px + env(safe-area-inset-bottom));
     }
-    .banner-top-row {
+
+    .copilot-header-fluid {
+      padding: calc(16px + env(safe-area-inset-top)) 22px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .header-sub-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .banner-brand {
-      font-size: 24px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: #FFFFFF;
-    }
     .cycle-pill-copilot {
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      padding: 4px 10px;
+      background: rgba(0, 102, 255, 0.08);
+      color: var(--copilot-blue);
+      padding: 4px 11px;
       border-radius: 999px;
-      color: #FFFFFF;
     }
     .icon-ghost-btn {
       background: none;
       border: none;
-      color: #FFFFFF;
+      color: var(--ink-sub);
       cursor: pointer;
       display: flex;
       align-items: center;
       padding: 4px;
+    }
+    .native-large-title {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--ink-headline);
+      margin-top: 4px;
+    }
+
+    .scroll-body {
+      padding: 8px 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 0;
     }
 
     /* SEGMENTED PILL COPILOT */
@@ -877,17 +893,15 @@
 </head>
 <body>
   <div class="app-frame">
-    <!-- COPILOT BLUE MESH HEADER -->
-    <header class="copilot-hero-banner">
-      <div class="banner-top-row">
-        <span class="banner-brand">Finanze</span>
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span class="cycle-pill-copilot" id="label-periodo">CICLO 28</span>
-          <button type="button" class="icon-ghost-btn" id="btn-quick-export" title="Backup">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-          </button>
-        </div>
+    <!-- HEADER NATIVO FLUIDO (NO BLOCCO BLU) -->
+    <header class="copilot-header-fluid">
+      <div class="header-sub-row">
+        <span class="cycle-pill-copilot" id="label-periodo">CICLO 28</span>
+        <button type="button" class="icon-ghost-btn" id="btn-quick-export" title="Backup">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        </button>
       </div>
+      <h1 class="native-large-title" id="screen-title">Finanze</h1>
     </header>
 
     <main class="scroll-body">
