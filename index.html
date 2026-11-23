@@ -1198,7 +1198,121 @@
         animation-duration: 0.01ms !important;
       }
     }
-  </style>
+  
+/* ===== DEFINITIVE IPHONE EDGE-TO-EDGE (iOS 27 HARDWARE NATIVE) ===== */
+html {
+  background-color: #070A11 !important;
+}
+
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100dvh !important;
+  background: #070A11 !important;
+  overflow-x: hidden !important;
+}
+
+/* L'app sale fino all'ultimissimo pixel superiore (dietro notch e Dynamic Island) */
+.app-frame {
+  width: 100% !important;
+  max-width: 430px !important;
+  min-height: 100dvh !important;
+  margin: 0 auto !important;
+  padding-bottom: 0 !important;
+  background: 
+    radial-gradient(130% 50% at 50% -10%, rgba(30, 64, 175, 0.28) 0%, rgba(7, 10, 17, 0) 100%),
+    radial-gradient(80% 40% at 90% 15%, rgba(16, 185, 129, 0.12) 0%, rgba(7, 10, 17, 0) 100%),
+    #070A11 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  position: relative !important;
+}
+
+/* Header: parte sotto la Dynamic Island con padding hardware esatto */
+.copilot-header-fluid {
+  padding-top: calc(10px + env(safe-area-inset-top, 54px)) !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  padding-bottom: 8px !important;
+}
+
+.header-meta-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+/* Contenuto scorrevole: passa SOTTO la dock e non viene troncato */
+.scroll-body {
+  flex: 1 1 auto !important;
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+  padding-top: 10px !important;
+  padding-bottom: calc(56px + env(safe-area-inset-bottom, 34px) + 32px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+/* DOCK: Ancorata al fondo, 100% full-width a terra, nessun galleggiamento */
+.copilot-dock {
+  position: fixed !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  top: auto !important;
+  width: 100% !important;
+  max-width: 430px !important;
+  margin: 0 auto !important;
+  height: calc(54px + env(safe-area-inset-bottom, 34px)) !important;
+  padding-top: 6px !important;
+  padding-bottom: env(safe-area-inset-bottom, 34px) !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  border-radius: 0 !important;
+  border: none !important;
+  border-top: 0.5px solid rgba(255, 255, 255, 0.12) !important;
+  background: rgba(11, 16, 28, 0.72) !important;
+  backdrop-filter: blur(32px) saturate(210%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(210%) !important;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.5) !important;
+  z-index: 100 !important;
+}
+
+/* Icone e scritte perfettamente allineate sul pollice */
+.dock-slot {
+  height: 48px !important;
+  gap: 3px !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+.dock-slot.active {
+  color: #38BDF8 !important;
+}
+
+/* Tasto + centrato che sborda leggermente con alone luminoso */
+.dock-plus-slot {
+  height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.dock-plus-circle {
+  width: 44px !important;
+  height: 44px !important;
+  margin-top: -6px !important;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, #0284C7 0%, #2563EB 100%) !important;
+  box-shadow: 0 4px 18px rgba(37, 99, 235, 0.5) !important;
+}
+
+</style>
 </head>
 <body class="is-home">
   <div class="app-frame">
