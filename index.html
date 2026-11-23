@@ -999,14 +999,47 @@
       backdrop-filter: blur(34px) saturate(180%);
       -webkit-backdrop-filter: blur(34px) saturate(180%);
     }
-    .dock-slot { color: #8391A8; font-size: 9px; }
+    .dock-slot {
+      color: #8391A8;
+      font-size: 9px;
+      transition: color 220ms ease, transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .dock-slot:active { transform: scale(0.94); }
     .dock-slot.active { color: #A9C0FF; }
-    .dock-slot svg { width: 20px; height: 20px; }
+    .dock-slot svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .dock-slot.active svg { transform: translateY(-1px) scale(1.08); }
+    .dock-slot[data-tab="impostazioni"] svg { display: none; }
+    .dock-slot[data-tab="impostazioni"]::before {
+      content: "";
+      width: 20px;
+      height: 20px;
+      background:
+        linear-gradient(currentColor 0 0) 2px 3px / 16px 2px no-repeat,
+        linear-gradient(currentColor 0 0) 2px 9px / 11px 2px no-repeat,
+        linear-gradient(currentColor 0 0) 2px 15px / 16px 2px no-repeat;
+      transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .dock-slot.active[data-tab="impostazioni"]::before { transform: translateY(-1px) scale(1.08); }
     .dock-plus-circle {
       background: linear-gradient(145deg, #8EABFF, #587BEB);
       color: #07101F;
       box-shadow: 0 5px 20px rgba(93, 130, 239, 0.43), inset 0 1px rgba(255, 255, 255, 0.55);
     }
+    .view-card:not(.hidden) {
+      animation: screen-enter 420ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+    }
+    @keyframes screen-enter {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-wallet-card, .puffy-card, .ring-card-item {
+      transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 240ms ease;
+    }
+    .dock-slot:focus-visible, .dock-plus-slot:focus-visible { border-radius: 18px; }
     .bottom-sheet {
       color: var(--ios-ink-1);
       background: rgba(17, 25, 39, 0.97);
@@ -1099,7 +1132,11 @@
       .dock-slot svg { width: 19px; height: 19px; }
     }
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
