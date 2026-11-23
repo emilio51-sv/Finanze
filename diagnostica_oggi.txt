@@ -1,0 +1,135 @@
+=== ESTRATTO SEZIONE OGGI (HEADER + HERO CARD) ===
+
+      <section id="view-oggi" class="view-card active">
+        <article class="puffy-card">
+          <div class="balance-center-group">
+            <span class="balance-eyebrow">Disponibile del mese</span>
+            <div class="balance-digits-wrap" style="display:flex; align-items:baseline; justify-content:center; gap:2px; font-variant-numeric:tabular-nums;">
+              <span class="balance-sign" id="val-disp-sign" style="font-size:36px; font-weight:700; margin-right:2px; display:none;">-</span>
+              <span class="balance-int" id="val-disp-int" style="font-size:46px; font-weight:700; letter-spacing:-0.04em;">0</span>
+              <span class="balance-dec" id="val-disp-dec" style="font-size:26px; font-weight:500; color:var(--ink-sub);">,00</span>
+              <span class="balance-curr" style="font-size:24px; font-weight:500; color:var(--ink-sub); margin-left:4px;">€</span>
+            </div>
+            <span class="balance-subtext" id="label-speso-mese">Spesi 0,00 € di budget</span>
+          </div>
+
+          <div class="copilot-track-wrap">
+            <div class="copilot-track">
+              <div class="copilot-bar" id="progress-fill" style="width: 0%;"></div>
+            </div>
+            <div class="track-meta">
+              <span>0% allocato</span>
+              <span id="val-giorni-rimasti">Calcolo...</span>
+            </div>
+          </div>
+
+          <div class="metric-duo-grid">
+            <div class="metric-duo-cell">
+              <span class="duo-label">Budget di oggi</span>
+              <span class="duo-val" id="val-budget-oggi">0,00 €</span>
+              <span class="duo-sub">consigliato</span>
+            </div>
+            <div class="metric-duo-cell">
+              <span class="duo-label">Ritmo di spesa</span>
+              <span class="duo-val" id="val-ritmo-spesa">—</span>
+              <span class="duo-sub" id="val-ritmo-dettaglio">in linea col mese</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- SPESE PER CATEGORIA -->
+        <section class="activity-group" id="section-spese-categoria">
+          <div class="rings-section-head">
+            <span class="section-puffy-title">Spese per Categoria</span>
+          </div>
+          <div class="rings-horizontal-scroll" id="rings-scroll-list"></div>
+        </section>
+
+        <!-- COMPOSIZIONE CICLO -->
+        <article class="puffy-card">
+          <span class="section-puffy-title" style="margin-bottom: 8px;">Composizione Ciclo</span>
+          <div class="ledger-row-puffy">
+            <span class="puffy-row-label">Entrate previste</span>
+            <span class="puffy-row-val" style="color: var(--ring-green);" id="val-sum-entrate">1.800,00 €</span>
+          </div>
+          <div class="ledger-row-puffy">
+            <span class="puffy-row-label">PAC & Risparmio protetto</span>
+            <span class="puffy-row-val" id="val-sum-pac">200,00 €</span>
+          </div>
+          <div class="ledger-row-puffy">
+            <span class="puffy-row-label">Spese fisse ammortizzate</span>
+            <span class="puffy-row-val" id="val-sum-fisse">250,00 €</span>
+          </div>
+          <div class="ledger-row-puffy">
+            <span class="puffy-row-label">Uscite variabili registrate</span>
+            <span class="puffy-row-val" style="color: var(--ink-sub);" id="val-sum-variabili">0,00 €</span>
+          </div>
+        </article>
+
+        <!-- ATTIVITÀ RECENTI -->
+        <section class="activity-group">
+          <div class="rings-section-head">
+            <span class="section-puffy-title">Attività Recenti</span>
+            <span style="font-size: 12px; color: var(--ink-sub);" id="badge-totale-movimenti">0</span>
+          </div>
+          <div class="tx-feed" id="recent-transactions-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+          <div id="recent-empty-state" class="empty-placeholder hidden">
+            <p>Nessun movimento in questo ciclo</p>
+            <span style="font-size: 11px; color: var(--ink-faint);">Tocca il tasto + al centro per iniziare</span>
+          </div>
+        </section>
+      </section>
+
+      <!-- 2. VISTA MOVIMENTI -->
+      <section id="view-movimenti" class="view-card hidden">
+        <div class="month-stepper">
+          <button type="button" class="stepper-btn" id="btn-month-prev">‹</button>
+          <span class="stepper-label" id="label-selected-month">Mese Corrente</span>
+          <button type="button" class="stepper-btn" id="btn-month-next">›</button>
+        </div>
+
+        <!-- GRAFICO ANDAMENTO MOVIMENTI -->
+        <article class="puffy-card" id="card-chart-movimenti" style="padding: 16px 18px 12px;">
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom: 8px;">
+            <span class="section-puffy-title" style="margin:0;">Andamento Spese</span>
+            <span id="chart-movimenti-avg" style="font-size:12px; color:var(--ink-sub); font-variant-numeric:tabular-nums;">Media: 0 €/g</span>
+          </div>
+          <div id="movimenti-bar-chart" style="display:flex; align-items:flex-end; gap:6px; height:85px; padding-top:8px;"></div>
+        </article>
+
+        <div class="filter-search-row" id="movimenti-filter-row">
+          <input type="text" id="input-search-tx" class="wallet-search-input" placeholder="Cerca nota o voce...">
+          <select id="select-category-filter" class="wallet-category-select">
+            <option value="all">Tutte</option>
+          </select>
+        </div>
+
+        <div class="tx-feed" id="all-transactions-grouped" style="display:flex; flex-direction:column; gap:8px;"></div>
+        <div id="tx-empty-state" class="empty-placeholder hidden">
+          <p>Nessuna voce corrispondente</p>
+        </div>
+      </section>
+
+      <!-- 3. VISTA FISSE & PAC -->
+      <section id="view-fisse" class="view-card hidden">
+        <div class="subnav-pills">
+          <button type="button" class="subnav-btn active" data-sub="sub-fisse">Spese Fisse</button>
+          <button type="button" class="subnav-btn" data-sub="sub-pac">PAC & Target</button>
+        </div>
+
+        <div id="sub-fisse" class="subnav-pane active">
+          <article class="puffy-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+
+=== ESTRATTO STILI PER CARD / DISPONIBILE ===
+      const percSpeso = fin.budgetVariabilePianificato > 0 ? Math.min(100, Math.round((fin.variableExpensesCents / fin.budgetVariabilePianificato) * 100)) : 100;
+      const progressFill = document.getElementById("progress-fill");
+      progressFill.style.width = `${percSpeso}%`;
+      progressFill.style.background = percSpeso >= 100 ? "#EF4444" : "linear-gradient(90deg, #0066FF, #00D2FF)";
+
+      document.getElementById("label-speso-mese").textContent = `Spesi ${formatValuta(fin.variableExpensesCents)}`;
+
+      document.getElementById("val-budget-oggi").textContent = formatValuta(fin.dailyBudgetCents);
+      document.getElementById("val-giorni-rimasti").textContent = `${fin.daysRemaining} giorni rimasti`;
+
+      const ritmoEl = document.getElementById("val-ritmo-spesa");
