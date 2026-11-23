@@ -69,6 +69,15 @@
     .copilot-header-fluid {
       padding: calc(18px + env(safe-area-inset-top)) 22px 10px;
     }
+    .header-date {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      color: var(--ink-sub);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
     .native-large-title {
       font-size: 32px;
       font-weight: 700;
@@ -948,6 +957,16 @@ body { font-variant-numeric: tabular-nums lining-nums; }
       padding: calc(26px + env(safe-area-inset-top)) 24px 12px;
     }
 
+    .header-date {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      color: var(--ink-sub);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
     .native-large-title {
       font-size: 36px;
       font-weight: 650;
@@ -956,9 +975,8 @@ body { font-variant-numeric: tabular-nums lining-nums; }
     }
 
     .cycle-sub-caption {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      display: block;
+      width: fit-content;
       margin-top: 10px;
       padding: 6px 10px;
       border: 1px solid rgba(17, 24, 39, 0.055);
@@ -973,13 +991,7 @@ body { font-variant-numeric: tabular-nums lining-nums; }
     }
 
     .cycle-sub-caption::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      flex: 0 0 6px;
-      border-radius: 50%;
-      background: var(--copilot-blue);
-      box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+      content: none;
     }
 
     .scroll-body {
@@ -1202,51 +1214,438 @@ body { font-variant-numeric: tabular-nums lining-nums; }
       }
     }
 
+
+/* OLD STYLES REPLACED */
+.copilot-header-fluid {
+  padding: calc(18px + env(safe-area-inset-top)) 20px 8px !important;
+}
+.header-meta-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: baseline !important;
+  margin-bottom: 2px !important;
+}
+.header-date {
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  color: #8E8E93 !important;
+  text-transform: uppercase !important;
+  margin-bottom: 0 !important;
+}
+.cycle-inline-caption {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #8E8E93 !important;
+  letter-spacing: -0.01em !important;
+}
+.native-large-title {
+  font-size: 34px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em !important;
+  color: #111827 !important;
+  line-height: 1.1 !important;
+}
+.hero-wallet-card {
+  background: #FFFFFF !important;
+  border-radius: 22px !important;
+  padding: 22px 20px 18px !important;
+  border: 0.5px solid rgba(17, 24, 39, 0.05) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 32, 96, 0.06), 0 2px 8px -2px rgba(0, 0, 0, 0.02) !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.hero-balance-block {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+.hero-eyebrow {
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: #8E8E93 !important;
+  margin-bottom: 6px !important;
+}
+.hero-digits-wrap {
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: center !important;
+  font-variant-numeric: tabular-nums !important;
+  line-height: 1 !important;
+  margin: 2px 0 8px !important;
+}
+.hero-sign {
+  font-size: 40px !important;
+  font-weight: 600 !important;
+  margin-right: 1px !important;
+}
+.hero-int {
+  font-size: 52px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em !important;
+}
+.hero-dec {
+  font-size: 30px !important;
+  font-weight: 600 !important;
+}
+.hero-curr {
+  font-size: 28px !important;
+  font-weight: 600 !important;
+  margin-left: 3px !important;
+}
+.hero-status-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  padding: 4px 10px !important;
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  background: #F2F2F7 !important;
+  color: #636366 !important;
+}
+.hero-status-pill.is-neg {
+  background: #FFF1F0 !important;
+  color: #FF3B30 !important;
+}
+.hero-track-wrap {
+  width: 100% !important;
+  margin: 18px 0 14px !important;
+}
+.hero-track-bar {
+  width: 100% !important;
+  height: 6px !important;
+  background: #E5E5EA !important;
+  border-radius: 999px !important;
+  overflow: hidden !important;
+}
+.hero-bar-fill {
+  height: 100% !important;
+  background: #007AFF !important;
+  border-radius: 999px !important;
+  transition: width 300ms ease !important;
+}
+.hero-track-labels {
+  display: flex !important;
+  justify-content: space-between !important;
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  color: #8E8E93 !important;
+  margin-top: 6px !important;
+  font-variant-numeric: tabular-nums !important;
+}
+.hero-widgets-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 10px !important;
+  margin-top: 4px !important;
+}
+.hero-widget-pod {
+  background: #F9F9FB !important;
+  border-radius: 16px !important;
+  padding: 12px 14px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  border: 0.5px solid rgba(0, 0, 0, 0.03) !important;
+}
+.widget-pod-label {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #8E8E93 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+}
+.widget-pod-val {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  font-variant-numeric: tabular-nums !important;
+  color: #1C1C1E !important;
+}
+.widget-pod-sub {
+  font-size: 11.5px !important;
+  color: #8E8E93 !important;
+}
+
+
+/* ===== LUXURY APPLE DESIGN AWARD EDITION ===== */
+@supports (font-family: -apple-system-headline) {
+  :root {
+    --font-luxury-num: "New York", -apple-system-headline, "SF Pro Display", Georgia, serif;
+  }
+}
+:root {
+  --font-luxury-num: "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
+  --apple-crimson: #D92D20;
+  --apple-crimson-bg: #FEF3F2;
+  --apple-crimson-border: rgba(240, 68, 56, 0.18);
+  --apple-emerald: #079455;
+  --apple-emerald-bg: #EDFDF2;
+  --card-glass: #FFFFFF;
+  --subtle-metal: #858D9D;
+}
+
+/* Header sartoriale */
+.copilot-header-fluid {
+  padding: calc(22px + env(safe-area-inset-top)) 22px 10px !important;
+}
+.header-meta-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 4px !important;
+}
+.header-date {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  color: var(--subtle-metal) !important;
+  text-transform: uppercase !important;
+}
+.cycle-inline-caption {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #475467 !important;
+  letter-spacing: -0.01em !important;
+  background: rgba(0, 0, 0, 0.03) !important;
+  padding: 3px 8px !important;
+  border-radius: 6px !important;
+}
+.native-large-title {
+  font-size: 38px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.05em !important;
+  color: #101828 !important;
+  line-height: 1 !important;
+}
+
+/* Card scultorea con elevazione a 3 livelli */
+.hero-wallet-card {
+  position: relative !important;
+  background: var(--card-glass) !important;
+  border-radius: 28px !important;
+  padding: 26px 22px 22px !important;
+  border: 1px solid rgba(16, 24, 40, 0.06) !important;
+  box-shadow: 
+    0 1px 2px rgba(16, 24, 40, 0.04),
+    0 12px 28px -6px rgba(16, 24, 40, 0.06),
+    0 24px 48px -12px rgba(16, 24, 40, 0.04) !important;
+  overflow: hidden !important;
+}
+
+.hero-wallet-card::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 1px !important;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent) !important;
+}
+
+.hero-balance-block {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+.hero-eyebrow {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.14em !important;
+  color: #667085 !important;
+  margin-bottom: 8px !important;
+}
+
+/* Tipografia della cifra monumentale */
+.hero-digits-wrap {
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: center !important;
+  font-family: var(--font-luxury-num) !important;
+  font-variant-numeric: tabular-nums lining-nums !important;
+  letter-spacing: -0.045em !important;
+  line-height: 1 !important;
+  margin: 2px 0 12px !important;
+  color: #101828;
+}
+
+.hero-sign {
+  font-size: 38px !important;
+  font-weight: 500 !important;
+  margin-right: 2px !important;
+  opacity: 0.95 !important;
+}
+
+.hero-int {
+  font-size: 58px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.05em !important;
+}
+
+.hero-dec {
+  font-size: 34px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.03em !important;
+  opacity: 0.88 !important;
+}
+
+.hero-curr {
+  font-size: 28px !important;
+  font-weight: 600 !important;
+  margin-left: 4px !important;
+  opacity: 0.8 !important;
+}
+
+/* Micro pillola di contesto nobile */
+.hero-status-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 5px 12px !important;
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  background: #F8F9FC !important;
+  color: #475467 !important;
+  border: 1px solid rgba(16, 24, 40, 0.05) !important;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.02) !important;
+}
+
+.hero-status-pill.is-neg {
+  background: var(--apple-crimson-bg) !important;
+  color: var(--apple-crimson) !important;
+  border-color: var(--apple-crimson-border) !important;
+}
+
+/* Barra di avanzamento raffinata */
+.hero-track-wrap {
+  width: 100% !important;
+  margin: 20px 0 16px !important;
+}
+
+.hero-track-bar {
+  width: 100% !important;
+  height: 6px !important;
+  background: #EAECF0 !important;
+  border-radius: 999px !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+.hero-bar-fill {
+  height: 100% !important;
+  border-radius: 999px !important;
+  transition: width 400ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.hero-track-labels {
+  display: flex !important;
+  justify-content: space-between !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  color: #667085 !important;
+  margin-top: 8px !important;
+  font-variant-numeric: tabular-nums lining-nums !important;
+}
+
+/* Widget modulari con stile iOS Precision */
+.hero-widgets-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 10px !important;
+}
+
+.hero-widget-pod {
+  background: #F8F9FC !important;
+  border-radius: 18px !important;
+  padding: 13px 15px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+  border: 1px solid rgba(16, 24, 40, 0.04) !important;
+}
+
+.widget-pod-label {
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  color: #667085 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+}
+
+.widget-pod-val {
+  font-size: 19px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  font-variant-numeric: tabular-nums lining-nums !important;
+  color: #101828 !important;
+}
+
+.widget-pod-sub {
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  color: #98A2B3 !important;
+}
+
 </style>
 </head>
 <body>
   <div class="app-frame">
     <!-- HEADER EDITORIALE SARTORIALE -->
+    <!-- HEADER APPLE NATIVE -->
     <header class="copilot-header-fluid">
-      <h1 class="native-large-title" id="screen-title">Finanze</h1>
-      <span class="cycle-sub-caption" id="label-periodo">28 ott – 27 nov</span>
+      <div class="header-meta-row">
+        <span class="header-date" id="header-date">LUNEDÌ 23 NOVEMBRE</span>
+        <span class="cycle-inline-caption" id="label-periodo">28 ott – 27 nov</span>
+      </div>
+      <h1 class="native-large-title" id="screen-title">Oggi</h1>
     </header>
 
     <main class="scroll-body">
       <!-- 1. VISTA OGGI -->
       <section id="view-oggi" class="view-card active">
-        <article class="puffy-card">
-          <div class="balance-center-group">
-            <span class="balance-eyebrow">Disponibile del mese</span>
-            <div class="balance-digits-wrap" style="display:flex; align-items:baseline; justify-content:center; gap:2px; font-variant-numeric:tabular-nums;">
-              <span class="balance-sign" id="val-disp-sign" style="font-size:36px; font-weight:700; margin-right:2px; display:none;">-</span>
-              <span class="balance-int" id="val-disp-int" style="font-size:46px; font-weight:700; letter-spacing:-0.04em;">0</span>
-              <span class="balance-dec" id="val-disp-dec" style="font-size:26px; font-weight:500; color:var(--ink-sub);">,00</span>
-              <span class="balance-curr" style="font-size:24px; font-weight:500; color:var(--ink-sub); margin-left:4px;">€</span>
+        <article class="hero-wallet-card">
+          <div class="hero-balance-block">
+            <span class="hero-eyebrow">Disponibile del mese</span>
+            <div class="hero-digits-wrap">
+              <span class="hero-sign" id="val-disp-sign" style="display:none;">-</span>
+              <span class="hero-int" id="val-disp-int">0</span>
+              <span class="hero-dec" id="val-disp-dec">,00</span>
+              <span class="hero-curr" id="val-disp-curr">€</span>
             </div>
-            <span class="balance-subtext" id="label-speso-mese">Spesi 0,00 € di budget</span>
+            <div class="hero-status-pill" id="hero-badge-status">
+              <span id="label-speso-mese">Spesi 0,00 € di budget</span>
+            </div>
           </div>
 
-          <div class="copilot-track-wrap">
-            <div class="copilot-track">
-              <div class="copilot-bar" id="progress-fill" style="width: 0%;"></div>
+          <div class="hero-track-wrap">
+            <div class="hero-track-bar">
+              <div class="hero-bar-fill" id="progress-fill" style="width: 0%;"></div>
             </div>
-            <div class="track-meta">
-              <span>0% allocato</span>
+            <div class="hero-track-labels">
+              <span id="label-track-spent">0% allocato</span>
               <span id="val-giorni-rimasti">Calcolo...</span>
             </div>
           </div>
 
-          <div class="metric-duo-grid">
-            <div class="metric-duo-cell">
-              <span class="duo-label">Budget di oggi</span>
-              <span class="duo-val" id="val-budget-oggi">0,00 €</span>
-              <span class="duo-sub">consigliato</span>
+          <div class="hero-widgets-grid">
+            <div class="hero-widget-pod">
+              <span class="widget-pod-label">Budget Oggi</span>
+              <span class="widget-pod-val" id="val-budget-oggi">0,00 €</span>
+              <span class="widget-pod-sub">consigliato</span>
             </div>
-            <div class="metric-duo-cell">
-              <span class="duo-label">Ritmo di spesa</span>
-              <span class="duo-val" id="val-ritmo-spesa">—</span>
-              <span class="duo-sub" id="val-ritmo-dettaglio">in linea col mese</span>
+            <div class="hero-widget-pod">
+              <span class="widget-pod-label">Ritmo Mese</span>
+              <span class="widget-pod-val" id="val-ritmo-spesa">—</span>
+              <span class="widget-pod-sub" id="val-ritmo-dettaglio">in linea col mese</span>
             </div>
           </div>
         </article>
@@ -1773,7 +2172,14 @@ body { font-variant-numeric: tabular-nums lining-nums; }
 
     let currentMonthOffset = 0;
 
+    function updateHeaderDate() {
+      const now = new Date();
+      const dateText = now.toLocaleDateString("it-IT", { weekday: "long", day: "numeric", month: "long" });
+      document.getElementById("header-date").textContent = dateText.toUpperCase();
+    }
+
     function renderAll() {
+      updateHeaderDate();
       try { renderHome(); } catch (e) { console.error("renderHome", e); }
       try { renderBudgetRings(); } catch (e) { console.error("renderRings", e); }
       try { renderMovimentiView(); } catch (e) { console.error("renderMovimenti", e); }
@@ -1794,27 +2200,40 @@ body { font-variant-numeric: tabular-nums lining-nums; }
       const signEl = document.getElementById('val-disp-sign');
       const intEl = document.getElementById('val-disp-int');
       const decEl = document.getElementById('val-disp-dec');
+      const currEl = document.getElementById('val-disp-curr');
+      const badgeStatus = document.getElementById('hero-badge-status');
+
+      // Palette cromatica nobiliare
+      const primaryColor = isNeg ? 'var(--apple-crimson)' : '#101828';
+      const secondaryColor = isNeg ? '#F04438' : '#475467';
 
       if (signEl) {
         signEl.style.display = isNeg ? 'inline' : 'none';
-        signEl.style.color = isNeg ? '#EF4444' : 'inherit';
+        signEl.style.color = primaryColor;
+      }
+      intEl.textContent = intPart.toLocaleString('it-IT');
+      intEl.style.color = primaryColor;
+      decEl.textContent = ',' + decPart;
+      decEl.style.color = secondaryColor;
+      if (currEl) currEl.style.color = secondaryColor;
+
+      if (badgeStatus) {
+        badgeStatus.className = isNeg ? 'hero-status-pill is-neg' : 'hero-status-pill';
+        badgeStatus.innerHTML = isNeg 
+          ? `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>In deficit di ${formatValuta(absCents)}</span>`
+          : `<span>Spesi ${formatValuta(fin.variableExpensesCents)} di budget</span>`;
       }
 
-      intEl.textContent = intPart.toLocaleString('it-IT');
-      decEl.textContent = ',' + decPart;
+      const percSpeso = fin.budgetVariabilePianificato > 0 
+        ? Math.min(100, Math.round((fin.variableExpensesCents / fin.budgetVariabilePianificato) * 100)) 
+        : (fin.variableExpensesCents > 0 ? 100 : 0);
 
-      const numColor = isNeg ? '#EF4444' : 'var(--ink-headline)';
-      intEl.style.color = numColor;
-      decEl.style.color = isNeg ? '#EF4444' : 'var(--ink-sub)';
-      decEl.style.color = isNeg ? "#EF4444" : "var(--ink-faint)";
-      intEl.style.fontSize = intText.length >= 9 ? "38px" : intText.length >= 7 ? "48px" : "";
-
-      const percSpeso = fin.budgetVariabilePianificato > 0 ? Math.min(100, Math.round((fin.variableExpensesCents / fin.budgetVariabilePianificato) * 100)) : 100;
       const progressFill = document.getElementById("progress-fill");
       progressFill.style.width = `${percSpeso}%`;
-      progressFill.style.background = percSpeso >= 100 ? "#EF4444" : "linear-gradient(90deg, #0066FF, #00D2FF)";
+      progressFill.style.background = isNeg ? "var(--apple-crimson)" : (percSpeso >= 85 ? "#F79009" : "#007AFF");
 
-      document.getElementById("label-speso-mese").textContent = `Spesi ${formatValuta(fin.variableExpensesCents)}`;
+      const trackSpent = document.getElementById("label-track-spent");
+      if (trackSpent) trackSpent.textContent = `${percSpeso}% allocato`;
 
       document.getElementById("val-budget-oggi").textContent = formatValuta(fin.dailyBudgetCents);
       document.getElementById("val-giorni-rimasti").textContent = `${fin.daysRemaining} giorni rimasti`;
@@ -1823,12 +2242,12 @@ body { font-variant-numeric: tabular-nums lining-nums; }
       const ritmoSub = document.getElementById("val-ritmo-dettaglio");
       if (fin.differenzaRitmoCents >= 0) {
         ritmoEl.textContent = `+${formatValuta(fin.differenzaRitmoCents)}`;
-        ritmoEl.style.color = "#10B981";
+        ritmoEl.style.color = "var(--apple-emerald)";
         ritmoSub.textContent = "in anticipo su target";
       } else {
         ritmoEl.textContent = `-${formatValuta(Math.abs(fin.differenzaRitmoCents))}`;
-        ritmoEl.style.color = "#EF4444";
-        ritmoSub.textContent = "sopra la media attesa";
+        ritmoEl.style.color = "var(--apple-crimson)";
+        ritmoSub.textContent = "sopra la media";
       }
 
       document.getElementById("val-sum-entrate").textContent = formatValuta(fin.baseIncome + fin.extraIncomeCents);
@@ -2365,6 +2784,14 @@ body { font-variant-numeric: tabular-nums lining-nums; }
         const secToShow = document.getElementById(`view-${target}`);
         if (secToShow) secToShow.classList.remove("hidden");
 
+        const viewTitles = {
+          oggi: "Oggi",
+          movimenti: "Movimenti",
+          fisse: "Fisse & PAC",
+          impostazioni: "Menu"
+        };
+        document.getElementById("screen-title").textContent = viewTitles[target] || "Oggi";
+
         if (target === "movimenti") renderMovimentiView();
         if (target === "fisse") renderFisseView();
         if (target === "impostazioni") renderImpostazioniView();
@@ -2417,6 +2844,14 @@ body { font-variant-numeric: tabular-nums lining-nums; }
     initCategoryChips();
     applyQuickModeUI();
     renderAll();
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => console.error('SW register error', err));
+      });
+    }
   </script>
 </body>
 </html>
