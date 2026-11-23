@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#080D16">
+  <meta name="theme-color" content="#090E1A">
   <title>Finanze</title>
 
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1310,6 +1310,45 @@ body {
   border-radius: 999px !important;
   background: linear-gradient(135deg, #0284C7 0%, #2563EB 100%) !important;
   box-shadow: 0 4px 18px rgba(37, 99, 235, 0.5) !important;
+}
+
+
+/* ===== DYNAMIC ISLAND FULL BLEED FIX ===== */
+html {
+  background: #090E1A !important;
+  background-color: #090E1A !important;
+  min-height: 100% !important;
+}
+
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 100dvh !important;
+  background: 
+    radial-gradient(140% 55% at 50% -12%, #1E3A8A 0%, rgba(15, 23, 42, 0.6) 45%, #070A11 85%) !important;
+  background-attachment: fixed !important;
+  background-color: #070A11 !important;
+}
+
+/* L'app-frame diventa trasparente per lasciar filtrare il gradiente dietro la Dynamic Island */
+.app-frame {
+  background: transparent !important;
+  width: 100% !important;
+  max-width: 430px !important;
+  min-height: 100dvh !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  position: relative !important;
+  padding-bottom: 0 !important;
+}
+
+/* Spaziatura millimetrica sotto la Dynamic Island */
+.copilot-header-fluid {
+  padding-top: calc(8px + env(safe-area-inset-top, 54px)) !important;
+  padding-left: 22px !important;
+  padding-right: 22px !important;
+  padding-bottom: 6px !important;
 }
 
 </style>
