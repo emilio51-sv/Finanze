@@ -870,8 +870,21 @@
     .header-meta-row { align-items: center; }
     .header-date {
       color: #8493AC;
-      font-size: 10px;
-      letter-spacing: 0.17em;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+    }
+    .header-date-cluster {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .header-status-led {
+      width: 7px;
+      height: 7px;
+      flex: 0 0 7px;
+      border-radius: 50%;
+      background: #59E2B1;
+      box-shadow: 0 0 0 3px rgba(89, 226, 177, 0.1), 0 0 12px rgba(89, 226, 177, 0.7);
     }
     .cycle-inline-caption {
       color: #C0CAE0;
@@ -879,12 +892,14 @@
       border-color: rgba(255, 255, 255, 0.09);
       padding: 6px 10px;
     }
+    body.is-home .cycle-inline-caption { display: none; }
     .native-large-title {
       color: #F5F7FC;
       font-size: 42px;
       font-weight: 720;
       letter-spacing: -0.065em;
     }
+    body.is-home .native-large-title { display: none; }
     .scroll-body { padding: 8px 18px 28px; gap: 22px; }
     .view-card { gap: 20px; }
     .hero-wallet-card {
@@ -905,7 +920,7 @@
       height: 1px;
       background: linear-gradient(90deg, transparent, rgba(197, 215, 255, 0.52), transparent);
     }
-    .hero-balance-block { align-items: flex-start; text-align: left; }
+    .hero-balance-block { align-items: center; text-align: center; }
     .hero-eyebrow {
       margin-bottom: 12px;
       color: #A4B3CE;
@@ -913,7 +928,7 @@
       letter-spacing: 0.16em;
     }
     .hero-digits-wrap {
-      justify-content: flex-start;
+      justify-content: center;
       margin: 0 0 14px;
       width: 100%;
     }
@@ -943,6 +958,32 @@
       border-color: rgba(255, 255, 255, 0.08);
       box-shadow: inset 0 1px rgba(255, 255, 255, 0.035);
       border-radius: 16px;
+    }
+    .savings-reserve-card {
+      padding: 17px 19px;
+      border-color: rgba(89, 226, 177, 0.16);
+      background: linear-gradient(120deg, rgba(20, 42, 44, 0.88), rgba(17, 27, 40, 0.92));
+    }
+    .savings-reserve-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+    }
+    .savings-reserve-total {
+      display: block;
+      margin-top: 6px;
+      color: #71E8BB;
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+    .savings-reserve-note {
+      display: block;
+      margin-top: 2px;
+      color: #8EA99F;
+      font-size: 11px;
     }
     .widget-pod-label { color: #94A4BF; font-size: 9px; letter-spacing: 0.11em; }
     .widget-pod-val { color: #F3F6FC; font-size: 18px; }
@@ -1064,7 +1105,7 @@
       background: rgba(255, 255, 255, 0.045);
       border-color: rgba(255, 255, 255, 0.09);
     }
-    #tx-amount { color: #F5F7FC; }
+    #tx-amount { color: #F5F7FC; caret-color: transparent; }
     .cat-chip-inner, .input-pod {
       background: rgba(255, 255, 255, 0.045);
       border-color: rgba(255, 255, 255, 0.09);
@@ -1126,6 +1167,7 @@
     }
     @media (max-width: 360px) {
       .scroll-body { padding-right: 14px; padding-left: 14px; }
+      .header-date { font-size: 12px; letter-spacing: 0.06em; }
       .hero-wallet-card { min-height: 310px; padding: 25px 18px 19px; }
       .hero-int { font-size: 53px; }
       .dock-slot { font-size: 8px; }
@@ -1140,12 +1182,15 @@
     }
   </style>
 </head>
-<body>
+<body class="is-home">
   <div class="app-frame">
     <!-- HEADER SPATIAL -->
     <header class="copilot-header-fluid">
       <div class="header-meta-row">
-        <span class="header-date" id="header-date">LUNEDÌ 23 NOVEMBRE</span>
+        <div class="header-date-cluster">
+          <span class="header-date" id="header-date">LUNEDÌ 23 NOVEMBRE</span>
+          <span class="header-status-led" aria-hidden="true"></span>
+        </div>
         <span class="cycle-inline-caption" id="label-periodo">28 ott – 27 nov</span>
       </div>
       <h1 class="native-large-title" id="screen-title">Oggi</h1>
@@ -1192,6 +1237,16 @@
           </div>
         </article>
 
+        <article class="puffy-card savings-reserve-card" aria-label="Risparmi accantonati">
+          <div class="savings-reserve-content">
+            <div>
+              <span class="section-puffy-title">Risparmi accantonati</span>
+              <span class="savings-reserve-total" id="val-risparmi-accantonati">0,00 €</span>
+              <span class="savings-reserve-note">Avanzi dei cicli conclusi</span>
+            </div>
+          </div>
+        </article>
+
         <!-- SPESE PER CATEGORIA -->
         <section class="activity-group" id="section-spese-categoria">
           <div class="rings-section-head" style="margin-bottom: 2px;">
@@ -1206,6 +1261,10 @@
           <div class="ledger-row-puffy">
             <span class="puffy-row-label">Entrate previste</span>
             <span class="puffy-row-val" style="color: var(--ios-emerald);" id="val-sum-entrate">1.800,00 €</span>
+          </div>
+          <div class="ledger-row-puffy">
+            <span class="puffy-row-label">Debito riportato</span>
+            <span class="puffy-row-val" id="val-debito-precedente">0,00 €</span>
           </div>
           <div class="ledger-row-puffy">
             <span class="puffy-row-label">PAC & Risparmio protetto</span>
@@ -1672,6 +1731,51 @@
 
     const store = new Store();
 
+    function calculateHistoricalReserves(storeData, currentCycle, salaryDay, monthlyFixedCents, monthlyPacCents) {
+      const salaries = storeData.settings.monthlySalaries || {};
+      const dates = [
+        ...storeData.transactions.map(tx => tx.date),
+        ...Object.keys(salaries)
+      ].filter(date => /^\d{4}-\d{2}-\d{2}$/.test(date));
+
+      if (!dates.length) return { risparmiCents: 0, debitoCents: 0 };
+
+      const firstDate = dates.reduce((earliest, date) => date < earliest ? date : earliest);
+      let historicalCycle = getCycleRange(parseLocalDateString(firstDate), salaryDay);
+      let risparmiCents = 0;
+      let debitoCents = 0;
+
+      while (historicalCycle.start < currentCycle.start) {
+        const cycleTransactions = storeData.transactions.filter(tx =>
+          tx.date >= historicalCycle.startStr && tx.date <= historicalCycle.endStr
+        );
+        const incomeCents = (salaries[historicalCycle.startStr] || 0) +
+          cycleTransactions
+            .filter(tx => tx.type === "income")
+            .reduce((sum, tx) => sum + tx.amountCents, 0);
+        const expensesCents = cycleTransactions
+          .filter(tx => tx.type === "expense")
+          .reduce((sum, tx) => sum + tx.amountCents, 0);
+
+        const cycleBalanceCents = incomeCents - monthlyFixedCents - monthlyPacCents - expensesCents - debitoCents;
+        if (cycleBalanceCents < 0) {
+          debitoCents = Math.abs(cycleBalanceCents);
+        } else {
+          risparmiCents += cycleBalanceCents;
+          debitoCents = 0;
+        }
+
+        const nextStart = new Date(
+          historicalCycle.start.getFullYear(),
+          historicalCycle.start.getMonth() + 1,
+          salaryDay
+        );
+        historicalCycle = getCycleRange(nextStart, salaryDay);
+      }
+
+      return { risparmiCents, debitoCents };
+    }
+
     function computeFinancials(storeData, refDate = new Date()) {
       const salaryDay = storeData.settings.salaryDay || 28;
       const cycle = getCycleRange(refDate, salaryDay);
@@ -1694,17 +1798,24 @@
       const cycleSalary = storeData.settings.monthlySalaries?.[cycle.startStr];
       const baseIncome = cycleSalary !== undefined && cycleSalary !== null ? cycleSalary : 0;
       const totalInflow = baseIncome + extraIncomeCents;
+      const { risparmiCents, debitoCents } = calculateHistoricalReserves(
+        storeData,
+        cycle,
+        salaryDay,
+        monthlyFixedCents,
+        monthlyPacCents
+      );
 
-      const availableCents = totalInflow - monthlyPacCents - monthlyFixedCents - variableExpensesCents;
+      const availableCents = totalInflow - debitoCents - monthlyPacCents - monthlyFixedCents - variableExpensesCents;
       const dailyBudgetCents = availableCents > 0 ? Math.floor(availableCents / daysRemaining) : 0;
-      const budgetVariabilePianificato = Math.max(0, totalInflow - monthlyPacCents - monthlyFixedCents);
+      const budgetVariabilePianificato = Math.max(0, totalInflow - debitoCents - monthlyPacCents - monthlyFixedCents);
 
       const spesaAttesaAdOggi = budgetVariabilePianificato > 0 ? Math.round((budgetVariabilePianificato / totalDays) * daysPassed) : 0;
       const differenzaRitmoCents = spesaAttesaAdOggi - variableExpensesCents;
 
       return {
         cycle, totalDays, daysPassed, daysRemaining, baseIncome, extraIncomeCents,
-        monthlyPacCents, monthlyFixedCents, variableExpensesCents, availableCents,
+        monthlyPacCents, monthlyFixedCents, variableExpensesCents, risparmiCents, debitoCents, availableCents,
         dailyBudgetCents, budgetVariabilePianificato, differenzaRitmoCents, cycleTransactions: cycleTx
       };
     }
@@ -1789,6 +1900,10 @@
       }
 
       document.getElementById("val-sum-entrate").textContent = formatValuta(fin.baseIncome + fin.extraIncomeCents);
+      document.getElementById("val-risparmi-accantonati").textContent = formatValuta(fin.risparmiCents);
+      const previousDebtEl = document.getElementById("val-debito-precedente");
+      previousDebtEl.textContent = fin.debitoCents > 0 ? `-${formatValuta(fin.debitoCents)}` : formatValuta(0);
+      previousDebtEl.style.color = fin.debitoCents > 0 ? "var(--ios-crimson)" : "var(--ios-ink-3)";
       document.getElementById("val-sum-pac").textContent = formatValuta(fin.monthlyPacCents);
       document.getElementById("val-sum-fisse").textContent = formatValuta(fin.monthlyFixedCents);
       document.getElementById("val-sum-variabili").textContent = formatValuta(fin.variableExpensesCents);
@@ -2346,6 +2461,7 @@
         tab.classList.add("active");
 
         const target = tab.dataset.tab;
+        document.body.classList.toggle("is-home", target === "oggi");
         document.querySelectorAll(".view-card").forEach(sec => sec.classList.add("hidden"));
         const secToShow = document.getElementById(`view-${target}`);
         if (secToShow) secToShow.classList.remove("hidden");
