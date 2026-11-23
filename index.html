@@ -37,6 +37,10 @@
       outline: none;
     }
 
+    button, input, select, textarea, option {
+      font-family: var(--font-copilot);
+    }
+
     body {
       font-family: var(--font-copilot);
       background-color: var(--bg-canvas);
@@ -90,7 +94,7 @@
     .view-card {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 20px;
     }
 
     .puffy-card {
@@ -208,8 +212,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 4px;
-      margin-top: 4px;
+      padding: 0 4px 2px;
+      margin-top: 2px;
     }
     .section-puffy-title {
       font-size: 13px;
@@ -912,6 +916,270 @@ body { font-variant-numeric: tabular-nums lining-nums; }
       margin: 0 !important;
     }
 
+    .app-frame {
+      background:
+        radial-gradient(ellipse 120% 40% at 50% -10%, #CDE2FF 0%, #E8F1FC 45%, #F4F6FA 85%),
+        var(--bg-canvas);
+    }
+
+    .copilot-header-fluid {
+      padding: calc(26px + env(safe-area-inset-top)) 24px 12px;
+    }
+
+    .native-large-title {
+      font-size: 36px;
+      font-weight: 650;
+      letter-spacing: -0.055em;
+      line-height: 1;
+    }
+
+    .cycle-sub-caption {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      padding: 6px 10px;
+      border: 1px solid rgba(17, 24, 39, 0.055);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.62);
+      color: #64748B;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.005em;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .cycle-sub-caption::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      flex: 0 0 6px;
+      border-radius: 50%;
+      background: var(--copilot-blue);
+      box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+    }
+
+    .scroll-body {
+      padding-top: 10px;
+      gap: 24px;
+    }
+
+    .activity-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .puffy-card > .section-puffy-title {
+      margin-bottom: 14px !important;
+    }
+
+    #view-oggi > .puffy-card:first-child {
+      position: relative;
+      overflow: hidden;
+      padding: 26px 22px 20px;
+      background: linear-gradient(145deg, #FFFFFF 35%, #F3F8FF 100%);
+      border-color: rgba(0, 102, 255, 0.08);
+      box-shadow: 0 16px 36px -12px rgba(0, 48, 143, 0.16), 0 4px 12px -4px rgba(0, 0, 0, 0.04);
+    }
+
+    #view-oggi > .puffy-card:first-child::before {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      top: -116px;
+      right: -72px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 102, 255, 0.11), rgba(0, 102, 255, 0));
+      pointer-events: none;
+    }
+
+    #view-oggi > .puffy-card:first-child > * {
+      position: relative;
+    }
+
+    .balance-int {
+      font-size: clamp(40px, 12vw, 52px);
+    }
+
+    .copilot-track {
+      height: 8px;
+      background: #E8EEF8;
+    }
+
+    #tx-amount {
+      text-align: center;
+      caret-color: transparent;
+      width: 1ch;
+      min-width: 1ch;
+      max-width: calc(100% - 36px);
+    }
+
+    select,
+    option {
+      text-align: center;
+    }
+
+    select {
+      text-align-last: center;
+    }
+
+    #modal-add .sheet-action-row {
+      margin-top: 18px;
+    }
+
+    .rings-horizontal-scroll {
+      gap: 10px;
+      padding-bottom: 10px;
+    }
+
+    .ring-card-item {
+      min-width: 88px;
+      border-radius: 20px;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .tx-puffy-row,
+    .puffy-card,
+    .month-stepper,
+    .subnav-pills,
+    .wallet-search-input,
+    .wallet-category-select,
+    .clean-input-cell,
+    .key-input-display,
+    .input-pod {
+      transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease, transform 160ms ease;
+    }
+
+    .subnav-pills {
+      background: #E9EEF6;
+      padding: 4px;
+    }
+
+    .subnav-btn {
+      min-height: 38px;
+    }
+
+    .view-card:not(.hidden) {
+      animation: screen-enter 280ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    @keyframes screen-enter {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .wallet-search-input:focus,
+    .wallet-category-select:focus,
+    .clean-input-cell:focus,
+    .input-pod:focus-within,
+    .key-input-display:focus-within {
+      border-color: rgba(0, 102, 255, 0.42);
+      box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+    }
+
+    .cat-chip-wrap input:focus-visible + .cat-chip-inner,
+    .switch-option input:focus-visible + span {
+      outline: 3px solid rgba(0, 102, 255, 0.28);
+      outline-offset: 2px;
+    }
+
+    .dock-slot,
+    .dock-plus-circle,
+    .stepper-btn,
+    .subnav-btn,
+    .sheet-close-btn,
+    .btn-submit-copilot,
+    .btn-delete-copilot,
+    .toast-undo-btn {
+      transition: color 160ms ease, background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    }
+
+    .dock-slot.active {
+      font-weight: 600;
+    }
+
+    .dock-slot[data-tab="impostazioni"] svg {
+      display: none;
+    }
+
+    .dock-slot[data-tab="impostazioni"]::before {
+      content: "";
+      width: 20px;
+      height: 20px;
+      background:
+        linear-gradient(currentColor, currentColor) center 4px / 16px 2px no-repeat,
+        linear-gradient(currentColor, currentColor) center 9px / 16px 2px no-repeat,
+        linear-gradient(currentColor, currentColor) center 14px / 16px 2px no-repeat;
+    }
+
+    .dock-plus-circle {
+      background: linear-gradient(145deg, #1680FF, #0057E7);
+      box-shadow: 0 7px 20px rgba(0, 102, 255, 0.32);
+    }
+
+    .empty-placeholder {
+      border: 1px dashed rgba(107, 114, 128, 0.22);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.58);
+    }
+
+    .stepper-btn:focus-visible,
+    .dock-slot:focus-visible,
+    .dock-plus-slot:focus-visible .dock-plus-circle,
+    .subnav-btn:focus-visible,
+    .sheet-close-btn:focus-visible,
+    .btn-submit-copilot:focus-visible,
+    .btn-delete-copilot:focus-visible,
+    #btn-export-json:focus-visible,
+    #btn-reset-data:focus-visible,
+    .wallet-search-input:focus-visible,
+    .wallet-category-select:focus-visible,
+    .clean-input-cell:focus-visible,
+    .pod-input-field:focus-visible {
+      outline: 3px solid rgba(0, 102, 255, 0.32);
+      outline-offset: 2px;
+    }
+
+    @media (hover: hover) {
+      .puffy-card:hover,
+      .ring-card-item:hover {
+        transform: translateY(-2px);
+      }
+
+      .tx-puffy-row:hover {
+        border-color: rgba(0, 102, 255, 0.16);
+        box-shadow: 0 8px 20px rgba(0, 48, 143, 0.07);
+      }
+
+      .dock-slot:hover,
+      .stepper-btn:hover,
+      .sheet-close-btn:hover {
+        color: var(--copilot-blue);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
 </style>
 </head>
 <body>
@@ -1129,7 +1397,7 @@ body { font-variant-numeric: tabular-nums lining-nums; }
       </button>
 
       <button type="button" class="dock-slot" data-tab="movimenti">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h17l-4-4m4 4-4 4M21 17H4l4 4m-4-4 4-4"></path></svg>
         <span>Movimenti</span>
       </button>
 
@@ -1731,6 +1999,13 @@ body { font-variant-numeric: tabular-nums lining-nums; }
     const modalAdd = document.getElementById("modal-add");
     const modalRecurring = document.getElementById("modal-recurring");
     const modalGoal = document.getElementById("modal-goal");
+    const txAmountInput = document.getElementById("tx-amount");
+
+    function fitTxAmountInput() {
+      txAmountInput.style.width = `${Math.max(1, txAmountInput.value.length)}ch`;
+    }
+
+    txAmountInput.addEventListener("input", fitTxAmountInput);
 
     function closeAllModals() {
       modalBackdrop.classList.add("hidden");
@@ -1769,6 +2044,7 @@ body { font-variant-numeric: tabular-nums lining-nums; }
         delBtn.classList.add("hidden");
         setTimeout(() => document.getElementById("tx-amount").focus(), 120);
       }
+      fitTxAmountInput();
     }
 
     document.getElementById("btn-open-modal").addEventListener("click", () => openTxModal(null));
