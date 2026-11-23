@@ -1358,8 +1358,11 @@ body { font-variant-numeric: tabular-nums lining-nums; }
             <input type="number" id="cfg-salary-day" class="clean-input-cell" min="1" max="28" value="28">
           </div>
           <div class="ledger-row-puffy">
-            <label for="cfg-monthly-income" class="puffy-row-label">Entrata netta (€)</label>
-            <input type="number" id="cfg-monthly-income" class="clean-input-cell" step="50" placeholder="1800">
+            <div>
+              <label for="cfg-cycle-salary" class="puffy-row-label">Stipendio preciso (€)</label>
+              <div id="cfg-salary-cycle-label" style="font-size:11px; color:var(--ink-sub); margin-top:2px;"></div>
+            </div>
+            <input type="number" id="cfg-cycle-salary" class="clean-input-cell" step="0.01" min="0" placeholder="1800">
           </div>
           <button type="button" class="btn-submit-copilot" id="btn-save-settings" style="margin-top: 14px;">Salva Parametri</button>
         </article>
@@ -1584,7 +1587,7 @@ body { font-variant-numeric: tabular-nums lining-nums; }
 
     const INITIAL_DATA = {
       version: 3,
-      settings: { salaryDay: 28, monthlyIncomeCents: 180000, lastBackupDate: null, quickMode: false },
+      settings: { salaryDay: 28, monthlyIncomeCents: 0, monthlySalaries: {}, lastBackupDate: null, quickMode: false },
       categories: DEFAULT_CATEGORIES,
       transactions: [],
       recurring: [{ id: "rec_auto", name: "Rata Auto", amountCents: 25000, frequency: "monthly", day: 15, categoryId: "auto", active: true }],
@@ -1657,11 +1660,27 @@ body { font-variant-numeric: tabular-nums lining-nums; }
       load() {
         try {
           const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("finanze_pwa_data_v2") || localStorage.getItem("finanze_pwa_data_v1");
-          if (!raw) return INITIAL_DATA;
+          if (!raw) {
+            const initial = JSON.parse(JSON.stringify(INITIAL_DATA));
+            const salaryDay = initial.settings.salaryDay || 28;
+            const cycle = getCycleRange(new Date(), salaryDay);
+            initial.settings.monthlySalaries[cycle.startStr] = initial.settings.monthlyIncomeCents || 0;
+            return initial;
+          }
           const p = JSON.parse(raw);
+          const settings = {
+            ...INITIAL_DATA.settings,
+            ...(p.settings || {}),
+            monthlySalaries: { ...(p.settings?.monthlySalaries || {}) }
+          };
+          const salaryDay = settings.salaryDay || 28;
+          const cycle = getCycleRange(new Date(), salaryDay);
+          if (settings.monthlySalaries[cycle.startStr] === undefined && p.settings?.monthlyIncomeCents !== undefined) {
+            settings.monthlySalaries[cycle.startStr] = p.settings.monthlyIncomeCents || 0;
+          }
           return {
             version: 3,
-            settings: { ...INITIAL_DATA.settings, ...(p.settings || {}) },
+            settings,
             categories: (p.categories && p.categories.length) ? p.categories : DEFAULT_CATEGORIES,
             transactions: p.transactions || [],
             recurring: p.recurring || INITIAL_DATA.recurring,
@@ -1711,7 +1730,8 @@ body { font-variant-numeric: tabular-nums lining-nums; }
         }, 0);
 
       const monthlyPacCents = storeData.goals.reduce((acc, g) => acc + (g.monthlyCents || 0), 0);
-      const baseIncome = storeData.settings.monthlyIncomeCents || 0;
+      const cycleSalary = storeData.settings.monthlySalaries?.[cycle.startStr];
+      const baseIncome = cycleSalary !== undefined && cycleSalary !== null ? cycleSalary : 0;
       const totalInflow = baseIncome + extraIncomeCents;
 
       const availableCents = totalInflow - monthlyPacCents - monthlyFixedCents - variableExpensesCents;
@@ -1988,11 +2008,21 @@ body { font-variant-numeric: tabular-nums lining-nums; }
 
     function renderImpostazioniView() {
       document.getElementById("cfg-salary-day").value = store.data.settings.salaryDay || 28;
-      document.getElementById("cfg-monthly-income").value = (store.data.settings.monthlyIncomeCents || 0) / 100;
+      renderCurrentCycleSalaryInput(store.data.settings.salaryDay || 28);
       if (store.data.settings.lastBackupDate) {
         const bDate = new Date(store.data.settings.lastBackupDate).toLocaleDateString("it-IT");
         document.getElementById("backup-status-text").textContent = `Ultimo backup: ${bDate}`;
       }
+    }
+
+    function renderCurrentCycleSalaryInput(salaryDay) {
+      const cycle = getCycleRange(new Date(), salaryDay);
+      const cycleKey = cycle.startStr;
+      const exactSalary = store.data.settings.monthlySalaries?.[cycleKey];
+      const startLabel = cycle.start.toLocaleDateString("it-IT", { day: "2-digit", month: "2-digit", year: "numeric" });
+      const endLabel = cycle.end.toLocaleDateString("it-IT", { day: "2-digit", month: "2-digit", year: "numeric" });
+      document.getElementById("cfg-salary-cycle-label").textContent = `Ciclo rilevato: ${startLabel} - ${endLabel}`;
+      document.getElementById("cfg-cycle-salary").value = ((exactSalary || 0) / 100).toFixed(2);
     }
 
     const modalBackdrop = document.getElementById("modal-backdrop");
@@ -2251,12 +2281,21 @@ body { font-variant-numeric: tabular-nums lining-nums; }
 
     document.getElementById("btn-save-settings").addEventListener("click", () => {
       const salDay = parseInt(document.getElementById("cfg-salary-day").value, 10);
-      const inc = parseFloat(document.getElementById("cfg-monthly-income").value);
+      const cycleSalary = parseFloat(document.getElementById("cfg-cycle-salary").value.replace(",", "."));
       if (salDay >= 1 && salDay <= 28) store.data.settings.salaryDay = salDay;
-      if (!isNaN(inc) && inc >= 0) store.data.settings.monthlyIncomeCents = Math.round(inc * 100);
+      if (salDay >= 1 && salDay <= 28 && !isNaN(cycleSalary) && cycleSalary >= 0) {
+        const cycleKey = getCycleRange(new Date(), salDay).startStr;
+        store.data.settings.monthlySalaries ??= {};
+        store.data.settings.monthlySalaries[cycleKey] = Math.round(cycleSalary * 100);
+      }
       store.save();
       alert("Impostazioni salvate con successo.");
       renderAll();
+    });
+
+    document.getElementById("cfg-salary-day").addEventListener("change", (event) => {
+      const salaryDay = parseInt(event.target.value, 10);
+      if (salaryDay >= 1 && salaryDay <= 28) renderCurrentCycleSalaryInput(salaryDay);
     });
 
     function exportJsonBackup() {
