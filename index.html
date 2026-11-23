@@ -129,20 +129,42 @@
       margin: 2px 0 6px;
       line-height: 1;
     }
+    .balance-digits-wrap.is-negative {
+      gap: 4px;
+    }
+    .balance-sign {
+      display: none;
+      font-size: 48px;
+      font-weight: 600;
+      line-height: 1;
+      color: #EF4444;
+      margin-right: 2px;
+    }
+    .balance-digits-wrap.is-negative .balance-sign {
+      display: inline;
+    }
+    .balance-digits-wrap.is-negative .balance-curr {
+      margin-right: 0;
+      color: #EF4444;
+    }
+    .balance-digits-wrap.is-negative .balance-int,
+    .balance-digits-wrap.is-negative .balance-dec {
+      color: #EF4444;
+    }
     .balance-curr {
-      font-size: 26px;
+      font-size: 30px;
       font-weight: 600;
       color: var(--ink-sub);
       margin-right: 4px;
     }
     .balance-int {
-      font-size: 46px;
+      font-size: 56px;
       font-weight: 700;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.025em;
       color: var(--ink-headline);
     }
     .balance-dec {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 500;
       color: var(--ink-faint);
     }
@@ -788,8 +810,8 @@ body { font-variant-numeric: tabular-nums lining-nums; }
 
 /* Hero: cifra monumentale */
 .balance-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
-.balance-int { font-weight: 600; letter-spacing: -0.055em; line-height: 1; font-variant-numeric: tabular-nums lining-nums; }
-.balance-dec { font-weight: 500; letter-spacing: -0.02em; font-variant-numeric: tabular-nums lining-nums; }
+.balance-int { font-weight: 600; letter-spacing: -0.035em; line-height: 1; font-variant-numeric: tabular-nums lining-nums; }
+.balance-dec { font-weight: 500; letter-spacing: -0.01em; font-variant-numeric: tabular-nums lining-nums; }
 .balance-curr { font-weight: 500; }
 .balance-subtext { font-size: 12.5px; font-weight: 500; letter-spacing: 0; }
 
@@ -1002,7 +1024,7 @@ body { font-variant-numeric: tabular-nums lining-nums; }
     }
 
     .balance-int {
-      font-size: clamp(40px, 12vw, 52px);
+      font-size: clamp(48px, 15vw, 64px);
     }
 
     .copilot-track {
@@ -1196,10 +1218,11 @@ body { font-variant-numeric: tabular-nums lining-nums; }
         <article class="puffy-card">
           <div class="balance-center-group">
             <span class="balance-eyebrow">Disponibile del mese</span>
-            <div class="balance-digits-wrap">
-              <span class="balance-curr">€</span>
-              <span class="balance-int" id="val-disp-int">0</span>
-              <span class="balance-dec" id="val-disp-dec">,00</span>
+            <div class="balance-digits-wrap" style="display:flex; align-items:baseline; justify-content:center; gap:2px; font-variant-numeric:tabular-nums;">
+              <span class="balance-sign" id="val-disp-sign" style="font-size:36px; font-weight:700; margin-right:2px; display:none;">-</span>
+              <span class="balance-int" id="val-disp-int" style="font-size:46px; font-weight:700; letter-spacing:-0.04em;">0</span>
+              <span class="balance-dec" id="val-disp-dec" style="font-size:26px; font-weight:500; color:var(--ink-sub);">,00</span>
+              <span class="balance-curr" style="font-size:24px; font-weight:500; color:var(--ink-sub); margin-left:4px;">€</span>
             </div>
             <span class="balance-subtext" id="label-speso-mese">Spesi 0,00 € di budget</span>
           </div>
@@ -1766,13 +1789,25 @@ body { font-variant-numeric: tabular-nums lining-nums; }
       const isNeg = fin.availableCents < 0;
       const absCents = Math.abs(fin.availableCents);
       const intPart = Math.floor(absCents / 100);
-      const decPart = String(absCents % 100).padStart(2, "0");
+      const decPart = String(absCents % 100).padStart(2, '0');
 
-      const intEl = document.getElementById("val-disp-int");
-      const decEl = document.getElementById("val-disp-dec");
-      intEl.textContent = `${isNeg ? '-' : ''}${intPart.toLocaleString("it-IT")}`;
-      decEl.textContent = `,${decPart}`;
-      intEl.style.color = isNeg ? "#EF4444" : "var(--ink-headline)";
+      const signEl = document.getElementById('val-disp-sign');
+      const intEl = document.getElementById('val-disp-int');
+      const decEl = document.getElementById('val-disp-dec');
+
+      if (signEl) {
+        signEl.style.display = isNeg ? 'inline' : 'none';
+        signEl.style.color = isNeg ? '#EF4444' : 'inherit';
+      }
+
+      intEl.textContent = intPart.toLocaleString('it-IT');
+      decEl.textContent = ',' + decPart;
+
+      const numColor = isNeg ? '#EF4444' : 'var(--ink-headline)';
+      intEl.style.color = numColor;
+      decEl.style.color = isNeg ? '#EF4444' : 'var(--ink-sub)';
+      decEl.style.color = isNeg ? "#EF4444" : "var(--ink-faint)";
+      intEl.style.fontSize = intText.length >= 9 ? "38px" : intText.length >= 7 ? "48px" : "";
 
       const percSpeso = fin.budgetVariabilePianificato > 0 ? Math.min(100, Math.round((fin.variableExpensesCents / fin.budgetVariabilePianificato) * 100)) : 100;
       const progressFill = document.getElementById("progress-fill");
