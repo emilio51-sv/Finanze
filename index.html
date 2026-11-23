@@ -491,6 +491,14 @@
       z-index: 90;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
+      opacity: 1;
+      transition: opacity 280ms ease, visibility 280ms;
+    }
+    .sheet-scrim.hidden {
+      display: block !important;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
     }
     .bottom-sheet {
       position: fixed;
@@ -508,15 +516,25 @@
       max-height: 88vh;
       overflow-y: auto;
       transform: translateY(0);
-      transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), visibility 280ms;
     }
-    .bottom-sheet.hidden { transform: translateY(105%); }
+    .bottom-sheet.hidden {
+      display: flex !important;
+      transform: translateY(105%);
+      visibility: hidden;
+      pointer-events: none;
+    }
     .sheet-handle {
       width: 36px;
-      height: 4px;
+      height: 5px;
       background: #E2E4E9;
       border-radius: 999px;
       margin: 0 auto;
+      touch-action: none;
+      cursor: grab;
+    }
+    .sheet-handle:active {
+      cursor: grabbing;
     }
     .sheet-header-row {
       display: flex;
@@ -2178,6 +2196,38 @@
       modalRecurring.classList.add("hidden");
       modalGoal.classList.add("hidden");
     }
+
+    document.querySelectorAll(".bottom-sheet").forEach(sheet => {
+      const handle = sheet.querySelector(".sheet-handle");
+      let dragStartY = null;
+      let dragOffset = 0;
+
+      handle.addEventListener("pointerdown", event => {
+        if (!event.isPrimary || event.button !== 0) return;
+        dragStartY = event.clientY;
+        dragOffset = 0;
+        sheet.style.transition = "none";
+        handle.setPointerCapture(event.pointerId);
+      });
+
+      handle.addEventListener("pointermove", event => {
+        if (dragStartY === null) return;
+        dragOffset = Math.max(0, event.clientY - dragStartY);
+        sheet.style.transform = `translateY(${dragOffset}px)`;
+      });
+
+      const finishDrag = event => {
+        if (dragStartY === null) return;
+        dragOffset = Math.max(0, event.clientY - dragStartY);
+        dragStartY = null;
+        sheet.style.removeProperty("transition");
+        sheet.style.removeProperty("transform");
+        if (event.type === "pointerup" && dragOffset >= 100) closeAllModals();
+      };
+
+      handle.addEventListener("pointerup", finishDrag);
+      handle.addEventListener("pointercancel", finishDrag);
+    });
 
     modalBackdrop.addEventListener("click", closeAllModals);
     document.getElementById("btn-modal-close").addEventListener("click", closeAllModals);
