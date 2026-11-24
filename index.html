@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#090E1A">
+  <meta name="theme-color" content="#F3F7FC">
   <title>Finanze</title>
 
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -17,20 +17,20 @@
   <style>
     :root {
       --font-sys: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
-      --ios-bg: #070A11;
-      --ios-glass: rgba(18, 26, 44, 0.72);
-      --ios-glass-border: rgba(255, 255, 255, 0.08);
-      --ios-card-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.25);
+      --ios-bg: #F3F7FC;
+      --ios-glass: rgba(255, 255, 255, 0.82);
+      --ios-glass-border: rgba(45, 72, 110, 0.08);
+      --ios-card-shadow: 0 16px 36px -14px rgba(67, 91, 128, 0.24), 0 2px 8px rgba(67, 91, 128, 0.07);
       
-      --ios-ink-1: #FFFFFF;
-      --ios-ink-2: #94A3B8;
-      --ios-ink-3: #64748B;
+      --ios-ink-1: #16243A;
+      --ios-ink-2: #5F6F86;
+      --ios-ink-3: #8290A3;
       
-      --ios-blue: #38BDF8;
-      --ios-emerald: #10B981;
-      --ios-emerald-bg: rgba(16, 185, 129, 0.12);
-      --ios-crimson: #FB7185;
-      --ios-crimson-bg: rgba(244, 63, 94, 0.12);
+      --ios-blue: #1677FF;
+      --ios-emerald: #169C72;
+      --ios-emerald-bg: rgba(22, 156, 114, 0.10);
+      --ios-crimson: #E95B72;
+      --ios-crimson-bg: rgba(233, 91, 114, 0.10);
       
       --dock-h: 64px;
     }
@@ -47,7 +47,7 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
-      background: #090E1A;
+      background: #F3F7FC;
       min-height: 100%;
     }
 
@@ -62,8 +62,10 @@
       touch-action: manipulation;
       overflow-x: hidden;
       font-variant-numeric: tabular-nums lining-nums;
-      background: radial-gradient(140% 55% at 50% -12%, #1E3A8A 0%, rgba(15, 23, 42, 0.6) 45%, #070A11 85%) fixed;
-      background-color: #070A11;
+      background:
+        radial-gradient(120% 58% at 50% -18%, rgba(205, 226, 255, 0.96) 0%, rgba(226, 238, 252, 0.82) 45%, rgba(246, 248, 252, 0) 78%),
+        linear-gradient(180deg, #F5F8FC 0%, #EEF3F9 100%) fixed;
+      background-color: #F3F7FC;
       margin: 0;
       padding: 0;
     }
@@ -118,8 +120,8 @@
       font-weight: 600;
       color: var(--ios-ink-2);
       letter-spacing: -0.01em;
-      background: rgba(255, 255, 255, 0.06);
-      border: 0.5px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.68);
+      border: 0.5px solid rgba(45, 72, 110, 0.09);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       padding: 3px 9px;
@@ -241,14 +243,14 @@
       border-radius: 999px;
       font-size: 12px;
       font-weight: 600;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(108, 137, 175, 0.07);
       color: var(--ios-ink-2);
       border: 0.5px solid rgba(255, 255, 255, 0.06);
     }
     .hero-status-pill.is-neg {
       background: var(--ios-crimson-bg);
       color: var(--ios-crimson);
-      border-color: rgba(244, 63, 94, 0.25);
+      border-color: rgba(233, 91, 114, 0.18);
     }
 
     .hero-track-wrap {
@@ -258,7 +260,7 @@
     .hero-track-bar {
       width: 100%;
       height: 7px;
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(91, 117, 151, 0.12);
       border-radius: 999px;
       overflow: hidden;
     }
@@ -284,7 +286,7 @@
       margin-top: 2px;
     }
     .hero-widget-pod {
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(91, 117, 151, 0.055);
       border-radius: 18px;
       padding: 13px 15px;
       display: flex;
@@ -340,7 +342,7 @@
     }
     .rings-horizontal-scroll::-webkit-scrollbar { display: none; }
     .ring-card-item {
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(91, 117, 151, 0.055);
       border-radius: 20px;
       padding: 14px 12px;
       min-width: 86px;
@@ -450,30 +452,30 @@
     /* DOCK FLOTTANTE SOSPESA CON EFFETTO SFOCATURA PASSANTE */
     .copilot-dock {
       position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      max-width: 430px;
+      left: 12px;
+      right: 12px;
+      bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+      width: auto;
+      max-width: 406px;
       margin: 0 auto;
-      height: calc(var(--dock-h) + env(safe-area-inset-bottom, 0px));
-      padding-bottom: env(safe-area-inset-bottom, 0px);
-      background: rgba(15, 23, 42, 0.82);
-      border: 0;
-      border-top: 0.5px solid rgba(255, 255, 255, 0.14);
-      border-radius: 24px 24px 0 0;
+      height: var(--dock-h);
+      padding-bottom: 0;
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(45, 72, 110, 0.10);
+      border-radius: 22px;
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       align-items: center;
       z-index: 80;
-      backdrop-filter: blur(32px) saturate(190%);
-      -webkit-backdrop-filter: blur(32px) saturate(190%);
-      box-shadow: 0 -10px 28px -12px rgba(0, 0, 0, 0.48);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      box-shadow: 0 12px 34px -12px rgba(67, 91, 128, 0.38), 0 3px 10px rgba(67, 91, 128, 0.08);
+      isolation: isolate;
     }
     .dock-slot {
       background: none;
       border: none;
-      color: rgba(255, 255, 255, 0.45);
+      color: #97A4B5;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -491,7 +493,7 @@
       transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
     }
     .dock-slot.active {
-      color: #60A5FA;
+      color: #1677FF;
     }
     .dock-slot.active svg {
       transform: translateY(-1px) scale(1.05);
@@ -513,12 +515,12 @@
       width: 44px;
       height: 44px;
       border-radius: 999px;
-      background: linear-gradient(135deg, #0284C7 0%, #2563EB 100%);
+      background: linear-gradient(135deg, #1677FF 0%, #5A8DEF 100%);
       color: #FFFFFF;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.5);
+      box-shadow: 0 6px 18px rgba(22, 119, 255, 0.28);
       transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 180ms ease;
     }
     .dock-plus-slot:active .dock-plus-circle { transform: scale(0.92); }
@@ -527,7 +529,7 @@
     .sheet-scrim {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.65);
+      background: rgba(42, 58, 82, 0.28);
       z-index: 90;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
@@ -537,15 +539,15 @@
       left: 0; right: 0; bottom: 0;
       max-width: 430px;
       margin: 0 auto;
-      background: #0F172A;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #FDFEFF;
+      border: 1px solid rgba(45, 72, 110, 0.10);
       border-radius: 30px 30px 0 0;
       padding: 14px 22px calc(24px + env(safe-area-inset-bottom, 34px));
       z-index: 100;
       display: flex;
       flex-direction: column;
       gap: 16px;
-      box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 -12px 48px rgba(67, 91, 128, 0.18);
       max-height: 88vh;
       overflow-y: auto;
       transform: translateY(0);
@@ -555,7 +557,7 @@
     .sheet-handle {
       width: 36px;
       height: 4px;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(91, 117, 151, 0.18);
       border-radius: 999px;
       margin: 0 auto;
     }
@@ -568,7 +570,7 @@
       font-size: 18px;
       font-weight: 750;
       letter-spacing: -0.02em;
-      color: #FFFFFF;
+      color: var(--ios-ink-1);
     }
     .sheet-close-btn {
       background: none;
@@ -581,7 +583,7 @@
 
     .pill-switch {
       display: flex;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(91, 117, 151, 0.07);
       border-radius: 13px;
       padding: 3px;
     }
@@ -601,8 +603,9 @@
       border-radius: 10px;
     }
     .switch-option input:checked + span {
-      background: rgba(255, 255, 255, 0.12);
-      color: #FFFFFF;
+      background: #FFFFFF;
+      color: var(--ios-ink-1);
+      box-shadow: 0 2px 8px rgba(67, 91, 128, 0.10);
     }
 
     .key-input-display {
@@ -612,7 +615,7 @@
       padding: 14px 0;
       background: rgba(255, 255, 255, 0.04);
       border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(45, 72, 110, 0.09);
     }
     .display-curr {
       font-size: 28px;
@@ -625,7 +628,7 @@
       border: none;
       font-size: 46px;
       font-weight: 750;
-      color: #FFFFFF;
+      color: var(--ios-ink-1);
       outline: none;
       width: 170px;
       text-align: center;
@@ -875,6 +878,143 @@
       background: rgba(255, 255, 255, 0.02);
     }
     .hidden { display: none !important; }
+
+    /* LIGHT THEME — CONTROLLI E SUPERFICI SECONDARIE */
+    .hero-wallet-card {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(75, 105, 145, 0.09);
+      box-shadow: 0 18px 42px -18px rgba(67, 91, 128, 0.22), 0 3px 10px rgba(67, 91, 128, 0.06);
+    }
+    .hero-wallet-card::after {
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+    }
+    .hero-status-pill,
+    .hero-widget-pod,
+    .ring-card-item,
+    .tx-puffy-row,
+    .month-stepper,
+    .key-input-display,
+    .cat-chip-inner,
+    .input-pod,
+    .subnav-pills,
+    .clean-input-cell,
+    .wallet-search-input,
+    .wallet-category-select {
+      background: rgba(255, 255, 255, 0.72);
+      border-color: rgba(75, 105, 145, 0.09);
+    }
+    .ring-card-item,
+    .tx-puffy-row,
+    .month-stepper {
+      box-shadow: 0 8px 22px -16px rgba(67, 91, 128, 0.22);
+    }
+    .ledger-row-puffy {
+      border-bottom-color: rgba(75, 105, 145, 0.08);
+    }
+    .tx-bubble-icon {
+      background: rgba(22, 119, 255, 0.09);
+      color: var(--ios-blue);
+    }
+    .copilot-dock {
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(75, 105, 145, 0.10);
+      box-shadow: 0 14px 36px -14px rgba(67, 91, 128, 0.42), 0 3px 12px rgba(67, 91, 128, 0.08);
+    }
+    .dock-slot {
+      color: #8A98AA;
+    }
+    .dock-slot.active {
+      color: var(--ios-blue);
+    }
+    .dock-plus-circle {
+      background: linear-gradient(135deg, #1677FF 0%, #568CF0 100%);
+      box-shadow: 0 7px 18px rgba(22, 119, 255, 0.24);
+    }
+    .sheet-scrim {
+      background: rgba(43, 58, 78, 0.24);
+    }
+    .bottom-sheet {
+      background: rgba(253, 254, 255, 0.97);
+      border: 1px solid rgba(75, 105, 145, 0.10);
+      box-shadow: 0 -18px 44px rgba(67, 91, 128, 0.18);
+    }
+    .sheet-handle {
+      background: rgba(75, 105, 145, 0.16);
+    }
+    .sheet-title,
+    .switch-option input:checked + span,
+    .subnav-btn.active,
+    .pod-input-field,
+    .wallet-search-input,
+    .clean-input-cell {
+      color: var(--ios-ink-1) !important;
+    }
+    .pill-switch,
+    .subnav-pills {
+      background: rgba(91, 117, 151, 0.07);
+    }
+    .switch-option input:checked + span,
+    .subnav-btn.active {
+      background: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(67, 91, 128, 0.08);
+    }
+    .key-input-display {
+      background: rgba(255, 255, 255, 0.78);
+    }
+    .cat-chip-inner {
+      background: rgba(255, 255, 255, 0.66);
+    }
+    .cat-chip-wrap input:checked + .cat-chip-inner {
+      background: rgba(22, 119, 255, 0.07);
+      border-color: rgba(22, 119, 255, 0.55);
+    }
+    .btn-submit-copilot {
+      background: linear-gradient(135deg, #1677FF 0%, #4C82E7 100%);
+      box-shadow: 0 7px 18px rgba(22, 119, 255, 0.20);
+    }
+    .wallet-category-select {
+      background: #FFFFFF;
+      color: var(--ios-ink-2);
+    }
+    .wallet-category-select option {
+      background: #FFFFFF;
+      color: var(--ios-ink-1);
+    }
+    .switch-toggle input:checked + .switch-slider {
+      background: #1677FF !important;
+    }
+    .switch-slider {
+      background: #CBD5E1 !important;
+    }
+    .switch-slider:before {
+      background: #FFFFFF;
+    }
+    .wallet-toast {
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--ios-ink-1);
+      border: 1px solid rgba(75, 105, 145, 0.10);
+      box-shadow: 0 12px 28px rgba(67, 91, 128, 0.16);
+    }
+    .toast-undo-btn {
+      color: var(--ios-blue);
+    }
+    .empty-placeholder {
+      border: 1px dashed rgba(75, 105, 145, 0.16);
+      background: rgba(255, 255, 255, 0.42);
+    }
+    #val-risparmi-accantonati,
+    #val-sum-entrate {
+      color: var(--ios-emerald) !important;
+    }
+    #btn-export-json {
+      background: rgba(255, 255, 255, 0.72) !important;
+      border: 1px solid rgba(75, 105, 145, 0.09) !important;
+    }
+    #btn-export-json span[style*="color:#FFFFFF"],
+    #cfg-salary-day,
+    #cfg-cycle-salary {
+      color: var(--ios-ink-1) !important;
+    }
   </style>
 </head>
 <body>
@@ -1056,7 +1196,7 @@
             </div>
             <label class="switch-toggle" style="position:relative; width:44px; height:26px; display:inline-block;">
               <input type="checkbox" id="cfg-quick-mode" style="opacity:0; width:0; height:0;">
-              <span class="switch-slider" style="position:absolute; inset:0; background:#334155; border-radius:999px; transition:.2s; cursor:pointer;"></span>
+              <span class="switch-slider" style="position:absolute; inset:0; background:#CBD5E1; border-radius:999px; transition:.2s; cursor:pointer;"></span>
             </label>
           </div>
         </article>
@@ -1079,13 +1219,13 @@
 
         <article class="puffy-card" style="padding: 16px 18px 14px;">
           <span class="section-puffy-title" style="margin: 0 0 12px; display:block;">Dati & Salvataggio</span>
-          <div id="btn-export-json" style="display:flex; align-items:center; justify-content:space-between; padding: 12px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:16px; cursor:pointer;">
+          <div id="btn-export-json" style="display:flex; align-items:center; justify-content:space-between; padding: 12px; background:rgba(255,255,255,0.72); border:1px solid rgba(75,105,145,0.09); border-radius:16px; cursor:pointer;">
             <div style="display:flex; align-items:center; gap:12px;">
               <div style="width:36px; height:36px; border-radius:11px; background:rgba(56,189,248,0.12); color:var(--ios-blue); display:flex; align-items:center; justify-content:center;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
               </div>
               <div style="display:flex; flex-direction:column; gap:2px;">
-                <span style="font-size:14px; font-weight:600; color:#FFFFFF;">Copia di Backup</span>
+                <span style="font-size:14px; font-weight:600; color:var(--ios-ink-1);">Copia di Backup</span>
                 <span id="backup-status-text" style="font-size:11px; color:var(--ios-ink-2);">Ultimo backup: mai</span>
               </div>
             </div>
