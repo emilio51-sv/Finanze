@@ -17,20 +17,20 @@
   <style>
     :root {
       --font-sys: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
-      --ios-bg: #F3F7FC;
-      --ios-glass: rgba(255, 255, 255, 0.82);
-      --ios-glass-border: rgba(45, 72, 110, 0.08);
-      --ios-card-shadow: 0 16px 36px -14px rgba(67, 91, 128, 0.24), 0 2px 8px rgba(67, 91, 128, 0.07);
+      --ios-bg: #F7F7F8;
+      --ios-glass: #FFFFFF;
+      --ios-glass-border: rgba(24, 24, 27, 0.07);
+      --ios-card-shadow: 0 1px 2px rgba(24, 24, 27, 0.04), 0 8px 24px rgba(24, 24, 27, 0.04);
       
-      --ios-ink-1: #16243A;
-      --ios-ink-2: #5F6F86;
-      --ios-ink-3: #8290A3;
+      --ios-ink-1: #18181B;
+      --ios-ink-2: #71717A;
+      --ios-ink-3: #9A9AA3;
       
-      --ios-blue: #1677FF;
-      --ios-emerald: #169C72;
-      --ios-emerald-bg: rgba(22, 156, 114, 0.10);
-      --ios-crimson: #E95B72;
-      --ios-crimson-bg: rgba(233, 91, 114, 0.10);
+      --ios-blue: #4F46E5;
+      --ios-emerald: #0DBA7B;
+      --ios-emerald-bg: rgba(13, 186, 123, 0.12);
+      --ios-crimson: #FF4D67;
+      --ios-crimson-bg: rgba(255, 77, 103, 0.12);
       
       --dock-h: 64px;
     }
@@ -62,10 +62,8 @@
       touch-action: manipulation;
       overflow-x: hidden;
       font-variant-numeric: tabular-nums lining-nums;
-      background:
-        radial-gradient(120% 58% at 50% -18%, rgba(205, 226, 255, 0.96) 0%, rgba(226, 238, 252, 0.82) 45%, rgba(246, 248, 252, 0) 78%),
-        linear-gradient(180deg, #F5F8FC 0%, #EEF3F9 100%) fixed;
-      background-color: #F3F7FC;
+      background: #F7F7F8;
+      background-color: #F7F7F8;
       margin: 0;
       padding: 0;
     }
@@ -83,13 +81,13 @@
 
     /* HEADER: sale dietro la Dynamic Island */
     .copilot-header-fluid {
-      padding-top: calc(8px + env(safe-area-inset-top, 54px));
+      padding-top: calc(14px + env(safe-area-inset-top, 54px));
       padding-left: 20px;
       padding-right: 20px;
-      padding-bottom: 8px;
+      padding-bottom: 14px;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 6px;
     }
     .header-meta-row {
       display: flex;
@@ -98,9 +96,9 @@
       width: 100%;
     }
     .header-date {
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       color: var(--ios-ink-3);
       text-transform: uppercase;
       display: flex;
@@ -112,7 +110,7 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #10B981;
+      background: #0DBA7B;
       display: inline-block;
     }
     .cycle-inline-caption {
@@ -120,19 +118,103 @@
       font-weight: 600;
       color: var(--ios-ink-2);
       letter-spacing: -0.01em;
-      background: rgba(255, 255, 255, 0.68);
-      border: 0.5px solid rgba(45, 72, 110, 0.09);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      padding: 3px 9px;
+      background: #FFFFFF;
+      border: 1px solid rgba(24, 24, 27, 0.06);
+      padding: 5px 10px;
       border-radius: 999px;
     }
     .native-large-title {
-      font-size: 36px;
-      font-weight: 750;
-      letter-spacing: -0.05em;
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.055em;
       color: var(--ios-ink-1);
       line-height: 1.05;
+    }
+
+    .utility-bar {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) 42px 42px;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      margin: 2px 0 2px;
+    }
+    .utility-avatar,
+    .utility-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(24, 24, 27, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    }
+    .utility-avatar {
+      background: #18181B;
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      box-shadow: 0 5px 14px rgba(24, 24, 27, 0.12);
+      overflow: hidden;
+      padding: 0;
+    }
+    .utility-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .utility-icon {
+      background: #FFFFFF;
+      color: var(--ios-ink-1);
+    }
+    .utility-icon.primary {
+      background: var(--ios-blue);
+      color: #FFFFFF;
+      border-color: var(--ios-blue);
+      box-shadow: 0 7px 16px rgba(79, 70, 229, 0.18);
+    }
+    .utility-avatar:active,
+    .utility-icon:active {
+      transform: scale(0.94);
+    }
+    .utility-icon svg,
+    .utility-search svg {
+      width: 19px;
+      height: 19px;
+    }
+    .utility-search {
+      height: 42px;
+      min-width: 0;
+      border-radius: 999px;
+      background: #FFFFFF;
+      border: 1px solid rgba(24, 24, 27, 0.07);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 12px;
+      color: var(--ios-ink-3);
+    }
+    .utility-search:focus-within {
+      border-color: rgba(79, 70, 229, 0.38);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.06);
+    }
+    .utility-search input {
+      width: 100%;
+      min-width: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--ios-ink-1);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .utility-search input::placeholder {
+      color: var(--ios-ink-3);
     }
 
     /* SCROLL BODY: scorre FISICAMENTE sotto la dock sospesa */
@@ -140,11 +222,11 @@
       flex: 1 1 auto;
       padding-left: 18px;
       padding-right: 18px;
-      padding-top: 10px;
+      padding-top: 6px;
       padding-bottom: calc(var(--dock-h) + env(safe-area-inset-bottom, 34px) + 36px);
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 26px;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
@@ -171,8 +253,8 @@
     .hero-wallet-card {
       position: relative;
       background: var(--ios-glass);
-      border-radius: 28px;
-      padding: 24px 22px 20px;
+      border-radius: 26px;
+      padding: 22px 20px 18px;
       border: 1px solid var(--ios-glass-border);
       box-shadow: var(--ios-card-shadow);
       backdrop-filter: blur(32px) saturate(190%);
@@ -200,12 +282,14 @@
       text-transform: uppercase;
       letter-spacing: 0.12em;
       color: var(--ios-ink-3);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
     .hero-digits-wrap {
       display: flex;
       align-items: baseline;
       justify-content: center;
+      width: 100%;
+      text-align: center;
       line-height: 1;
       margin: 2px 0 10px;
       font-variant-numeric: tabular-nums lining-nums;
@@ -217,9 +301,9 @@
       color: var(--ios-crimson);
     }
     .hero-int {
-      font-size: 60px;
-      font-weight: 750;
-      letter-spacing: -0.05em;
+      font-size: 58px;
+      font-weight: 720;
+      letter-spacing: -0.06em;
       color: var(--ios-ink-1);
     }
     .hero-dec {
@@ -255,18 +339,18 @@
 
     .hero-track-wrap {
       width: 100%;
-      margin: 18px 0 14px;
+      margin: 16px 0 12px;
     }
     .hero-track-bar {
       width: 100%;
       height: 7px;
-      background: rgba(91, 117, 151, 0.12);
+      background: #ECECEF;
       border-radius: 999px;
       overflow: hidden;
     }
     .hero-bar-fill {
       height: 100%;
-      background: linear-gradient(90deg, #38BDF8, #10B981);
+      background: #4F46E5;
       border-radius: 999px;
       transition: width 350ms cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -282,17 +366,26 @@
     .hero-widgets-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 0;
       margin-top: 2px;
+      border-top: 1px solid rgba(75, 105, 145, 0.08);
+      padding-top: 12px;
     }
     .hero-widget-pod {
-      background: rgba(91, 117, 151, 0.055);
-      border-radius: 18px;
-      padding: 13px 15px;
+      background: transparent;
+      border-radius: 0;
+      padding: 2px 12px;
       display: flex;
       flex-direction: column;
       gap: 3px;
-      border: 0.5px solid rgba(255, 255, 255, 0.06);
+      border: 0;
+      align-items: center;
+      text-align: center;
+      min-height: 62px;
+      justify-content: flex-start;
+    }
+    .hero-widget-pod + .hero-widget-pod {
+      border-left: 1px solid rgba(24, 24, 27, 0.07);
     }
     .widget-pod-label {
       font-size: 10.5px;
@@ -300,24 +393,34 @@
       color: var(--ios-ink-3);
       text-transform: uppercase;
       letter-spacing: 0.08em;
+      min-height: 13px;
+      line-height: 13px;
+      white-space: nowrap;
     }
     .widget-pod-val {
       font-size: 19px;
       font-weight: 750;
       letter-spacing: -0.03em;
       color: var(--ios-ink-1);
+      height: 23px;
+      line-height: 23px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .widget-pod-sub {
       font-size: 11.5px;
       font-weight: 500;
       color: var(--ios-ink-3);
+      height: 14px;
+      line-height: 14px;
     }
 
     /* CARD SECONDARIE */
     .puffy-card {
       background: var(--ios-glass);
-      border-radius: 24px;
-      padding: 20px 18px;
+      border-radius: 22px;
+      padding: 18px 16px;
       border: 1px solid var(--ios-glass-border);
       box-shadow: var(--ios-card-shadow);
       backdrop-filter: blur(24px);
@@ -493,7 +596,7 @@
       transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
     }
     .dock-slot.active {
-      color: #1677FF;
+      color: var(--ios-blue);
     }
     .dock-slot.active svg {
       transform: translateY(-1px) scale(1.05);
@@ -515,7 +618,7 @@
       width: 44px;
       height: 44px;
       border-radius: 999px;
-      background: linear-gradient(135deg, #1677FF 0%, #5A8DEF 100%);
+      background: #18181B;
       color: #FFFFFF;
       display: flex;
       align-items: center;
@@ -554,17 +657,28 @@
       transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
     }
     .bottom-sheet.hidden { transform: translateY(105%); }
+    .bottom-sheet.dragging {
+      transition: none;
+      user-select: none;
+    }
     .sheet-handle {
+      display: block;
       width: 36px;
       height: 4px;
+      flex: 0 0 auto;
       background: rgba(91, 117, 151, 0.18);
       border-radius: 999px;
       margin: 0 auto;
+      cursor: grab;
+      touch-action: none;
     }
     .sheet-header-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      min-height: 32px;
+      cursor: grab;
+      touch-action: pan-y;
     }
     .sheet-title {
       font-size: 18px;
@@ -579,6 +693,10 @@
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
+      position: relative;
+      z-index: 4;
+      pointer-events: auto;
+      touch-action: manipulation;
     }
 
     .pill-switch {
@@ -622,6 +740,93 @@
       font-weight: 600;
       color: var(--ios-ink-3);
       margin-right: 6px;
+    }
+    .voice-input-btn {
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(24, 24, 27, 0.08);
+      border-radius: 50%;
+      background: #FFFFFF;
+      color: var(--ios-ink-2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+    }
+    .voice-input-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+    .voice-input-btn.listening {
+      background: var(--ios-crimson);
+      color: #FFFFFF;
+      border-color: var(--ios-crimson);
+      animation: voicePulse 1.2s ease-in-out infinite;
+    }
+    @keyframes voicePulse {
+      50% { box-shadow: 0 0 0 6px rgba(255, 77, 103, 0.12); }
+    }
+    .voice-section {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-top: 1px solid rgba(24, 24, 27, 0.07);
+      border-bottom: 1px solid rgba(24, 24, 27, 0.07);
+    }
+    .voice-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .voice-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ios-ink-1);
+    }
+    .voice-status {
+      font-size: 11px;
+      color: var(--ios-ink-3);
+    }
+    .forecast-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      align-items: stretch;
+      min-height: 62px;
+    }
+    .forecast-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      text-align: center;
+      min-width: 0;
+    }
+    .forecast-item + .forecast-item {
+      border-left: 1px solid rgba(24, 24, 27, 0.07);
+      padding-left: 16px;
+    }
+    .forecast-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ios-ink-3);
+      min-height: 13px;
+      line-height: 13px;
+      white-space: nowrap;
+    }
+    .forecast-value {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--ios-ink-1);
+      font-variant-numeric: tabular-nums;
+      height: 24px;
+      line-height: 24px;
     }
     #tx-amount {
       background: transparent;
@@ -718,20 +923,20 @@
       flex: 2;
       padding: 15px;
       border-radius: 16px;
-      background: linear-gradient(135deg, #0284C7 0%, #2563EB 100%);
+      background: #18181B;
       color: #FFFFFF;
       font-size: 16px;
       font-weight: 700;
       border: none;
       cursor: pointer;
-      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
+      box-shadow: 0 4px 16px rgba(24, 24, 27, 0.16);
     }
     .btn-delete-copilot {
       flex: 1;
       padding: 15px;
       border-radius: 16px;
-      background: rgba(244, 63, 94, 0.15);
-      color: #FB7185;
+      background: rgba(255, 77, 103, 0.12);
+      color: #FF4D67;
       font-size: 15px;
       font-weight: 600;
       border: none;
@@ -776,8 +981,8 @@
     }
     .wallet-category-select {
       flex: 1;
-      background: #0F172A;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #FFFFFF;
+      border: 1px solid rgba(24, 24, 27, 0.07);
       border-radius: 14px;
       padding: 10px 8px;
       color: var(--ios-ink-2);
@@ -826,7 +1031,7 @@
       animation: viewIn 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
-    .switch-toggle input:checked + .switch-slider { background: #0284C7 !important; }
+    .switch-toggle input:checked + .switch-slider { background: #4F46E5 !important; }
     .switch-toggle input:checked + .switch-slider:before { transform: translateX(18px); }
     .switch-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: .2s; }
 
@@ -862,7 +1067,7 @@
     .toast-undo-btn {
       background: none;
       border: none;
-      color: #38BDF8;
+      color: var(--ios-blue);
       font-weight: 700;
       font-size: 13px;
       cursor: pointer;
@@ -881,9 +1086,9 @@
 
     /* LIGHT THEME — CONTROLLI E SUPERFICI SECONDARIE */
     .hero-wallet-card {
-      background: rgba(255, 255, 255, 0.88);
-      border: 1px solid rgba(75, 105, 145, 0.09);
-      box-shadow: 0 18px 42px -18px rgba(67, 91, 128, 0.22), 0 3px 10px rgba(67, 91, 128, 0.06);
+      background: #FFFFFF;
+      border: 1px solid rgba(24, 24, 27, 0.07);
+      box-shadow: 0 1px 2px rgba(24, 24, 27, 0.04), 0 10px 28px rgba(24, 24, 27, 0.05);
     }
     .hero-wallet-card::after {
       background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
@@ -916,9 +1121,9 @@
       color: var(--ios-blue);
     }
     .copilot-dock {
-      background: rgba(255, 255, 255, 0.78);
-      border: 1px solid rgba(75, 105, 145, 0.10);
-      box-shadow: 0 14px 36px -14px rgba(67, 91, 128, 0.42), 0 3px 12px rgba(67, 91, 128, 0.08);
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(24, 24, 27, 0.08);
+      box-shadow: 0 14px 36px -14px rgba(24, 24, 27, 0.28), 0 3px 12px rgba(24, 24, 27, 0.06);
     }
     .dock-slot {
       color: #8A98AA;
@@ -927,16 +1132,16 @@
       color: var(--ios-blue);
     }
     .dock-plus-circle {
-      background: linear-gradient(135deg, #1677FF 0%, #568CF0 100%);
-      box-shadow: 0 7px 18px rgba(22, 119, 255, 0.24);
+      background: #18181B;
+      box-shadow: 0 7px 18px rgba(24, 24, 27, 0.22);
     }
     .sheet-scrim {
       background: rgba(43, 58, 78, 0.24);
     }
     .bottom-sheet {
-      background: rgba(253, 254, 255, 0.97);
-      border: 1px solid rgba(75, 105, 145, 0.10);
-      box-shadow: 0 -18px 44px rgba(67, 91, 128, 0.18);
+      background: #FFFFFF;
+      border: 1px solid rgba(24, 24, 27, 0.08);
+      box-shadow: 0 -18px 44px rgba(24, 24, 27, 0.16);
     }
     .sheet-handle {
       background: rgba(75, 105, 145, 0.16);
@@ -965,12 +1170,12 @@
       background: rgba(255, 255, 255, 0.66);
     }
     .cat-chip-wrap input:checked + .cat-chip-inner {
-      background: rgba(22, 119, 255, 0.07);
-      border-color: rgba(22, 119, 255, 0.55);
+      background: rgba(79, 70, 229, 0.08);
+      border-color: rgba(79, 70, 229, 0.48);
     }
     .btn-submit-copilot {
-      background: linear-gradient(135deg, #1677FF 0%, #4C82E7 100%);
-      box-shadow: 0 7px 18px rgba(22, 119, 255, 0.20);
+      background: #18181B;
+      box-shadow: 0 7px 18px rgba(24, 24, 27, 0.16);
     }
     .wallet-category-select {
       background: #FFFFFF;
@@ -981,7 +1186,7 @@
       color: var(--ios-ink-1);
     }
     .switch-toggle input:checked + .switch-slider {
-      background: #1677FF !important;
+      background: #4F46E5 !important;
     }
     .switch-slider {
       background: #CBD5E1 !important;
@@ -993,7 +1198,7 @@
       background: rgba(255, 255, 255, 0.96);
       color: var(--ios-ink-1);
       border: 1px solid rgba(75, 105, 145, 0.10);
-      box-shadow: 0 12px 28px rgba(67, 91, 128, 0.16);
+      box-shadow: 0 12px 28px rgba(24, 24, 27, 0.14);
     }
     .toast-undo-btn {
       color: var(--ios-blue);
@@ -1024,6 +1229,20 @@
       <div class="header-meta-row">
         <span class="header-date" id="header-date">LUNEDÌ 23 NOVEMBRE</span>
         <span class="cycle-inline-caption" id="label-periodo">28 ott – 27 nov</span>
+      </div>
+      <div class="utility-bar" aria-label="Strumenti rapidi">
+        <button type="button" class="utility-avatar" id="utility-profile" aria-label="Apri impostazioni">FM</button>
+        <input type="file" id="utility-profile-input" accept="image/*" hidden>
+        <label class="utility-search" aria-label="Cerca nei movimenti">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <input type="search" id="utility-search-input" placeholder="Cerca movimenti">
+        </label>
+        <button type="button" class="utility-icon" id="utility-analytics" aria-label="Apri movimenti">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>
+        </button>
+        <button type="button" class="utility-icon primary" id="utility-add" aria-label="Aggiungi movimento">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
       </div>
       <h1 class="native-large-title" id="screen-title" style="display:none;">Oggi</h1>
     </header>
@@ -1067,12 +1286,22 @@
               <span class="widget-pod-sub" id="val-ritmo-dettaglio">in linea col mese</span>
             </div>
           </div>
+          <div class="forecast-card" id="forecast-card" style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(24,24,27,0.07);">
+            <div class="forecast-item">
+              <span class="forecast-label">Previsione fine ciclo</span>
+              <span class="forecast-value" id="forecast-end">—</span>
+            </div>
+            <div class="forecast-item">
+              <span class="forecast-label">Resto stimato</span>
+              <span class="forecast-value" id="forecast-remaining">—</span>
+            </div>
+          </div>
         </article>
 
         <!-- RISPARMI ACCANTONATI -->
         <article class="puffy-card" style="padding: 16px 20px; align-items: center; text-align: center;">
           <span class="section-puffy-title" style="margin-bottom: 4px;">Risparmi Accantonati</span>
-          <div style="font-size: 26px; font-weight: 750; color: #10B981;" id="val-risparmi-accantonati">0,00 €</div>
+          <div style="font-size: 26px; font-weight: 750; color: #0DBA7B;" id="val-risparmi-accantonati">0,00 €</div>
           <span style="font-size: 11px; color: var(--ios-ink-3); margin-top: 2px;">Avanzi dei cicli conclusi</span>
         </article>
 
@@ -1081,7 +1310,7 @@
           <span class="section-puffy-title" style="margin-bottom: 8px;">Composizione Ciclo</span>
           <div class="ledger-row-puffy">
             <span class="puffy-row-label">Entrate previste</span>
-            <span class="puffy-row-val" style="color: #10B981;" id="val-sum-entrate">1.800,00 €</span>
+            <span class="puffy-row-val" style="color: #0DBA7B;" id="val-sum-entrate">1.800,00 €</span>
           </div>
           <div class="ledger-row-puffy">
             <span class="puffy-row-label">Debito riportato</span>
@@ -1234,7 +1463,7 @@
         </article>
 
         <div style="padding: 8px 12px 16px;">
-          <button type="button" id="btn-reset-data" style="width:100%; background:none; border:none; color:var(--ios-crimson); font-size:14px; font-weight:600; padding:12px; cursor:pointer;">
+          <button type="button" id="btn-reset-data" style="width:100%; background:none; border:none; color:#FF4D67; font-size:14px; font-weight:600; padding:12px; cursor:pointer;">
             Azzera tutti i dati
           </button>
         </div>
@@ -1299,6 +1528,16 @@
         <input type="text" id="tx-amount" name="amount" inputmode="decimal" placeholder="0" autocomplete="off" required>
       </div>
 
+      <div class="voice-section">
+        <button type="button" class="voice-input-btn" id="voice-input-btn" aria-label="Inserisci importo a voce">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"></path></svg>
+        </button>
+        <div class="voice-copy">
+          <span class="voice-title">Inserimento vocale</span>
+          <span class="voice-status" id="voice-status">Dì l’importo, per esempio “venticinque euro”</span>
+        </div>
+      </div>
+
       <div id="modal-category-group">
         <span class="category-mosaic-label" style="font-size:11px; font-weight:700; color:var(--ios-ink-3); text-transform:uppercase; letter-spacing:0.06em;">Categoria</span>
         <div class="category-mosaic-grid" id="category-chips-list"></div>
@@ -1324,7 +1563,6 @@
 
   <!-- MODALE SPESE FISSE -->
   <section id="modal-recurring" class="bottom-sheet hidden" role="dialog" aria-modal="true">
-    <div class="sheet-handle"></div>
     <header class="sheet-header-row">
       <span class="sheet-title" id="modal-recurring-title">Spesa Ricorrente</span>
       <button type="button" class="sheet-close-btn" id="btn-modal-recurring-close">Chiudi</button>
@@ -1372,7 +1610,6 @@
 
   <!-- MODALE GOAL (PAC) -->
   <section id="modal-goal" class="bottom-sheet hidden" role="dialog" aria-modal="true">
-    <div class="sheet-handle"></div>
     <header class="sheet-header-row">
       <span class="sheet-title" id="modal-goal-title">Piano di Accumulo</span>
       <button type="button" class="sheet-close-btn" id="btn-modal-goal-close">Chiudi</button>
@@ -1436,7 +1673,7 @@
 
     const INITIAL_DATA = {
       version: 3,
-      settings: { salaryDay: 28, monthlyIncomeCents: 0, monthlySalaries: {}, lastBackupDate: null, quickMode: false },
+      settings: { salaryDay: 28, monthlyIncomeCents: 0, monthlySalaries: {}, lastBackupDate: null, quickMode: false, profilePhoto: null },
       categories: DEFAULT_CATEGORIES,
       transactions: [],
       recurring: [{ id: "rec_auto", name: "Rata Auto", amountCents: 25000, frequency: "monthly", day: 15, categoryId: "auto", active: true }],
@@ -1682,8 +1919,8 @@
       const currEl = document.getElementById('val-disp-curr');
       const badgeStatus = document.getElementById('hero-badge-status');
 
-      const primaryColor = isNeg ? 'var(--ios-crimson)' : 'var(--ios-ink-1)';
-      const secondaryColor = isNeg ? '#F43F5E' : 'var(--ios-ink-2)';
+      const primaryColor = isNeg ? '#FF4D67' : '#18181B';
+      const secondaryColor = isNeg ? '#FF4D67' : '#71717A';
 
       if (signEl) {
         signEl.style.display = isNeg ? 'inline' : 'none';
@@ -1708,7 +1945,7 @@
 
       const progressFill = document.getElementById("progress-fill");
       progressFill.style.width = `${percSpeso}%`;
-      progressFill.style.background = isNeg ? "var(--ios-crimson)" : (percSpeso >= 85 ? "#F59E0B" : "linear-gradient(90deg, #38BDF8, #10B981)");
+      progressFill.style.background = isNeg ? "#FF4D67" : (percSpeso >= 85 ? "#F59E0B" : "#4F46E5");
 
       const trackSpent = document.getElementById("label-track-spent");
       if (trackSpent) trackSpent.textContent = `${percSpeso}% allocato`;
@@ -1720,19 +1957,31 @@
       const ritmoSub = document.getElementById("val-ritmo-dettaglio");
       if (fin.differenzaRitmoCents >= 0) {
         ritmoEl.textContent = `+${formatValuta(fin.differenzaRitmoCents)}`;
-        ritmoEl.style.color = "var(--ios-emerald)";
+        ritmoEl.style.color = "#0DBA7B";
         ritmoSub.textContent = "in anticipo su target";
       } else {
         ritmoEl.textContent = `-${formatValuta(Math.abs(fin.differenzaRitmoCents))}`;
-        ritmoEl.style.color = "var(--ios-crimson)";
+        ritmoEl.style.color = "#FF4D67";
         ritmoSub.textContent = "sopra la media";
+      }
+
+      const forecastEnd = document.getElementById("forecast-end");
+      const forecastRemaining = document.getElementById("forecast-remaining");
+      if (forecastEnd && forecastRemaining) {
+        const projectedExpenses = fin.daysPassed > 0
+          ? Math.round((fin.variableExpensesCents / fin.daysPassed) * fin.totalDays)
+          : fin.variableExpensesCents;
+        const projectedRemainder = fin.availableCents - Math.max(0, projectedExpenses - fin.variableExpensesCents);
+        forecastEnd.textContent = formatValuta(projectedExpenses);
+        forecastRemaining.textContent = formatValuta(projectedRemainder);
+        forecastRemaining.style.color = projectedRemainder < 0 ? "#FF4D67" : "#0DBA7B";
       }
 
       document.getElementById("val-sum-entrate").textContent = formatValuta(fin.baseIncome + fin.extraIncomeCents);
       document.getElementById("val-risparmi-accantonati").textContent = formatValuta(fin.risparmiCents);
       const previousDebtEl = document.getElementById("val-debito-precedente");
       previousDebtEl.textContent = fin.debitoCents > 0 ? `-${formatValuta(fin.debitoCents)}` : formatValuta(0);
-      previousDebtEl.style.color = fin.debitoCents > 0 ? "var(--ios-crimson)" : "var(--ios-ink-3)";
+      previousDebtEl.style.color = fin.debitoCents > 0 ? "#FF4D67" : "var(--ios-ink-3)";
       document.getElementById("val-sum-pac").textContent = formatValuta(fin.monthlyPacCents);
       document.getElementById("val-sum-fisse").textContent = formatValuta(fin.monthlyFixedCents);
       document.getElementById("val-sum-variabili").textContent = formatValuta(fin.variableExpensesCents);
@@ -1826,7 +2075,7 @@
         bar.style.height = "100%";
         bar.style.justifyContent = "flex-end";
         bar.innerHTML = `
-          <div style="width:100%; max-width:14px; height:${heightPct}%; background:${val > 0 ? (isToday ? 'var(--ios-blue)' : '#0284C7') : 'rgba(255,255,255,0.08)'}; border-radius:4px; transition:height 200ms;"></div>
+          <div style="width:100%; max-width:14px; height:${heightPct}%; background:${val > 0 ? (isToday ? 'var(--ios-blue)' : '#A8A8AF') : 'rgba(24,24,27,0.06)'}; border-radius:4px; transition:height 200ms;"></div>
           <span style="font-size:9px; color:var(--ios-ink-3); margin-top:4px;">${parseInt(dStr.split('-')[2], 10)}</span>
         `;
         container.appendChild(bar);
@@ -1860,7 +2109,7 @@
           <span class="tx-title-puffy">${escapeHtml(tx.note || cat.nome)}</span>
           <span class="tx-sub-puffy">${escapeHtml(cat.nome)} • ${dateFormatted}</span>
         </div>
-        <span class="tx-val-puffy" style="color: ${isInc ? 'var(--ios-emerald)' : 'var(--ios-ink-1)'}">${isInc ? '+' : '-'}${formatValuta(tx.amountCents)}</span>
+        <span class="tx-val-puffy" style="color: ${isInc ? '#0DBA7B' : '#18181B'}">${isInc ? '+' : '-'}${formatValuta(tx.amountCents)}</span>
       `;
       el.addEventListener("click", () => openTxModal(tx));
       return el;
@@ -2001,17 +2250,157 @@
 
     txAmountInput.addEventListener("input", fitTxAmountInput);
 
-    function closeAllModals() {
-      modalBackdrop.classList.add("hidden");
-      modalAdd.classList.add("hidden");
-      modalRecurring.classList.add("hidden");
-      modalGoal.classList.add("hidden");
+    function parseItalianSpokenAmount(text) {
+      const cleaned = text.toLocaleLowerCase("it-IT")
+        .replace(/[.,]/g, " virgola ")
+        .replace(/ euro/g, "")
+        .replace(/\b(euro|eur)\b/g, "")
+        .trim();
+
+      const words = {
+        zero: 0, uno: 1, un: 1, una: 1, due: 2, tre: 3, quattro: 4,
+        cinque: 5, sei: 6, sette: 7, otto: 8, nove: 9, dieci: 10,
+        undici: 11, dodici: 12, tredici: 13, quattordici: 14,
+        quindici: 15, sedici: 16, diciassette: 17, diciotto: 18,
+        diciannove: 19, venti: 20, trenta: 30, quaranta: 40,
+        cinquanta: 50, sessanta: 60, settanta: 70, ottanta: 80,
+        novanta: 90, cento: 100, mila: 1000
+      };
+
+      if (/^\d+(?:[.,]\d{1,2})?$/.test(cleaned.replace(/ virgola /g, ".").trim())) {
+        return cleaned.replace(/ virgola /g, ".").trim();
+      }
+
+      let total = 0;
+      let current = 0;
+      let decimal = false;
+      cleaned.split(/\s+/).forEach(part => {
+        if (part === "virgola") {
+          decimal = true;
+          return;
+        }
+        if (!Object.prototype.hasOwnProperty.call(words, part)) return;
+        const value = words[part];
+        if (decimal) {
+          current = current * 100 + value;
+        } else if (value === 100) {
+          current = current || 1;
+          current *= 100;
+        } else if (value === 1000) {
+          total += (current || 1) * 1000;
+          current = 0;
+        } else {
+          current += value;
+        }
+      });
+      total += current;
+      if (decimal) return (total / 100).toFixed(2).replace(".", ",");
+      return String(total);
     }
 
+    const voiceInputButton = document.getElementById("voice-input-btn");
+    const voiceStatus = document.getElementById("voice-status");
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (voiceInputButton) {
+      voiceInputButton.addEventListener("click", () => {
+        if (!SpeechRecognition) {
+          alert("Il riconoscimento vocale non è disponibile in questo browser.");
+          return;
+        }
+
+        const recognition = new SpeechRecognition();
+        recognition.lang = "it-IT";
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        voiceInputButton.classList.add("listening");
+        if (voiceStatus) voiceStatus.textContent = "Sto ascoltando...";
+        recognition.start();
+
+        recognition.onresult = event => {
+          const transcript = event.results[0][0].transcript;
+          const amount = parseItalianSpokenAmount(transcript);
+          txAmountInput.value = amount;
+          fitTxAmountInput();
+          if (voiceStatus) voiceStatus.textContent = `Rilevato: ${amount} €`;
+        };
+
+        recognition.onerror = () => {
+          alert("Non sono riuscito a riconoscere l'importo. Riprova.");
+        };
+
+        recognition.onend = () => {
+          voiceInputButton.classList.remove("listening");
+        };
+      });
+    }
+
+    function closeAllModals() {
+      modalBackdrop.classList.add("hidden");
+      [modalAdd, modalRecurring, modalGoal].forEach(sheet => {
+        sheet.classList.remove("dragging");
+        sheet.style.transform = "";
+        sheet.classList.add("hidden");
+      });
+    }
+
+    function enableSheetDrag(sheet) {
+      const dragTargets = [
+        sheet.querySelector(".sheet-handle"),
+        sheet.querySelector(".sheet-header-row")
+      ].filter(Boolean);
+
+      let startY = 0;
+      let currentY = 0;
+      let dragging = false;
+
+      dragTargets.forEach(dragHandle => {
+        dragHandle.addEventListener("pointerdown", event => {
+          if (event.target.closest(".sheet-close-btn")) return;
+          if (event.pointerType === "mouse" && event.button !== 0) return;
+          dragging = true;
+          startY = event.clientY;
+          currentY = 0;
+          sheet.classList.add("dragging");
+          dragHandle.setPointerCapture(event.pointerId);
+        });
+
+        dragHandle.addEventListener("pointermove", event => {
+          if (!dragging) return;
+          currentY = Math.max(0, event.clientY - startY);
+          sheet.style.transform = `translateY(${currentY}px)`;
+        });
+
+        const finishDrag = event => {
+          if (!dragging) return;
+          dragging = false;
+          sheet.classList.remove("dragging");
+
+          if (currentY >= 80) {
+            closeAllModals();
+          } else {
+            sheet.style.transform = "";
+          }
+
+          if (dragHandle.hasPointerCapture?.(event.pointerId)) {
+            dragHandle.releasePointerCapture(event.pointerId);
+          }
+        };
+
+        dragHandle.addEventListener("pointerup", finishDrag);
+        dragHandle.addEventListener("pointercancel", finishDrag);
+      });
+    }
+
+    enableSheetDrag(modalAdd);
+    enableSheetDrag(modalRecurring);
+    enableSheetDrag(modalGoal);
+
     modalBackdrop.addEventListener("click", closeAllModals);
-    document.getElementById("btn-modal-close").addEventListener("click", closeAllModals);
-    document.getElementById("btn-modal-recurring-close").addEventListener("click", closeAllModals);
-    document.getElementById("btn-modal-goal-close").addEventListener("click", closeAllModals);
+    document.getElementById("btn-modal-close").onclick = closeAllModals;
+    document.getElementById("btn-modal-recurring-close").onclick = closeAllModals;
+    document.getElementById("btn-modal-goal-close").onclick = closeAllModals;
 
     function openTxModal(tx = null) {
       modalBackdrop.classList.remove("hidden");
@@ -2298,6 +2687,83 @@
         if (target === "fisse") renderFisseView();
         if (target === "impostazioni") renderImpostazioniView();
       });
+    });
+
+    function activateDockTab(target) {
+      const tab = document.querySelector(`.dock-slot[data-tab="${target}"]`);
+      if (tab) tab.click();
+    }
+
+    const utilityProfile = document.getElementById("utility-profile");
+    const utilityProfileInput = document.getElementById("utility-profile-input");
+
+    function renderProfilePhoto() {
+      const photo = store.data.settings.profilePhoto;
+      if (photo) {
+        utilityProfile.innerHTML = `<img src="${photo}" alt="Foto profilo">`;
+      } else {
+        utilityProfile.textContent = "FM";
+      }
+    }
+
+    utilityProfile.addEventListener("click", () => utilityProfileInput.click());
+
+    let profilePressTimer = null;
+    utilityProfile.addEventListener("pointerdown", () => {
+      profilePressTimer = window.setTimeout(() => {
+        activateDockTab("impostazioni");
+      }, 520);
+    });
+    ["pointerup", "pointerleave", "pointercancel"].forEach(eventName => {
+      utilityProfile.addEventListener(eventName, () => {
+        if (profilePressTimer) {
+          window.clearTimeout(profilePressTimer);
+          profilePressTimer = null;
+        }
+      });
+    });
+    utilityProfile.addEventListener("contextmenu", event => {
+      event.preventDefault();
+      activateDockTab("impostazioni");
+    });
+
+    utilityProfileInput.addEventListener("change", event => {
+      const file = event.target.files?.[0];
+      if (!file || !file.type.startsWith("image/")) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const image = new Image();
+        image.onload = () => {
+          const size = 256;
+          const canvas = document.createElement("canvas");
+          canvas.width = size;
+          canvas.height = size;
+          const context = canvas.getContext("2d");
+          const sourceSize = Math.min(image.width, image.height);
+          const sourceX = (image.width - sourceSize) / 2;
+          const sourceY = (image.height - sourceSize) / 2;
+          context.drawImage(image, sourceX, sourceY, sourceSize, sourceSize, 0, 0, size, size);
+          store.data.settings.profilePhoto = canvas.toDataURL("image/jpeg", 0.86);
+          store.save();
+          renderProfilePhoto();
+        };
+        image.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+      event.target.value = "";
+    });
+
+    renderProfilePhoto();
+    document.getElementById("utility-analytics").addEventListener("click", () => activateDockTab("movimenti"));
+    document.getElementById("utility-add").addEventListener("click", () => openTxModal(null));
+
+    document.getElementById("utility-search-input").addEventListener("input", event => {
+      const query = event.target.value;
+      activateDockTab("movimenti");
+      const movementSearch = document.getElementById("input-search-tx");
+      movementSearch.value = query;
+      movementSearch.dispatchEvent(new Event("input", { bubbles: true }));
     });
 
     function initCategoryChips() {
