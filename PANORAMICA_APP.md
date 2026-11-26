@@ -13,15 +13,15 @@ L'app risponde a UNA sola domanda quotidiana in meno di 2 secondi:
 **"Quanto posso spendere questo mese e oggi?"**
 
 ### Profilo Utente Attuale:
-- **Giorno del mese finanziario:** **28 del mese** (il ciclo mensile decorre dal giorno 28 del mese corrente al 27 del successivo).
-- **Stipendio per ciclo:** L'importo preciso dello stipendio è inserito nelle Impostazioni. Il ciclo viene rilevato automaticamente in base alla data odierna e al giorno stipendio configurato.
+- **Ciclo stipendio:** Ogni ciclo decorre dalla data effettiva di un accredito alla vigilia del successivo. Data e importo si registrano per ogni stipendio; fino al prossimo accredito il termine del ciclo è stimato automaticamente a circa un mese.
+- **Avanzo e debito:** Quando viene registrato il nuovo accredito, il ciclo precedente si chiude: l'avanzo confluisce nei risparmi e il disavanzo viene riportato come debito.
 - **Vitto e Alloggio:** Non presenti al momento (zero affitto/mutuo/spesa fissa casa).
 - **Spese Fisse Ricorrenti:** Quota fissa Auto (250,00 €/mese con addebito il 15 del mese).
 - **Risparmio / PAC:** Piano di Accumulo protetto (200,00 €/mese).
 - **Spese Variabili tipiche:** Benzina/Carburante, Svago, Acquisti, Lavoro, Salute.
 
 ### Formula Maestra del Calcolo:
-$$\text{Disponibile Mese} = (\text{Entrata Base} + \text{Entrate Extra}) - \text{Quota PAC Mensile} - \text{Spese Fisse Mensilizzate} - \text{Spese Variabili Fatte}$$
+$$\text{Disponibile Ciclo} = (\text{Entrata Base} + \text{Entrate Extra}) - \text{Quota PAC per ciclo} - \text{Spese Fisse per ciclo} - \text{Spese Variabili Fatte} - \text{Debito riportato}$$
 
 $$\text{Budget di Oggi} = \max\left(0, \frac{\text{Disponibile}}{\text{Giorni Rimanenti nel Ciclo (oggi incluso)}}\right)$$
 
@@ -79,7 +79,7 @@ L'estetica è ispirata alla celebre app iOS **Copilot Money**:
 
 ### D. Scheda "Menu / Impostazioni"
 - **Modalità Rapida (Switch Toggle):** Se attivata, nasconde le categorie sia dalla Home che dal form di inserimento, permettendo di registrare uscite digitando solo la cifra al volo in 1 tocco.
-- **Parametri Ciclo:** Modifica del giorno di stipendio (default: 28) e dell'importo preciso dello stipendio del ciclo rilevato automaticamente.
+- **Parametri Ciclo:** Registrazione della data e dell'importo di ogni accredito.
 - **Dati & Salvataggio:**
   - Card orizzontale iOS pulita con icona e data dell'ultimo salvataggio per esportare il file `finanze-backup-YYYY-MM-DD.json`.
   - Voce isolata in basso in rosso testuale per **"Azzera tutti i dati"** con doppia conferma.

@@ -1268,7 +1268,7 @@
       border: 1px solid rgba(75, 105, 145, 0.09) !important;
     }
     #btn-export-json span[style*="color:#FFFFFF"],
-    #cfg-salary-day,
+    #cfg-salary-date,
     #cfg-cycle-salary {
       color: var(--ios-ink-1) !important;
     }
@@ -1485,16 +1485,17 @@
         <article class="puffy-card">
           <span class="section-puffy-title" style="margin-bottom: 12px;">Parametri Ciclo</span>
           <div class="ledger-row-puffy">
-            <label for="cfg-salary-day" class="puffy-row-label">Giorno stipendio</label>
-            <input type="number" id="cfg-salary-day" class="clean-input-cell" min="1" max="28" value="28">
+            <label for="cfg-salary-date" class="puffy-row-label">Data accredito stipendio</label>
+            <input type="date" id="cfg-salary-date" class="clean-input-cell">
           </div>
           <div class="ledger-row-puffy">
             <div>
-              <label for="cfg-cycle-salary" class="puffy-row-label">Stipendio preciso (€)</label>
+              <label for="cfg-cycle-salary" class="puffy-row-label">Importo accreditato (€)</label>
               <div id="cfg-salary-cycle-label" style="font-size:11px; color:var(--ios-ink-2); margin-top:2px;"></div>
             </div>
             <input type="number" id="cfg-cycle-salary" class="clean-input-cell" step="0.01" min="0" placeholder="1800">
           </div>
+          <p style="font-size:11px; color:var(--ios-ink-2); margin-top:8px; line-height:1.45;">Registra ogni accredito con la sua data e il suo importo. Il ciclo si chiude quando registri lo stipendio successivo: l’avanzo passa ai risparmi e il disavanzo viene riportato.</p>
           <button type="button" class="btn-submit-copilot" id="btn-save-settings" style="margin-top: 14px;">Salva Parametri</button>
         </article>
 
@@ -1780,6 +1781,41 @@
       return { start: startDate, end: endDate, startStr: toLocalDateString(startDate), endStr: toLocalDateString(endDate) };
     }
 
+    function addMonthsClamped(date, months) {
+      const targetMonth = date.getMonth() + months;
+      const targetYear = date.getFullYear() + Math.floor(targetMonth / 12);
+      const normalizedMonth = ((targetMonth % 12) + 12) % 12;
+      const day = Math.min(date.getDate(), new Date(targetYear, normalizedMonth + 1, 0).getDate());
+      return new Date(targetYear, normalizedMonth, day);
+    }
+
+    function getPayrollPayments(settings) {
+      const payments = Array.isArray(settings.payrollPayments)
+        ? settings.payrollPayments
+        : Object.entries(settings.monthlySalaries || {}).map(([date, amountCents]) => ({ date, amountCents }));
+      return payments
+        .filter(payment => /^\d{4}-\d{2}-\d{2}$/.test(payment.date) && Number.isFinite(payment.amountCents))
+        .map(payment => ({ date: payment.date, amountCents: payment.amountCents }))
+        .sort((a, b) => a.date.localeCompare(b.date));
+    }
+
+    function getPayrollCycle(settings, refDate = new Date()) {
+      const todayStr = toLocalDateString(refDate);
+      const payments = getPayrollPayments(settings);
+      const currentPayment = payments.filter(payment => payment.date <= todayStr).pop();
+      if (!currentPayment) return getCycleRange(refDate, settings.salaryDay || 28);
+
+      const start = parseLocalDateString(currentPayment.date);
+      const knownNextPayment = payments.find(payment => payment.date > currentPayment.date);
+      let nextDate = knownNextPayment ? parseLocalDateString(knownNextPayment.date) : null;
+      if (!nextDate) {
+        nextDate = addMonthsClamped(start, 1);
+        while (toLocalDateString(nextDate) <= todayStr) nextDate = addMonthsClamped(nextDate, 1);
+      }
+      const end = new Date(nextDate.getFullYear(), nextDate.getMonth(), nextDate.getDate() - 1);
+      return { start, end, startStr: toLocalDateString(start), endStr: toLocalDateString(end) };
+    }
+
     function getDaysMetrics(cycle, today) {
       const oneDay = 1000 * 60 * 60 * 24;
       const startMs = cycle.start.getTime();
@@ -1803,6 +1839,8 @@
             const salaryDay = initial.settings.salaryDay || 28;
             const cycle = getCycleRange(new Date(), salaryDay);
             initial.settings.monthlySalaries[cycle.startStr] = initial.settings.monthlyIncomeCents || 0;
+            initial.settings.payrollPayments = Object.entries(initial.settings.monthlySalaries)
+              .map(([date, amountCents]) => ({ date, amountCents }));
             return initial;
           }
           const p = JSON.parse(raw);
@@ -1816,6 +1854,9 @@
           if (settings.monthlySalaries[cycle.startStr] === undefined && p.settings?.monthlyIncomeCents !== undefined) {
             settings.monthlySalaries[cycle.startStr] = p.settings.monthlyIncomeCents || 0;
           }
+          settings.payrollPayments = Array.isArray(p.settings?.payrollPayments)
+            ? p.settings.payrollPayments
+            : Object.entries(settings.monthlySalaries).map(([date, amountCents]) => ({ date, amountCents }));
           return {
             version: 3,
             settings,
@@ -1849,25 +1890,27 @@
 
     const store = new Store();
 
-    function calculateHistoricalReserves(storeData, currentCycle, salaryDay, monthlyFixedCents, monthlyPacCents) {
-      const salaries = storeData.settings.monthlySalaries || {};
-      const dates = [
-        ...storeData.transactions.map(tx => tx.date),
-        ...Object.keys(salaries)
-      ].filter(date => /^\d{4}-\d{2}-\d{2}$/.test(date));
-
-      if (!dates.length) return { risparmiCents: 0, debitoCents: 0 };
-
-      const firstDate = dates.reduce((earliest, date) => date < earliest ? date : earliest);
-      let historicalCycle = getCycleRange(parseLocalDateString(firstDate), salaryDay);
+    function calculateHistoricalReserves(storeData, currentCycle, monthlyFixedCents, monthlyPacCents) {
+      const payments = getPayrollPayments(storeData.settings);
       let risparmiCents = 0;
       let debitoCents = 0;
 
-      while (historicalCycle.start < currentCycle.start) {
+      for (let i = 0; i < payments.length - 1; i++) {
+        const payment = payments[i];
+        const nextPayment = payments[i + 1];
+        if (nextPayment.date > currentCycle.startStr) break;
+        const nextDate = parseLocalDateString(nextPayment.date);
+        const end = new Date(nextDate.getFullYear(), nextDate.getMonth(), nextDate.getDate() - 1);
+        const historicalCycle = {
+          start: parseLocalDateString(payment.date),
+          end,
+          startStr: payment.date,
+          endStr: toLocalDateString(end)
+        };
         const cycleTransactions = storeData.transactions.filter(tx =>
           tx.date >= historicalCycle.startStr && tx.date <= historicalCycle.endStr
         );
-        const incomeCents = (salaries[historicalCycle.startStr] || 0) +
+        const incomeCents = payment.amountCents +
           cycleTransactions
             .filter(tx => tx.type === "income")
             .reduce((sum, tx) => sum + tx.amountCents, 0);
@@ -1882,21 +1925,13 @@
           risparmiCents += cycleBalanceCents;
           debitoCents = 0;
         }
-
-        const nextStart = new Date(
-          historicalCycle.start.getFullYear(),
-          historicalCycle.start.getMonth() + 1,
-          salaryDay
-        );
-        historicalCycle = getCycleRange(nextStart, salaryDay);
       }
 
       return { risparmiCents, debitoCents };
     }
 
     function computeFinancials(storeData, refDate = new Date()) {
-      const salaryDay = storeData.settings.salaryDay || 28;
-      const cycle = getCycleRange(refDate, salaryDay);
+      const cycle = getPayrollCycle(storeData.settings, refDate);
       const { totalDays, daysPassed, daysRemaining } = getDaysMetrics(cycle, refDate);
 
       const cycleTx = storeData.transactions.filter(t => t.date >= cycle.startStr && t.date <= cycle.endStr);
@@ -1913,13 +1948,12 @@
         }, 0);
 
       const monthlyPacCents = storeData.goals.reduce((acc, g) => acc + (g.monthlyCents || 0), 0);
-      const cycleSalary = storeData.settings.monthlySalaries?.[cycle.startStr];
-      const baseIncome = cycleSalary !== undefined && cycleSalary !== null ? cycleSalary : 0;
+      const cyclePayment = getPayrollPayments(storeData.settings).find(payment => payment.date === cycle.startStr);
+      const baseIncome = cyclePayment ? cyclePayment.amountCents : 0;
       const totalInflow = baseIncome + extraIncomeCents;
       const { risparmiCents, debitoCents } = calculateHistoricalReserves(
         storeData,
         cycle,
-        salaryDay,
         monthlyFixedCents,
         monthlyPacCents
       );
@@ -2272,22 +2306,26 @@
     }
 
     function renderImpostazioniView() {
-      document.getElementById("cfg-salary-day").value = store.data.settings.salaryDay || 28;
-      renderCurrentCycleSalaryInput(store.data.settings.salaryDay || 28);
+      const todayStr = toLocalDateString(new Date());
+      const payments = getPayrollPayments(store.data.settings);
+      const latestPayment = payments.filter(payment => payment.date <= todayStr).pop();
+      const salaryDateInput = document.getElementById("cfg-salary-date");
+      salaryDateInput.value = latestPayment?.date || todayStr;
+      const currentSalary = latestPayment?.amountCents;
+      document.getElementById("cfg-cycle-salary").value =
+        currentSalary === undefined ? "" : (currentSalary / 100).toFixed(2);
+      const cycle = getPayrollCycle(store.data.settings);
+      renderPayrollCycleLabel(cycle);
       if (store.data.settings.lastBackupDate) {
         const bDate = new Date(store.data.settings.lastBackupDate).toLocaleDateString("it-IT");
         document.getElementById("backup-status-text").textContent = `Ultimo backup: ${bDate}`;
       }
     }
 
-    function renderCurrentCycleSalaryInput(salaryDay) {
-      const cycle = getCycleRange(new Date(), salaryDay);
-      const cycleKey = cycle.startStr;
-      const exactSalary = store.data.settings.monthlySalaries?.[cycleKey];
+    function renderPayrollCycleLabel(cycle) {
       const startLabel = cycle.start.toLocaleDateString("it-IT", { day: "2-digit", month: "2-digit", year: "numeric" });
       const endLabel = cycle.end.toLocaleDateString("it-IT", { day: "2-digit", month: "2-digit", year: "numeric" });
-      document.getElementById("cfg-salary-cycle-label").textContent = `Ciclo: ${startLabel} - ${endLabel}`;
-      document.getElementById("cfg-cycle-salary").value = ((exactSalary || 0) / 100).toFixed(2);
+      document.getElementById("cfg-salary-cycle-label").textContent = `Ciclo attuale: ${startLabel} - ${endLabel}`;
     }
 
     const modalBackdrop = document.getElementById("modal-backdrop");
@@ -2685,22 +2723,32 @@
     document.getElementById("select-category-filter").addEventListener("change", renderMovimentiView);
 
     document.getElementById("btn-save-settings").addEventListener("click", () => {
-      const salDay = parseInt(document.getElementById("cfg-salary-day").value, 10);
-      const cycleSalary = parseFloat(document.getElementById("cfg-cycle-salary").value.replace(",", "."));
-      if (salDay >= 1 && salDay <= 28) store.data.settings.salaryDay = salDay;
-      if (salDay >= 1 && salDay <= 28 && !isNaN(cycleSalary) && cycleSalary >= 0) {
-        const cycleKey = getCycleRange(new Date(), salDay).startStr;
-        store.data.settings.monthlySalaries ??= {};
-        store.data.settings.monthlySalaries[cycleKey] = Math.round(cycleSalary * 100);
+      const salaryDate = document.getElementById("cfg-salary-date").value;
+      const salaryInput = document.getElementById("cfg-cycle-salary").value.trim();
+      if (salaryInput && (!salaryDate || !Number.isFinite(Number(salaryInput.replace(",", "."))) || Number(salaryInput.replace(",", ".")) < 0)) {
+        alert("Inserisci una data e un importo stipendio validi.");
+        return;
+      }
+
+      if (salaryInput) {
+        const payments = getPayrollPayments(store.data.settings);
+        const existingIndex = payments.findIndex(payment => payment.date === salaryDate);
+        const payment = { date: salaryDate, amountCents: Math.round(Number(salaryInput.replace(",", ".")) * 100) };
+        if (existingIndex >= 0) payments[existingIndex] = payment;
+        else payments.push(payment);
+        store.data.settings.payrollPayments = payments.sort((a, b) => a.date.localeCompare(b.date));
       }
       store.save();
       alert("Impostazioni salvate con successo.");
       renderAll();
     });
 
-    document.getElementById("cfg-salary-day").addEventListener("change", (event) => {
-      const salaryDay = parseInt(event.target.value, 10);
-      if (salaryDay >= 1 && salaryDay <= 28) renderCurrentCycleSalaryInput(salaryDay);
+    document.getElementById("cfg-salary-date").addEventListener("change", (event) => {
+      const existingPayment = getPayrollPayments(store.data.settings)
+        .find(payment => payment.date === event.target.value);
+      document.getElementById("cfg-cycle-salary").value = existingPayment
+        ? (existingPayment.amountCents / 100).toFixed(2)
+        : "";
     });
 
     function exportJsonBackup() {
