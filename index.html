@@ -1864,6 +1864,7 @@
             initial.settings.monthlySalaries[cycle.startStr] = initial.settings.monthlyIncomeCents || 0;
             initial.settings.payrollPayments = Object.entries(initial.settings.monthlySalaries)
               .map(([date, amountCents]) => ({ date, amountCents }));
+            initial.cycleSnapshots = [];
             return initial;
           }
           const p = JSON.parse(raw);
@@ -1886,7 +1887,8 @@
             categories: (p.categories && p.categories.length) ? p.categories : DEFAULT_CATEGORIES,
             transactions: p.transactions || [],
             recurring: p.recurring || INITIAL_DATA.recurring,
-            goals: p.goals || INITIAL_DATA.goals
+            goals: p.goals || INITIAL_DATA.goals,
+            cycleSnapshots: Array.isArray(p.cycleSnapshots) ? p.cycleSnapshots : []
           };
         } catch (e) {
           return INITIAL_DATA;
@@ -1913,8 +1915,77 @@
 
     const store = new Store();
 
+    function getMonthlyFixedCents(storeData) {
+      return storeData.recurring
+        .filter(r => r.active !== false)
+        .reduce((acc, r) => {
+          if (r.frequency === "annual") return acc + Math.round(r.amountCents / 12);
+          if (r.frequency === "quarterly") return acc + Math.round(r.amountCents / 3);
+          return acc + r.amountCents;
+        }, 0);
+    }
+
+    function getMonthlyPacCents(storeData) {
+      return storeData.goals.reduce((acc, goal) => acc + (goal.monthlyCents || 0), 0);
+    }
+
+    function createCycleSnapshot(storeData, payment, nextPayment, monthlyFixedCents, monthlyPacCents) {
+      const nextDate = parseLocalDateString(nextPayment.date);
+      const end = new Date(nextDate.getFullYear(), nextDate.getMonth(), nextDate.getDate() - 1);
+      const endStr = toLocalDateString(end);
+      const transactions = storeData.transactions.filter(tx =>
+        tx.date >= payment.date && tx.date <= endStr
+      );
+      const otherIncomeCents = transactions
+        .filter(tx => tx.type === "income")
+        .reduce((sum, tx) => sum + tx.amountCents, 0);
+      const expensesCents = transactions
+        .filter(tx => tx.type === "expense")
+        .reduce((sum, tx) => sum + tx.amountCents, 0);
+
+      return {
+        startDate: payment.date,
+        endDate: endStr,
+        salaryCents: payment.amountCents,
+        otherIncomeCents,
+        expensesCents,
+        monthlyFixedCents,
+        monthlyPacCents,
+        balanceCents: payment.amountCents + otherIncomeCents - expensesCents - monthlyFixedCents - monthlyPacCents
+      };
+    }
+
+    function ensureClosedCycleSnapshots(storeData, refDate = new Date()) {
+      if (!Array.isArray(storeData.cycleSnapshots)) storeData.cycleSnapshots = [];
+      const existingStarts = new Set(storeData.cycleSnapshots.map(snapshot => snapshot.startDate));
+      const payments = getPayrollPayments(storeData.settings);
+      const todayStr = toLocalDateString(refDate);
+      const monthlyFixedCents = getMonthlyFixedCents(storeData);
+      const monthlyPacCents = getMonthlyPacCents(storeData);
+      let changed = false;
+
+      for (let i = 0; i < payments.length - 1; i++) {
+        const payment = payments[i];
+        const nextPayment = payments[i + 1];
+        if (nextPayment.date > todayStr) break;
+        if (!existingStarts.has(payment.date)) {
+          storeData.cycleSnapshots.push(
+            createCycleSnapshot(storeData, payment, nextPayment, monthlyFixedCents, monthlyPacCents)
+          );
+          existingStarts.add(payment.date);
+          changed = true;
+        }
+      }
+
+      if (changed) {
+        storeData.cycleSnapshots.sort((a, b) => a.startDate.localeCompare(b.startDate));
+      }
+      return changed;
+    }
+
     function calculateHistoricalReserves(storeData, currentCycle, monthlyFixedCents, monthlyPacCents) {
       const payments = getPayrollPayments(storeData.settings);
+      const snapshots = new Map((storeData.cycleSnapshots || []).map(snapshot => [snapshot.startDate, snapshot]));
       let risparmiCents = 0;
       let debitoCents = 0;
 
@@ -1922,26 +1993,9 @@
         const payment = payments[i];
         const nextPayment = payments[i + 1];
         if (nextPayment.date > currentCycle.startStr) break;
-        const nextDate = parseLocalDateString(nextPayment.date);
-        const end = new Date(nextDate.getFullYear(), nextDate.getMonth(), nextDate.getDate() - 1);
-        const historicalCycle = {
-          start: parseLocalDateString(payment.date),
-          end,
-          startStr: payment.date,
-          endStr: toLocalDateString(end)
-        };
-        const cycleTransactions = storeData.transactions.filter(tx =>
-          tx.date >= historicalCycle.startStr && tx.date <= historicalCycle.endStr
-        );
-        const incomeCents = payment.amountCents +
-          cycleTransactions
-            .filter(tx => tx.type === "income")
-            .reduce((sum, tx) => sum + tx.amountCents, 0);
-        const expensesCents = cycleTransactions
-          .filter(tx => tx.type === "expense")
-          .reduce((sum, tx) => sum + tx.amountCents, 0);
-
-        const cycleBalanceCents = incomeCents - monthlyFixedCents - monthlyPacCents - expensesCents - debitoCents;
+        const snapshot = snapshots.get(payment.date) ||
+          createCycleSnapshot(storeData, payment, nextPayment, monthlyFixedCents, monthlyPacCents);
+        const cycleBalanceCents = snapshot.balanceCents - debitoCents;
         if (cycleBalanceCents < 0) {
           debitoCents = Math.abs(cycleBalanceCents);
         } else {
@@ -1953,6 +2007,8 @@
       return { risparmiCents, debitoCents };
     }
 
+    if (ensureClosedCycleSnapshots(store.data)) store.save();
+
     function computeFinancials(storeData, refDate = new Date()) {
       const cycle = getPayrollCycle(storeData.settings, refDate);
       const { totalDays, daysPassed, daysRemaining } = getDaysMetrics(cycle, refDate);
@@ -1962,15 +2018,8 @@
       const extraIncomeCents = cycleTx.filter(t => t.type === "income").reduce((acc, t) => acc + t.amountCents, 0);
       const variableExpensesCents = cycleTx.filter(t => t.type === "expense").reduce((acc, t) => acc + t.amountCents, 0);
 
-      const monthlyFixedCents = storeData.recurring
-        .filter(r => r.active !== false)
-        .reduce((acc, r) => {
-          if (r.frequency === "annual") return acc + Math.round(r.amountCents / 12);
-          if (r.frequency === "quarterly") return acc + Math.round(r.amountCents / 3);
-          return acc + r.amountCents;
-        }, 0);
-
-      const monthlyPacCents = storeData.goals.reduce((acc, g) => acc + (g.monthlyCents || 0), 0);
+      const monthlyFixedCents = getMonthlyFixedCents(storeData);
+      const monthlyPacCents = getMonthlyPacCents(storeData);
       const cyclePayment = getPayrollPayments(storeData.settings).find(payment => payment.date === cycle.startStr);
       const baseIncome = cyclePayment ? cyclePayment.amountCents : 0;
       const totalInflow = baseIncome + extraIncomeCents;
@@ -2761,6 +2810,7 @@
         else payments.push(payment);
         store.data.settings.payrollPayments = payments.sort((a, b) => a.date.localeCompare(b.date));
       }
+      ensureClosedCycleSnapshots(store.data);
       store.save();
       alert("Impostazioni salvate con successo.");
       renderAll();

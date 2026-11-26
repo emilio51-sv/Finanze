@@ -14,7 +14,7 @@ L'app risponde a UNA sola domanda quotidiana in meno di 2 secondi:
 
 ### Profilo Utente Attuale:
 - **Ciclo stipendio:** Ogni ciclo decorre dalla data effettiva di un accredito alla vigilia del successivo. Data e importo si registrano per ogni stipendio; fino al prossimo accredito il termine del ciclo è stimato automaticamente a circa un mese.
-- **Avanzo e debito:** Quando viene registrato il nuovo accredito, il ciclo precedente si chiude: l'avanzo confluisce nei risparmi e il disavanzo viene riportato come debito.
+- **Avanzo e debito:** Quando viene registrato il nuovo accredito, il ciclo precedente si chiude e il suo saldo viene salvato con uno snapshot immutabile: l'avanzo confluisce nei risparmi e il disavanzo viene riportato come debito. Modifiche successive a spese fisse, PAC o movimenti non alterano i cicli già chiusi.
 - **Vitto e Alloggio:** Non presenti al momento (zero affitto/mutuo/spesa fissa casa).
 - **Spese Fisse Ricorrenti:** Quota fissa Auto (250,00 €/mese con addebito il 15 del mese).
 - **Risparmio / PAC:** Piano di Accumulo protetto (200,00 €/mese).
