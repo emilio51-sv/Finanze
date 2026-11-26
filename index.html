@@ -1084,6 +1084,24 @@
       width: 100px;
     }
 
+    .salary-date-input {
+      width: 150px;
+    }
+
+    @media (max-width: 540px) {
+      .salary-setting-row {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .salary-setting-row .clean-input-cell {
+        box-sizing: border-box;
+        min-width: 0;
+        text-align: left;
+        width: 100%;
+      }
+    }
+
     .wallet-toast {
       position: fixed;
       bottom: calc(var(--dock-h) + 24px + env(safe-area-inset-bottom, 0px));
@@ -1484,11 +1502,11 @@
 
         <article class="puffy-card">
           <span class="section-puffy-title" style="margin-bottom: 12px;">Parametri Ciclo</span>
-          <div class="ledger-row-puffy">
+          <div class="ledger-row-puffy salary-setting-row">
             <label for="cfg-salary-date" class="puffy-row-label">Data accredito stipendio</label>
-            <input type="date" id="cfg-salary-date" class="clean-input-cell">
+            <input type="date" id="cfg-salary-date" class="clean-input-cell salary-date-input">
           </div>
-          <div class="ledger-row-puffy">
+          <div class="ledger-row-puffy salary-setting-row">
             <div>
               <label for="cfg-cycle-salary" class="puffy-row-label">Importo accreditato (€)</label>
               <div id="cfg-salary-cycle-label" style="font-size:11px; color:var(--ios-ink-2); margin-top:2px;"></div>
