@@ -3,7 +3,7 @@
  * Ogni modifica a un file dell'app richiede di alzare CACHE, così il nuovo insieme
  * di file viene scaricato per intero e mai mescolato con quello precedente.
  */
-const CACHE = "finanze-v19";
+const CACHE = "finanze-v20";
 const ASSETS = [
   "./",
   "./index.html",
