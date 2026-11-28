@@ -35,61 +35,65 @@ $$\text{Ritmo di Marcia} = \text{Spesa Attesa ad Oggi} - \text{Spese Variabili E
 1. **Zero dipendenze esterne:** Solo HTML5, CSS3 vanilla e JavaScript moderno (ES2020+). Nessun bundler (Webpack/Vite), nessun framework (React/Vue), nessuna CDN. L'app deve funzionare offline al 100%.
 2. **Architettura Single-File compatta (`index.html`):** Tutto il CSS e il JS dell'interfaccia sono incapsulati in `index.html` per evitare disallineamenti di cache o mancato caricamento del foglio di stile su GitHub Pages e Safari iOS.
 3. **Data Storage sul Dispositivo:** Solo `localStorage` locale con schema dati versionato (`finanze_pwa_master_v3`). Nessun backend, nessun server, nessun account.
-4. **Precisione in Centesimi:** Tutti gli importi sono memorizzati come numeri interi (`amountCents`) per evitare errori di virgola mobile; la conversione in euro avviene solo in fase di rendering con `Intl.NumberFormat("it-IT", { style: "currency", currency: "EUR" })`.
+4. **Precisione in Centesimi:** Tutti gli importi sono memorizzati come numeri interi (`amountCents`) per evitare errori di virgola mobile; la conversione in euro avviene solo in fase di rendering con `formatValuta()`, che produce sempre il formato `1.234,56 €` con separatore delle migliaia e segno meno tipografico (`−`). Gli importi digitati passano da `parseEuroToCents()`, che accetta `1.234,56`, `1234.56` e `25`.
 5. **Date Locali Rigorose:** Date memorizzate sempre in formato `YYYY-MM-DD` calcolate con `getFullYear()`, `getMonth()` e `getDate()` locali (MAI usare `toISOString()` che restituisce UTC e sbaglia fuso orario attorno a mezzanotte).
 6. **Ottimizzazioni iOS / Safari:**
-   - Meta tag: `viewport-fit=cover`, `maximum-scale=1.0`, `user-scalable=no`.
+   - Meta tag: `viewport-fit=cover`. Lo zoom resta consentito per accessibilità (WCAG 1.4.4).
    - Font-size input $\ge 16\text{px}$ per impedire lo zoom automatico di Safari.
-   - `-webkit-tap-highlight-color: transparent` e `touch-action: manipulation`.
+   - `-webkit-tap-highlight-color: transparent`.
    - Supporto safe-area: `env(safe-area-inset-top)` e `env(safe-area-inset-bottom)`.
+   - Tema applicato da uno script nel `<head>` prima del primo disegno, per evitare lampi di colore.
 
 ---
 
-## 3. DESIGN SYSTEM (COPILOT MONEY & APPLE DESIGN AWARD AESTHETICS)
+## 3. DESIGN SYSTEM (LIQUID GLASS · v4)
 
-L'estetica è ispirata alla celebre app iOS **Copilot Money**:
-- **Sfondo & Atmosfera:** Mesh gradient d'atmosfera celeste chiarissimo in alto (`#CDE2FF` $\rightarrow$ `#F4F6FA`) che sfuma dolcemente verso il basso.
-- **Card "Puffy Pillows":** Superfici bianco ottico (`#FFFFFF`) con bordi morbidi (`border-radius: 26px`), bordo hairline invisibile (`0.5px solid rgba(17,24,39,0.05)`) e ombra soffice multistrato (`--shadow-puffy`).
-- **Tipografia:** `-apple-system` puro (SF Pro Display / Text), pesi slanciati (`600` / `400`), assenza di grassetti pesanti o font "rounded" infantili. Titolo "Finanze" in *Large Title* nativo iOS con data ciclo sottile e discreta sotto.
-- **Dock Bar Sospesa (5 Slot Simmetrici):**  
-  Layout diviso esattamente in 5 colonne (20% ciascuna):
-  `[ Oggi ]` `[ Movimenti ]` `[ + Centrale ]` `[ Fisse & PAC ]` `[ Menu ]`.  
-  Il tasto `+` è matematicamente al centro geometrico: cerchio blu elettrico Copilot (`#0066FF`, 44x44px) con icona bianca, leggermente rialzato con ombra morbida.
+- **Due temi:** *Lumen* (chiaro: sfera iridescente, anello conico e capsula dietro il vetro, su sfondo lavanda) e *Obsidian* (scuro: luci blu e magenta, prisma conico, griglia sottile). Il tema segue il sistema oppure la scelta in Menu → Aspetto (`settings.theme`: `auto` · `light` · `dark`).
+- **Materiale vetro (`.gl`):** gradiente semitrasparente con grana, `backdrop-filter: blur(18px) saturate(1.9)`, bordo luminoso in maschera sugli angoli e riflesso radiale in alto. Le forme della scena sono nitide, così il vetro le sfoca e le deforma in modo visibile.
+- **Token:** tutti i colori sono variabili CSS in `:root` (Lumen) e ridefiniti in `:root[data-theme="dark"]` (Obsidian). Accento a gradiente `--a1 → --a2`; colori semantici `--pos`, `--neg`, `--warn` separati dall'accento.
+- **Tipografia:** font di sistema (SF Pro su iOS), nessun font esterno. Cifre tabulari ovunque.
+- **Dock:** capsula di vetro flottante con 4 tab (`Oggi`, `Movimenti`, `Fisse & PAC`, `Menu`) e una lente che scivola sulla tab attiva; il `+` è un cerchio separato a destra.
+- **Accessibilità:** focus visibile, contrasto AA sul testo secondario, `aria-current` sulla tab attiva, fogli con `role="dialog"` e app sottostante `inert`, chiusura con Esc, righe utilizzabili da tastiera, rispetto di `prefers-reduced-motion` e `prefers-reduced-transparency`.
 
 ---
 
 ## 4. STRUTTURA DELLE SCHERMATE E FUNZIONALITÀ ATTIVE
 
 ### A. Scheda "Oggi" (Dashboard)
-- **Hero Card Disponibile:** Cifra monumentale pulita (€, intero, decimali attenuati) e barra di avanzamento satinata graduata.
-- **Duo Metriche:** *Budget di Oggi* (dinamico, si auto-regola) e *Ritmo di Spesa* (verde se in anticipo, rosso se sopra la media).
-- **Spese per Categoria:** Anelli di attività orizzontali stile Copilot/Apple Watch con icona al centro e importo REALE speso nel ciclo. (Scompare in automatico se si attiva la Modalità Rapida).
-- **Composizione Ciclo:** Estratto sintetico delle entrate previste, quota PAC, spese fisse ammortizzate e uscite registrate.
-- **Attività Recenti:** Lista delle ultime 5 transazioni.
+- **Barra in alto:** avatar (apre il Menu), ricerca movimenti, occhio per nascondere gli importi (`settings.maskAmounts`), `+`.
+- **Card di primo avvio:** compare finché non è registrato uno stipendio maggiore di zero e porta ai parametri.
+- **Hero Disponibile:** cifra animata, stato (In linea · Sopra il ritmo · In deficit), frase con speso e budget variabile, grafico della spesa cumulata con linea del budget e proiezione a fine ciclo (rossa se supera il budget), esplorabile col dito; barra di avanzamento e giorni rimasti.
+- **Quattro metriche:** *Budget oggi*, *Ritmo mese*, *Spesa a fine ciclo*, *Resto stimato*.
+- **Risparmi accantonati:** avanzi dei cicli chiusi.
+- **Piani di accumulo:** quota mensile, accantonato e barra verso l'obiettivo (`targetCents`).
+- **Spese per categoria:** barra a segmenti e righe con percentuale; le categorie senza spese sono raccolte dietro "Mostra tutte". Toccare una categoria apre i suoi movimenti. Nascosta in Modalità Rapida.
+- **Composizione Ciclo:** entrate, debito riportato, PAC, spese fisse ammortizzate, uscite variabili.
+- **Attività Recenti:** ultime 5 transazioni.
 
 ### B. Scheda "Movimenti"
-- **Andamento Grafico:** Card in cima con istogramma a barre verticali giorno per giorno delle ultime 2 settimane e media giornaliera calcolata.
-- **Selettore Mese:** Navigazione `‹ Mese ›` tra i cicli passati e futuri.
-- **Filtri:** Ricerca testuale live e filtro per categoria.
-- **Lista Raggruppata:** Movimenti ordinati per giorno con subtotale giornaliero. Tocco su un movimento per aprirlo in modifica o cancellarlo.
+- **Selettore ciclo:** `‹ Mese ›` con intervallo date; il calcolo del mese di riferimento non salta più il 29–31.
+- **Andamento Grafico:** istogramma degli ultimi 14 giorni trascorsi del ciclo e media giornaliera (sui cicli conclusi conta l'intero ciclo), totale uscite ed entrate extra.
+- **Filtri:** ricerca su nota e nome categoria, filtro per categoria.
+- **Lista Raggruppata:** movimenti per giorno con subtotale. Tocco per modificare o eliminare (eliminazione annullabile).
 
 ### C. Scheda "Fisse & PAC"
-- **Sottotab Spese Fisse:** Gestione di rate, canoni e spese periodiche con supporto a frequenza **mensile**, **trimestrale (/3)** e **annuale (/12)** (ammortamento automatico).
-- **Sottotab PAC & Target:** Gestione piani di accumulo e riserva con quota mensile accantonata e totale raggiunto.
+- **Spese Fisse:** frequenza **mensile**, **trimestrale (/3)** e **annuale (/12)**; per le non mensili è mostrata la quota mensile. Totale mensile accantonato.
+- **PAC & obiettivi:** nome, quota mensile, già accantonati, obiettivo finale opzionale. Totale mensile protetto.
 
-### D. Scheda "Menu / Impostazioni"
-- **Modalità Rapida (Switch Toggle):** Se attivata, nasconde le categorie sia dalla Home che dal form di inserimento, permettendo di registrare uscite digitando solo la cifra al volo in 1 tocco.
-- **Parametri Ciclo:** Registrazione della data e dell'importo di ogni accredito.
-- **Dati & Salvataggio:**
-  - Card orizzontale iOS pulita con icona e data dell'ultimo salvataggio per esportare il file `finanze-backup-YYYY-MM-DD.json`.
-  - Voce isolata in basso in rosso testuale per **"Azzera tutti i dati"** con doppia conferma.
+### D. Scheda "Menu"
+- **Profilo:** foto (ritagliata a 256 px), ciclo attuale.
+- **Aspetto:** Automatico · Chiaro · Scuro.
+- **Modalità Rapida.**
+- **Parametri Ciclo:** data e importo di ogni accredito.
+- **Dati & Salvataggio:** backup JSON, **ripristino da backup** (con validazione e conferma), **"Azzera tutti i dati"** che scarica prima un backup e chiede di scrivere AZZERA.
 
-### E. Bottom Sheet di Inserimento Rapido (Tasto +)
-- Switch rapido Uscita / Entrata Extra.
-- Tastierino grande `inputmode="decimal"` con focus automatico.
-- Mosaico categorie a 8 chip con icone SVG pure (Benzina, Auto, Svago, Acquisti, Servizi, Salute, Lavoro, Varie) — nascosto in Modalità Rapida.
+### E. Foglio di Inserimento (Tasto +)
+- Uscita / Entrata extra (il titolo del foglio segue la scelta).
+- Importo grande con errore visibile se vuoto o zero.
+- **Inserimento vocale** con riconoscimento di numeri composti ("venticinque e cinquanta", "duemilacinquecento", "dodici euro e trenta centesimi").
+- 8 categorie con icona e colore propri, nascoste in Modalità Rapida.
 - Data odierna preimpostata e descrizione facoltativa.
-- Banner "Annulla" per 5 secondi per annullare all'istante l'inserimento in caso di errore.
+- Toast "Annulla" per 5 secondi dopo inserimento ed eliminazione.
 
 ---
 
