@@ -1,0 +1,9 @@
+{
+  "name": "finanze",
+  "private": true,
+  "type": "module",
+  "description": "Nessuna dipendenza: i test usano solo node:test.",
+  "scripts": {
+    "test": "node --test \"tests/*.test.js\""
+  }
+}
