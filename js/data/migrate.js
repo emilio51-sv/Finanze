@@ -4,6 +4,7 @@
  * Modulo puro: la data corrente è passata come argomento.
  */
 import { getCycleRange } from "../core/cycle.js";
+import { toLocalDateString, addDays, parseLocalDateString } from "../core/dates.js";
 import {
   SCHEMA_VERSION, DEFAULT_SETTINGS, DEFAULT_CATEGORIES, DEFAULT_RECURRING, DEFAULT_GOALS, THEMES, createInitialData
 } from "./schema.js";
@@ -50,8 +51,40 @@ function withDefaults(p, now) {
  */
 const STEPS = [
   /* v4 introduce solo la pulizia di normalize(), che si applica sempre */
-  { to: 4, run: (p) => p }
+  { to: 4, run: (p) => p },
+  { to: 5, run: removeFirstLaunchPlaceholder }
 ];
+
+/** Massima distanza fra l'accredito fittizio e il primo stipendio vero perché lo si consideri un doppione. */
+const PLACEHOLDER_WINDOW_DAYS = 31;
+
+/**
+ * Fino alla v4 il primo avvio creava un accredito a zero all'inizio del ciclo stimato
+ * (insieme a `monthlySalaries[data] = 0`). Uno stipendio vero registrato pochi giorni
+ * prima o dopo creava così un ciclo fantasma: a zero (debito) oppure di un solo giorno.
+ *
+ * Lo tolgo solo se ha esattamente quella firma, è l'unico accredito a zero e cade entro
+ * un mese dal primo stipendio vero. Tolgo anche le fotografie dei cicli che toccava,
+ * che vengono ricalcolate alla prossima chiusura.
+ */
+export function removeFirstLaunchPlaceholder(p) {
+  const s = p.settings;
+  const payments = Array.isArray(s.payrollPayments) ? s.payrollPayments : [];
+  const zeros = payments.filter((x) => x && x.amountCents === 0);
+  const real = payments.filter((x) => x && x.amountCents > 0 && typeof x.date === "string").map((x) => x.date).sort();
+  if (zeros.length !== 1 || !real.length || s.monthlyIncomeCents) return p;
+  const ph = zeros[0];
+  if (!isObj(s.monthlySalaries) || s.monthlySalaries[ph.date] !== 0 || typeof ph.date !== "string") return p;
+  const days = Math.abs(Math.round((parseLocalDateString(ph.date) - parseLocalDateString(real[0])) / 86400000));
+  if (!(days <= PLACEHOLDER_WINDOW_DAYS)) return p;
+  const dayBefore = toLocalDateString(addDays(parseLocalDateString(ph.date), -1));
+  const touches = (snap) => snap && (snap.startDate === ph.date || snap.endDate === dayBefore);
+  return {
+    ...p,
+    settings: { ...s, payrollPayments: payments.filter((x) => x !== ph) },
+    cycleSnapshots: (p.cycleSnapshots || []).filter((snap) => !touches(snap))
+  };
+}
 
 /**
  * Pulizia idempotente applicata a ogni caricamento e import. I record non validi
@@ -83,7 +116,7 @@ export function normalize(p) {
  * @returns {{ data: object, fromVersion: number|null, migrated: boolean, rejected: number }}
  */
 export function migrate(parsed, now) {
-  if (!isObj(parsed)) return { data: createInitialData(now), fromVersion: null, migrated: false, rejected: 0 };
+  if (!isObj(parsed)) return { data: createInitialData(), fromVersion: null, migrated: false, rejected: 0 };
   const fromVersion = detectVersion(parsed);
   const before = Array.isArray(parsed.quarantine) ? parsed.quarantine.length : 0;
   let data = withDefaults(parsed, now);

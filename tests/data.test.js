@@ -11,22 +11,25 @@ import { computeFinancials } from "../js/core/budget.js";
 import { richData, tx, NOW, memoryStorage } from "./fixtures.js";
 
 describe("migrazioni", () => {
-  test("primo avvio: un accredito a zero all'inizio del ciclo corrente", () => {
+  test("primo avvio: nessun accredito, ciclo stimato sul giorno fisso", () => {
     const { data, fromVersion } = migrate(null, NOW);
     assert.equal(fromVersion, null);
     assert.equal(data.version, SCHEMA_VERSION);
-    assert.deepEqual(data.settings.payrollPayments, [{ date: "2026-11-28", amountCents: 0 }]);
+    assert.deepEqual(data.settings.payrollPayments, []);
+    const fin = computeFinancials(data, NOW);
+    assert.equal(fin.cycle.startStr, "2026-11-28");
+    assert.equal(fin.baseIncome, 0);
     assert.equal(data.categories.length, 8);
     assert.deepEqual(data.quarantine, []);
   });
 
-  test("v3 → v4 conserva tutti i dati e i calcoli", () => {
+  test("v3 → ultima versione conserva tutti i dati e i calcoli", () => {
     const before = richData();
     const { data, fromVersion, migrated, rejected } = migrate(structuredClone(before), NOW);
     assert.equal(fromVersion, 3);
     assert.ok(migrated);
     assert.equal(rejected, 0);
-    assert.equal(data.version, 4);
+    assert.equal(data.version, SCHEMA_VERSION);
     assert.deepEqual(data.transactions, before.transactions);
     assert.deepEqual(data.recurring, before.recurring);
     assert.deepEqual(data.goals, before.goals);
@@ -92,11 +95,72 @@ describe("migrazioni", () => {
   });
 
   test("normalize conserva i campi sconosciuti", () => {
-    const d = { ...createInitialData(NOW), extra: { a: 1 } };
+    const d = { ...createInitialData(), extra: { a: 1 } };
     d.transactions = [{ ...tx("t", "2026-11-28", 100), tag: "x" }];
     const out = normalize(d);
     assert.deepEqual(out.extra, { a: 1 });
     assert.equal(out.transactions[0].tag, "x");
+  });
+});
+
+describe("accredito fittizio del primo avvio (v4 → v5)", () => {
+  /* dati come li lasciava la v4: accredito a zero il 28, stipendio vero registrato il 27 */
+  const v4 = (realDate, extra = {}) => ({
+    version: 4,
+    settings: {
+      salaryDay: 28, monthlyIncomeCents: 0, monthlySalaries: { "2026-11-28": 0 },
+      payrollPayments: [{ date: "2026-11-28", amountCents: 0 }, { date: realDate, amountCents: 180050 }].sort((a, b) => a.date.localeCompare(b.date)),
+      ...extra
+    },
+    transactions: [tx("t", "2026-11-28", 2550)],
+    recurring: [{ id: "r", amountCents: 25000, frequency: "monthly", day: 15, categoryId: "auto" }],
+    goals: [{ id: "g", monthlyCents: 20000 }],
+    cycleSnapshots: []
+  });
+
+  test("stipendio registrato il giorno prima: il ciclo parte dal vero accredito", () => {
+    const before = v4("2026-11-27");
+    before.cycleSnapshots = [{ startDate: "2026-11-27", endDate: "2026-11-27", balanceCents: 135050 }];
+    const old = computeFinancials(before, NOW);
+    assert.equal(old.baseIncome, 0);
+    const { data } = migrate(before, NOW);
+    assert.deepEqual(data.settings.payrollPayments, [{ date: "2026-11-27", amountCents: 180050 }]);
+    assert.deepEqual(data.cycleSnapshots, []);
+    const fin = computeFinancials(data, NOW);
+    assert.equal(fin.cycle.startStr, "2026-11-27");
+    assert.equal(fin.baseIncome, 180050);
+    assert.equal(fin.risparmiCents, 0);
+    assert.equal(fin.availableCents, 180050 - 25000 - 20000 - 2550);
+  });
+
+  test("stipendio registrato dopo: sparisce il ciclo a zero che creava debito", () => {
+    const before = v4("2026-12-01");
+    const at = new Date(2026, 11, 2);
+    assert.ok(computeFinancials(before, at).debitoCents > 0);
+    const { data } = migrate(before, at);
+    assert.equal(computeFinancials(data, at).debitoCents, 0);
+  });
+
+  test("non tocca un accredito a zero che non ha la firma del primo avvio", () => {
+    const keep = (d) => migrate(d, NOW).data.settings.payrollPayments.length;
+    assert.equal(keep(v4("2026-11-27", { monthlySalaries: {} })), 2);
+    assert.equal(keep(v4("2026-11-27", { monthlyIncomeCents: 150000 })), 2);
+    assert.equal(keep(v4("2026-06-27")), 2);
+    const two = v4("2026-11-27");
+    two.settings.payrollPayments.push({ date: "2026-12-28", amountCents: 0 });
+    two.settings.monthlySalaries["2026-12-28"] = 0;
+    assert.equal(keep(two), 3);
+  });
+
+  test("dati già in v5 non vengono più toccati", () => {
+    const d = { ...v4("2026-11-27"), version: 5 };
+    assert.equal(migrate(d, NOW).data.settings.payrollPayments.length, 2);
+  });
+
+  test("lo stipendio salvato dopo il primo avvio è l'unico accredito", () => {
+    const s = new Store({ storage: memoryStorage(), now: () => NOW });
+    s.upsertPayrollPayment({ date: "2026-11-27", amountCents: 180050 });
+    assert.equal(computeFinancials(s.data, NOW).baseIncome, 180050);
   });
 });
 
@@ -138,7 +202,7 @@ describe("Store", () => {
     const raw = JSON.stringify(richData());
     const storage = memoryStorage({ [STORAGE_KEY]: raw });
     const s = new Store({ storage, now: () => NOW });
-    assert.equal(JSON.parse(storage.getItem(STORAGE_KEY)).version, 4);
+    assert.equal(JSON.parse(storage.getItem(STORAGE_KEY)).version, SCHEMA_VERSION);
     assert.equal(storage.getItem(PREMIGRATION_PREFIX + "3"), raw);
     assert.equal(s.data.transactions.length, 9);
   });
@@ -173,7 +237,8 @@ describe("Store", () => {
     const s = new Store({ storage: memoryStorage(), now: () => NOW });
     s.upsertPayrollPayment({ date: "2026-10-27", amountCents: 100 });
     s.upsertPayrollPayment({ date: "2026-10-27", amountCents: 200 });
-    assert.deepEqual(s.data.settings.payrollPayments, [{ date: "2026-10-27", amountCents: 200 }, { date: "2026-11-28", amountCents: 0 }]);
+    s.upsertPayrollPayment({ date: "2026-11-27", amountCents: 300 });
+    assert.deepEqual(s.data.settings.payrollPayments, [{ date: "2026-10-27", amountCents: 200 }, { date: "2026-11-27", amountCents: 300 }]);
     assert.ok(s.closeElapsedCycles());
     assert.equal(s.data.cycleSnapshots.length, 1);
     assert.equal(s.closeElapsedCycles(), false);
@@ -195,7 +260,7 @@ describe("Store", () => {
     const r = Store.prepareImport(JSON.stringify(richData()), NOW);
     assert.equal(r.ok, true);
     assert.equal(r.count, 9);
-    assert.equal(r.data.version, 4);
+    assert.equal(r.data.version, SCHEMA_VERSION);
   });
 
   test("export e azzeramento", () => {

@@ -9,10 +9,9 @@
  *   1–2  chiavi `finanze_pwa_data_v1/v2`, stipendio in `settings.monthlySalaries`
  *   3    accrediti in `settings.payrollPayments`, fotografie dei cicli chiusi in `cycleSnapshots`
  *   4    importi interi garantiti, record non validi spostati in `quarantine` invece di essere persi
+ *   5    niente più accredito fittizio a zero creato al primo avvio
  */
-import { getCycleRange } from "../core/cycle.js";
-
-export const SCHEMA_VERSION = 4;
+export const SCHEMA_VERSION = 5;
 export const STORAGE_KEY = "finanze_pwa_master_v3";
 export const LEGACY_KEYS = ["finanze_pwa_data_v2", "finanze_pwa_data_v1"];
 /** Copia grezza dei dati salvata una sola volta prima di ogni migrazione di versione. */
@@ -43,12 +42,13 @@ export const DEFAULT_GOALS = [{ id: "goal_pac", name: "PAC ETF", targetCents: 10
 
 const clone = (v) => JSON.parse(JSON.stringify(v));
 
-/** Dati del primo avvio: un accredito a zero all'inizio del ciclo corrente. */
-export function createInitialData(now) {
+/**
+ * Dati del primo avvio. Nessun accredito: finché l'utente non registra lo stipendio
+ * il ciclo è stimato sul giorno fisso `salaryDay`.
+ */
+export function createInitialData() {
   const settings = clone(DEFAULT_SETTINGS);
-  const cycle = getCycleRange(now, settings.salaryDay);
-  settings.monthlySalaries[cycle.startStr] = settings.monthlyIncomeCents;
-  settings.payrollPayments = [{ date: cycle.startStr, amountCents: settings.monthlyIncomeCents }];
+  settings.payrollPayments = [];
   return {
     version: SCHEMA_VERSION,
     settings,
