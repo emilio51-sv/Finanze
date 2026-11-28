@@ -33,8 +33,8 @@ $$\text{Ritmo di Marcia} = \text{Spesa Attesa ad Oggi} - \text{Spese Variabili E
 ## 2. VINCOLI TECNICI NON NEGOZIABILI
 
 1. **Zero dipendenze esterne:** Solo HTML5, CSS3 vanilla e JavaScript moderno (ES2020+). Nessun bundler (Webpack/Vite), nessun framework (React/Vue), nessuna CDN. L'app deve funzionare offline al 100%.
-2. **Architettura Single-File compatta (`index.html`):** Tutto il CSS e il JS dell'interfaccia sono incapsulati in `index.html` per evitare disallineamenti di cache o mancato caricamento del foglio di stile su GitHub Pages e Safari iOS.
-3. **Data Storage sul Dispositivo:** Solo `localStorage` locale con schema dati versionato (`finanze_pwa_master_v3`). Nessun backend, nessun server, nessun account.
+2. **Moduli ES nativi, senza build:** `index.html` contiene solo la struttura e lo script del tema; CSS in `css/app.css`, logica in `js/` caricata con `<script type="module">`. Per evitare file di versioni diverse mescolati in cache, il service worker scarica tutti i file insieme in una cache versionata (`CACHE` in `sw.js`, con `cache: "reload"`): **ogni modifica a un file richiede di alzare `CACHE`** e ogni nuovo file va aggiunto ad `ASSETS` (un test lo verifica). In locale l'app va aperta da un server (es. `python3 -m http.server`), non con doppio clic: i moduli non funzionano da `file://`.
+3. **Data Storage sul Dispositivo:** Solo `localStorage`, chiave `finanze_pwa_master_v3` (invariata per compatibilità), con versione dello schema nel campo `version` (attuale: **4**). Ogni caricamento e ogni import passano da `migrate()`: valori predefiniti, conversione dei formati vecchi, importi resi interi e record non validi spostati in `quarantine` invece di essere persi. Prima di una migrazione di versione la copia grezza resta in `finanze_pwa_premigration_v<n>`. Nessun backend, nessun server, nessun account.
 4. **Precisione in Centesimi:** Tutti gli importi sono memorizzati come numeri interi (`amountCents`) per evitare errori di virgola mobile; la conversione in euro avviene solo in fase di rendering con `formatValuta()`, che produce sempre il formato `1.234,56 €` con separatore delle migliaia e segno meno tipografico (`−`). Gli importi digitati passano da `parseEuroToCents()`, che accetta `1.234,56`, `1234.56` e `25`.
 5. **Date Locali Rigorose:** Date memorizzate sempre in formato `YYYY-MM-DD` calcolate con `getFullYear()`, `getMonth()` e `getDate()` locali (MAI usare `toISOString()` che restituisce UTC e sbaglia fuso orario attorno a mezzanotte).
 6. **Ottimizzazioni iOS / Safari:**
@@ -68,7 +68,7 @@ $$\text{Ritmo di Marcia} = \text{Spesa Attesa ad Oggi} - \text{Spese Variabili E
 - **Piani di accumulo:** quota mensile, accantonato e barra verso l'obiettivo (`targetCents`).
 - **Spese per categoria:** barra a segmenti e righe con percentuale; le categorie senza spese sono raccolte dietro "Mostra tutte". Toccare una categoria apre i suoi movimenti. Nascosta in Modalità Rapida.
 - **Composizione Ciclo:** entrate, debito riportato, PAC, spese fisse ammortizzate, uscite variabili.
-- **Attività Recenti:** ultime 5 transazioni.
+- **Attività Recenti:** ultime 5 transazioni, ordinate per data (la più recente in alto) e, a parità di data, per ora di inserimento.
 
 ### B. Scheda "Movimenti"
 - **Selettore ciclo:** `‹ Mese ›` con intervallo date; il calcolo del mese di riferimento non salta più il 29–31.
@@ -97,9 +97,35 @@ $$\text{Ritmo di Marcia} = \text{Spesa Attesa ad Oggi} - \text{Spese Variabili E
 
 ---
 
-## 5. STATO DEI FILE DEL REPOSITORY
+## 5. STRUTTURA DEL CODICE
 
-- `index.html`: File principale unico contenente tutto l'HTML, il CSS in blocco `<style>` e la logica JS in blocco `<script>`.
+```
+index.html            struttura HTML, script del tema nel <head>, <script type="module" src="js/app.js">
+css/app.css           token Liquid Glass v4, materiale vetro, componenti
+js/app.js             avvio: crea lo Store, collega le schermate, navigazione, service worker
+js/core/              calcolo PURO: nessun DOM, nessuno storage, la data è sempre un argomento
+  money.js            formatValuta, parseEuroToCents, limiti sugli importi
+  dates.js            date locali YYYY-MM-DD
+  cycle.js            cicli di stipendio e giorni del ciclo
+  budget.js           disponibile, budget di oggi, ritmo, chiusura cicli, debito, proiezioni, liste
+  voice.js            importi detti a voce in italiano
+js/data/              livello dati
+  schema.js           versione dello schema, chiavi, valori iniziali
+  migrate.js          migrazioni e pulizia idempotente
+  validate.js         controlli su importi digitati, record e backup
+  store.js            unico accesso a localStorage (storage e orologio iniettabili)
+js/ui/                una schermata per modulo: home, movimenti, fisse, menu, forms (fogli), sheets, theme, toast
+tests/                test con node:test, nessuna dipendenza
+```
+
+Regole: la logica di calcolo vive solo in `js/core` ed è coperta da test; l'interfaccia legge i numeri da lì e non ricalcola nulla. Nessun modulo di `js/ui` scrive in `localStorage` direttamente: passa sempre dallo `Store`.
+
+**Test:** `npm test` (Node 22, nessun pacchetto da installare). GitHub Actions li esegue a ogni push e pull request con fuso `Europe/Rome` e `UTC`.
+
+**Per cambiare la forma dei dati:** alzare `SCHEMA_VERSION` in `schema.js`, aggiungere un passo in `STEPS` di `migrate.js` e un test in `tests/data.test.js`.
+
+## 6. ALTRI FILE DEL REPOSITORY
+
 - `manifest.json`: Configurazione PWA standalone con icone SVG Data-URI.
-- `sw.js`: Service worker per il funzionamento offline e pulizia automatica delle vecchie cache.
+- `sw.js`: Service worker con cache versionata di tutti i file e pulizia automatica delle vecchie cache.
 - `.nojekyll`: File vuoto che impedisce a GitHub Pages di ignorare file di sistema.
